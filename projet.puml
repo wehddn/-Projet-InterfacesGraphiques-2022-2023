@@ -1,0 +1,19 @@
+@startuml projet
+
+class Tuile{
+    -type - 4/6
+    -class - ./S/L/W
+    -ArrayList<int> bords
+    -bool power
+    +setPower()
+    +turn() - (all boards++)%type
+}
+
+class Plateau {
+    -liste<Tuile>
+}
+
+class staticConvertion {
+    +loadFile()
+    +storeFile()
+}
