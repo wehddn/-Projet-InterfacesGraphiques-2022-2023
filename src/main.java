@@ -1,5 +1,7 @@
-package energy.src;
+package src;
 
-public class main {
-    //TODO demander l'origine des banques
+public class Main {
+    public static void main(String[] args){
+
+    }
 }

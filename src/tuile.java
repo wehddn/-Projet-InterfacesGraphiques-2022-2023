@@ -1,4 +1,4 @@
-package energy.src;
+package src;
 
 public class tuile {
     //nb de liens(int)

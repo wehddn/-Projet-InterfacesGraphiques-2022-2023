@@ -1,4 +1,4 @@
-package energy.src.View;
+package src.View;
 
 public class view {
     
