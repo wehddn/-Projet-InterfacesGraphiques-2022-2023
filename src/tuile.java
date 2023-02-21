@@ -1,7 +1,16 @@
 package src;
+import java.util.ArrayList;
 
 public class tuile {
-    //nb de liens(int)
-    //composant/null
-    //bool pour connexion
+    private int type; //4/6
+    private char composant; //S/L/W/.
+    private ArrayList<Integer> connexions; //static?
+    private boolean power;
+
+
+    
+    
+
+
+
 }
