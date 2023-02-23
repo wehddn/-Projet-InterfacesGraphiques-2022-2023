@@ -10,7 +10,8 @@ class Tuile{
 }
 
 class Plateau {
-    -liste<Tuile>
+    -ArrayList<ArrayList<Tuile>>
+    Plateau(ArrayList<ArrayList<Tuile>>)
 }
 
 class staticConvertion {
