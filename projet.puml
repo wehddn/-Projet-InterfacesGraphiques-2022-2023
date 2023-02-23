@@ -5,16 +5,22 @@ class Tuile{
     -class - ./S/L/W
     -ArrayList<int> bords
     -bool power
+    Tuile(String composant, ArrayList<Integer> connexions)
+    
     +setPower()
     +turn() - (all boards++)%type
 }
 
 class Plateau {
     -ArrayList<ArrayList<Tuile>>
-    Plateau(ArrayList<ArrayList<Tuile>>)
+    +Plateau()
+    -void loadTuiles()
 }
 
 class staticConvertion {
-    +loadFile()
+    +ArrayList<ArrayList<Tuile>> parseFile(Integer fileNumber)
+    -ArrayList<Tuile> parseString(String input)
+    -boolean isLetter(String s)
+    -ean isNumber(String s)
     +storeFile()
 }

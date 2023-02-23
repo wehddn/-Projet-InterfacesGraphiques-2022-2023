@@ -1,11 +1,16 @@
 package src;
 import java.util.ArrayList;
 
-public class tuile {
+public class Tuile {
     private int type; //4/6
     private char composant; //S/L/W/.
     private ArrayList<Integer> connexions; //static?
     private boolean power;
+
+    public Tuile(String composant, ArrayList<Integer> connexions) {
+        this.composant = composant.charAt(0);
+        this.connexions = connexions;
+    }
 
     public int getType() {
         return type;
@@ -37,5 +42,17 @@ public class tuile {
     
     public void setPower(boolean power) {
         this.power = power;
+    }
+
+    @Override
+    public String toString() {
+        String result = String.valueOf(composant);
+        if(connexions.size()!=0){
+            result += " : ";
+            for (Integer connexion : connexions) {
+                result += connexion.toString() + " ";
+            }
+        }
+        return result;
     }
 }
