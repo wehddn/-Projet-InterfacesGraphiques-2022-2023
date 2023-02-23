@@ -20,6 +20,7 @@ public class Convertion {
                 if(!start){
                     tuiles.add(Convertion.parseString(string));
                 }
+                //Prendre le type de 1 ligne et mettre dans tuile?
                 else start = false;
             }
 

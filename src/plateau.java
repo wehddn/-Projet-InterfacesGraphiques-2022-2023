@@ -12,6 +12,7 @@ public class Plateau {
     }
 
     private void loadTuiles() {
+        //TODO modifier la sélection de niveau
         tuiles = Convertion.parseFile(1);
     }
 
