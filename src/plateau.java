@@ -18,7 +18,7 @@ public class Plateau {
 
     @Override
     public String toString() {
-        String result = "";
+        String result = "Plateau type : " + tuiles.get(0).get(0).getType() + "\n";
         for (ArrayList<Tuile> arrayList : tuiles) {
             for (Tuile tuile : arrayList) {
                 result += tuile + "; ";
