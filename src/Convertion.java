@@ -3,7 +3,6 @@ package src;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 //TODO
 //ajouter type
