@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner;
 
-
+//TODO
+//Prendre le type de 1 ligne et mettre dans tuile?
+//Ou stocker dans plateau?
 public class Convertion {
 
     public static ArrayList<ArrayList<Tuile>> parseFile(Integer fileNumber){
@@ -20,7 +22,6 @@ public class Convertion {
                 if(!start){
                     tuiles.add(Convertion.parseString(string));
                 }
-                //Prendre le type de 1 ligne et mettre dans tuile?
                 else start = false;
             }
 
