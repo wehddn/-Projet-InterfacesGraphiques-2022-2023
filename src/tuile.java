@@ -8,10 +8,6 @@ public class Tuile {
     private boolean power;
     private boolean visited;
 
-    public Tuile(String composant, ArrayList<Integer> connexions) {
-        this.composant = composant.charAt(0);
-        this.connexions = connexions;
-    }
     
     public int getType() {
         return type;
@@ -42,17 +38,6 @@ public class Tuile {
     }
     public void setVisited(boolean visited) {
         this.visited = visited;
-    }
-    @Override
-    public String toString() {
-        String result = String.valueOf(composant);
-        if(connexions.size()!=0){
-            result += " : ";
-            for (Integer connexion : connexions) {
-                result += connexion.toString() + " ";
-            }
-        }
-        return result;
     }
 
 
