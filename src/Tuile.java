@@ -3,10 +3,15 @@ import java.util.ArrayList;
 
 public class Tuile {
     private int type; //4/6
-    private char composant; //S/L/W/.
+    private String composant; //S/L/W/.
     private ArrayList<Integer> connexions; //static?
     private boolean power;
     private boolean visited;
+
+    public Tuile(String comp, ArrayList<Integer> connex){
+        composant=comp;
+        connexions=connex;
+    }
 
     
     public int getType() {
@@ -15,10 +20,10 @@ public class Tuile {
     public void setType(int type) {
         this.type = type;
     }
-    public char getComposant() {
+    public String getComposant() {
         return composant;
     }
-    public void setComposant(char composant) {
+    public void setComposant(String composant) {
         this.composant = composant;
     }
     public ArrayList<Integer> getConnexions() {
@@ -38,6 +43,15 @@ public class Tuile {
     }
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    public void turnTuile(int n){
+        for(int i=0;i<n;i++){
+            for (Integer ico : connexions) {
+                connexions.set(ico, (ico+1%type));
+            }
+        }
+        
     }
 
 
