@@ -13,7 +13,7 @@ public class Convertion {
         boolean start = true;
         ArrayList<ArrayList<Tuile>> tuiles = new ArrayList<>();
 
-        File gr = new File("levels\\level"+ fileNumber.toString() +".nrg");
+        File gr = new File("energy\\levels\\level"+fileNumber+".nrg");
 
         try (Scanner scanFile = new Scanner(gr)) {
             scanFile.useDelimiter(System.getProperty("line.separator"));
