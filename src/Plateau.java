@@ -14,7 +14,7 @@ public class Plateau {
     }
 
     public void randomizeTuiles() {
-        Random r = new Random();
+        Random r = new Random(System.currentTimeMillis());
         int n;
         for (ArrayList<Tuile> t : tuiles) {
             for (Tuile tuile : t) {
