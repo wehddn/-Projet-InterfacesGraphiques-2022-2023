@@ -1,10 +1,11 @@
 package src;
+
 import java.util.ArrayList;
 
 public class Tuile {
-    private int type; //4/6
-    private char composant; //S/L/W/.
-    private ArrayList<Integer> connexions; //static?
+    private int type; // 4/6
+    private char composant; // S/L/W/.
+    private ArrayList<Integer> connexions; // static?
     private boolean power;
     private boolean visited;
 
@@ -12,11 +13,11 @@ public class Tuile {
         this.composant = composant.charAt(0);
         this.connexions = connexions;
     }
-    
+
     public int getType() {
         return type;
     }
-    
+
     public void setType(int type) {
         this.type = type;
     }
@@ -56,7 +57,7 @@ public class Tuile {
     @Override
     public String toString() {
         String result = String.valueOf(composant);
-        if(connexions.size()!=0){
+        if (connexions.size() != 0) {
             result += " : ";
             for (Integer connexion : connexions) {
                 result += connexion.toString() + " ";
@@ -65,19 +66,9 @@ public class Tuile {
         return result;
     }
 
-    public void turnTuile(int n){
-        for(int i=0;i<n;i++){
-            for (Integer ico : connexions) {
-                connexions.set(ico, (ico+1%type));
-            }
+    public void turnTuile(int n) {
+        for (int i = 0; i < connexions.size(); i++) {
+            connexions.set(i, (connexions.get(i) + n) % type);
         }
-        
     }
-
-
-    
-    
-
-
-
 }
