@@ -64,4 +64,20 @@ public class Tuile {
         }
         return result;
     }
+
+    public void turnTuile(int n){
+        for(int i=0;i<n;i++){
+            for (Integer ico : connexions) {
+                connexions.set(ico, (ico+1%type));
+            }
+        }
+        
+    }
+
+
+    
+    
+
+
+
 }
