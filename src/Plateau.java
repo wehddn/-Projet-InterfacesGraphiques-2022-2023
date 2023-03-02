@@ -42,18 +42,18 @@ public class Plateau {
             for (int j = 0; j < tuiles.get(0).size(); j++) {
                 char composant = tuiles.get(i).get(j).getComposant();
                 // on allume les sources et les tuiles connectés
-                if (composant == 'S') {
-                    turnOn(i, j);
-                }
-
-                // on enregistre les coordonnées des lampes
-                if (composant == 'L') {
-                    lampes.add(new ArrayList<>(List.of(i, j)));
-                }
-
-                // on enregistre les coordonnées des bornes
-                if (composant == 'W') {
-                    bornes.add(new ArrayList<>(List.of(i, j)));
+                switch(composant){
+                    case 'S' : 
+                        turnOn(i, j);
+                        break;
+                    case 'L' :
+                        lampes.add(new ArrayList<>(List.of(i, j)));
+                        break;
+                    case 'W' :
+                        bornes.add(new ArrayList<>(List.of(i, j)));
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -61,28 +61,28 @@ public class Plateau {
 
     // fonction pour tourner la tuile sélectionnée
     public void turn(int i, int j) {
-        tuiles.get(i).get(j).turn();
+        Tuile currentTuile = tuiles.get(i).get(j);
+        currentTuile.turn();
 
         // Si la tuile est la source, allumer toutes les tuiles
-        if (tuiles.get(i).get(j).getComposant() == 'S') {
-            tuiles.get(i).get(j).setPower(false);
+        if (currentTuile.getComposant() == 'S') {
+            currentTuile.setPower(false);
             turnOn(i, j);
         } else {
             // S'il n'y a pas de tuiles allumées autour, désactivez la tuile sélectionnée
             if (!turnedOnNeighborExist(i, j)) {
-                tuiles.get(i).get(j).setPower(false);
+                currentTuile.setPower(false);
             } else {
                 // Pour chaque tuile adjacente, on vérifie s'il y a une source dans le circuit
-                // S'il y a au moins une source, allumer tout, sinon éteignez
+                // S'il y a au moins une source, allumer tout, sinon éteigner
                 ArrayList<ArrayList<Integer>> neighbors = getConnectedNeighbors(i, j);
-                boolean source = false, sourceExist = false;
+                boolean source = false;
                 for (ArrayList<Integer> neighbor : neighbors) {
-                    source = sourceExist(neighbor.get(0), neighbor.get(1));
+                    if (sourceExist(neighbor.get(0), neighbor.get(1)))
+                        source = true;
                     resetVisited();
-                    if (source)
-                        sourceExist = true;
                 }
-                if (sourceExist)
+                if (source)
                     turnOn(i, j);
                 else
                     turnOff(i, j);
@@ -93,12 +93,14 @@ public class Plateau {
             System.out.println("YOU WIN");
     }
 
+    // Obtenir la liste des bornes sans borne spécifié.
     private ArrayList<ArrayList<Integer>> getNeighborsBornes(int i, int j) {
         ArrayList<ArrayList<Integer>> newBornes = new ArrayList<>(bornes);
         newBornes.remove(new ArrayList<>(List.of(i, j)));
         return newBornes;
     }
 
+    // On vérifie si toutes les lampes sont allumées
     private boolean checkWin() {
         boolean result = true;
         for (ArrayList<Integer> tuileСoordinates : lampes) {
@@ -116,7 +118,7 @@ public class Plateau {
         }
     }
 
-    // On vérifie récursivement toutes les tuiles, et si on trouve, renvoie true
+    // On vérifie récursivement toutes les tuiles, et si on trouve une source, renvoie true
     public boolean sourceExist(int i, int j) {
         tuiles.get(i).get(j).setVisited(true);
         if (tuiles.get(i).get(j).isPower()) {
@@ -183,6 +185,7 @@ public class Plateau {
             if (neighbor != null)
                 neighbors.add(neighbor);
         }
+        // On ajoute des bornes commes des voisins
         if (tuiles.get(i).get(j).getComposant() == 'W')
             neighbors.addAll(getNeighborsBornes(i, j));
         return neighbors;
