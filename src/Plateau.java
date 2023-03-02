@@ -37,19 +37,20 @@ public class Plateau {
     // Le but du jeu est d'allumer toutes les lampes. On va vérifier les lampes
     // après chaque tour de tuile. Pour ce faire, on va enregistrer les coordonnées
     // des lampes
+    // En plus, on va enregistrer les coordonnées des bornes pour un accès rapide
     public void settings() {
         for (int i = 0; i < tuiles.size(); i++) {
             for (int j = 0; j < tuiles.get(0).size(); j++) {
                 char composant = tuiles.get(i).get(j).getComposant();
-                // on allume les sources et les tuiles connectés
-                switch(composant){
-                    case 'S' : 
+                switch (composant) {
+                    // on allume les sources et les tuiles connectés
+                    case 'S':
                         turnOn(i, j);
                         break;
-                    case 'L' :
+                    case 'L':
                         lampes.add(new ArrayList<>(List.of(i, j)));
                         break;
-                    case 'W' :
+                    case 'W':
                         bornes.add(new ArrayList<>(List.of(i, j)));
                         break;
                     default:
@@ -66,6 +67,8 @@ public class Plateau {
 
         // Si la tuile est la source, allumer toutes les tuiles
         if (currentTuile.getComposant() == 'S') {
+            // TODO La fonction turnOn ne vérifie que les tuiles désactivées, c'est pourquoi
+            // cette ligne est ici
             currentTuile.setPower(false);
             turnOn(i, j);
         } else {
@@ -118,7 +121,8 @@ public class Plateau {
         }
     }
 
-    // On vérifie récursivement toutes les tuiles, et si on trouve une source, renvoie true
+    // On vérifie récursivement toutes les tuiles, et si on trouve une source,
+    // renvoie true
     public boolean sourceExist(int i, int j) {
         tuiles.get(i).get(j).setVisited(true);
         if (tuiles.get(i).get(j).isPower()) {
@@ -182,7 +186,7 @@ public class Plateau {
         ArrayList<Integer> neighbor;
         for (Integer connexion : connexions) {
             neighbor = getNeighbor(i, j, connexion);
-            if (neighbor != null)
+            if (neighbor.size() != 0)
                 neighbors.add(neighbor);
         }
         // On ajoute des bornes commes des voisins
@@ -203,64 +207,67 @@ public class Plateau {
     }
 
     private ArrayList<Integer> getNeighbor6(int i, int j, Integer connexion) {
-        ArrayList<Integer> neighbor = null;
+        ArrayList<Integer> neighbor = new ArrayList<>();
         Integer neighborConnexion = (connexion + 3) % 6;
+        int rowSize = tuiles.get(0).size();
+        int columnSize = tuiles.size();
+        switch (connexion) {
+            case 0:
+                if (i != 0)
+                    neighbor = getNeighborIfValid(i, j, neighbor, neighborConnexion);
+                break;
+            case 1:
+                if (j != rowSize - 1)
+                    neighbor = getNeighborIfValid(i, j + 1, neighbor, neighborConnexion);
+                break;
+            case 2:
+                if (i != columnSize - 1 && j != rowSize - 1)
+                    neighbor = getNeighborIfValid(i + 1, j + 1, neighbor, neighborConnexion);
+                break;
+            case 3:
+                if (i != columnSize - 1)
+                    neighbor = getNeighborIfValid(i + 1, j, neighbor, neighborConnexion);
+                break;
+            case 4:
+                if (i != columnSize - 1 && j != 0)
+                    neighbor = getNeighborIfValid(i + 1, j - 1, neighbor, neighborConnexion);
+                break;
+            case 5:
+                if (j != 0)
+                    neighbor = getNeighborIfValid(i, j - 1, neighbor, neighborConnexion);
+                break;
+            default:
+                break;
+        }
+        return neighbor;
+    }
+
+    private ArrayList<Integer> getNeighbor4(int i, int j, Integer connexion) {
+        ArrayList<Integer> neighbor = new ArrayList<>();
+        Integer neighborConnexion = (connexion + 2) % 4;
         if (connexion == 0 && i != 0) {
-            if (tuiles.get(i - 1).get(j).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i - 1, j));
+            neighbor = getNeighborIfValid(i - 1, j, neighbor, neighborConnexion);
         }
 
         if (connexion == 1 && j != tuiles.get(0).size() - 1) {
-            if (tuiles.get(i).get(j + 1).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i, j + 1));
+            neighbor = getNeighborIfValid(i, j + 1, neighbor, neighborConnexion);
         }
 
-        if (connexion == 2 && i != tuiles.size() - 1 && j != tuiles.get(0).size() - 1) {
-            if (tuiles.get(i + 1).get(j + 1).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i + 1, j + 1));
+        if (connexion == 2 && i != tuiles.size() - 1) {
+            neighbor = getNeighborIfValid(i + 1, j, neighbor, neighborConnexion);
         }
 
-        if (connexion == 3 && i != tuiles.size() - 1) {
-            if (tuiles.get(i + 1).get(j).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i + 1, j));
-        }
-
-        if (connexion == 4 && i != tuiles.size() - 1 && j != 0) {
-            if (tuiles.get(i + 1).get(j - 1).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i + 1, j - 1));
-        }
-
-        if (connexion == 5 && j != 0) {
-            if (tuiles.get(i).get(j - 1).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i, j - 1));
+        if (connexion == 3 && j != 0) {
+            neighbor = getNeighborIfValid(i, j - 1, neighbor, neighborConnexion);
         }
 
         return neighbor;
     }
 
-    private ArrayList<Integer> getNeighbor4(int i, int j, Integer connexion) {
-        ArrayList<Integer> neighbor = null;
-        Integer neighborConnexion = (connexion + 2) % 4;
-        if (connexion == 0 && i != 0) {
-            if (tuiles.get(i - 1).get(j).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i - 1, j));
-        }
-
-        if (connexion == 1 && j != tuiles.get(0).size() - 1) {
-            if (tuiles.get(i).get(j + 1).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i, j + 1));
-        }
-
-        if (connexion == 2 && i != tuiles.size() - 1) {
-            if (tuiles.get(i + 1).get(j).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i + 1, j));
-        }
-
-        if (connexion == 3 && j != 0) {
-            if (tuiles.get(i).get(j - 1).getConnexions().contains(neighborConnexion))
-                neighbor = new ArrayList<>(List.of(i, j - 1));
-        }
-
+    private ArrayList<Integer> getNeighborIfValid(int i, int j, ArrayList<Integer> neighbor,
+            Integer neighborConnexion) {
+        if (tuiles.get(i).get(j).getConnexions().contains(neighborConnexion))
+            neighbor = new ArrayList<>(List.of(i, j));
         return neighbor;
     }
 
