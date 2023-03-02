@@ -28,7 +28,7 @@ public class Plateau {
     public void generateTuiles() {
         tuiles = new ArrayList<ArrayList<Tuile>>();
         // lecture du txt
-        tuiles = Convertion.parseFile(0);
+        tuiles = Convertion.parseFile(3);
     }
 
     // Le but du jeu est d'allumer toutes les lampes. On va vérifier les lampes
@@ -176,6 +176,48 @@ public class Plateau {
     // Par exemple, pour une tuile qui a une connexion 0, il faut vérifier si la
     // tuile existe sur le dessus et qu'elle a une connexion 2
     private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
+        if (tuiles.get(0).get(0).getType()==4)
+            return getNeighbor4(i, j, connexion);
+        else return getNeighbor6(i, j, connexion);
+    }
+
+    private ArrayList<Integer> getNeighbor6(int i, int j, Integer connexion) {
+        ArrayList<Integer> neighbor = null;
+        Integer neighborConnexion = (connexion + 3) % 6;
+        if (connexion == 0 && i != 0) {
+            if (tuiles.get(i - 1).get(j).getConnexions().contains(neighborConnexion))
+                neighbor = new ArrayList<>(List.of(i - 1, j));
+        }
+
+        if (connexion == 1 && j != tuiles.get(0).size() - 1) {
+            if (tuiles.get(i).get(j + 1).getConnexions().contains(neighborConnexion))
+                neighbor = new ArrayList<>(List.of(i, j + 1));
+        }
+
+        if (connexion == 2 && i != tuiles.size() - 1 && j != tuiles.get(0).size() - 1) {
+            if (tuiles.get(i + 1).get(j + 1).getConnexions().contains(neighborConnexion))
+                neighbor = new ArrayList<>(List.of(i + 1, j + 1));
+        }
+
+        if (connexion == 3 && i != tuiles.size() - 1) {
+            if (tuiles.get(i + 1).get(j).getConnexions().contains(neighborConnexion))
+                neighbor = new ArrayList<>(List.of(i + 1, j));
+        }
+
+        if (connexion == 4 && i != tuiles.size() - 1 && j != 0) {
+            if (tuiles.get(i + 1).get(j - 1).getConnexions().contains(neighborConnexion))
+                neighbor = new ArrayList<>(List.of(i + 1, j - 1));
+        }
+
+        if (connexion == 5 && j != 0) {
+            if (tuiles.get(i).get(j - 1).getConnexions().contains(neighborConnexion))
+                neighbor = new ArrayList<>(List.of(i, j - 1));
+        }
+
+        return neighbor;
+    }
+
+    private ArrayList<Integer> getNeighbor4(int i, int j, Integer connexion) {
         ArrayList<Integer> neighbor = null;
         Integer neighborConnexion = (connexion + 2) % 4;
         if (connexion == 0 && i != 0) {
