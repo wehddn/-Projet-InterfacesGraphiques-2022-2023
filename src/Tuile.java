@@ -70,9 +70,15 @@ public class Tuile {
         return result;
     }
 
-    public void turnTuile(int n) {
+    public void turnNtimes(int n) {
         for (int i = 0; i < connexions.size(); i++) {
             connexions.set(i, (connexions.get(i) + n) % type);
+        }
+    }
+
+    public void turn() {
+        for (int i = 0; i < connexions.size(); i++) {
+            connexions.set(i, (connexions.get(i) + 1) % type);
         }
     }
 }
