@@ -56,13 +56,17 @@ public class Tuile {
 
     @Override
     public String toString() {
-        String result = String.valueOf(composant);
+        String result = String.valueOf(composant) + " ";
         if (connexions.size() != 0) {
-            result += " : ";
+            result += "- ";
             for (Integer connexion : connexions) {
                 result += connexion.toString() + " ";
             }
         }
+        if (power)
+            result += "ON";
+        else
+            result += "OF";
         return result;
     }
 

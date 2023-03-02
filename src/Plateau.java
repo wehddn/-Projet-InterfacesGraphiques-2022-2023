@@ -33,7 +33,7 @@ public class Plateau {
         String result = "Plateau type : " + tuiles.get(0).get(0).getType() + "\n";
         for (ArrayList<Tuile> arrayList : tuiles) {
             for (Tuile tuile : arrayList) {
-                result += tuile + "; ";
+                result += tuile + " | ";
             }
             result += "\n";
         }
