@@ -34,7 +34,7 @@ public class Convertion {
                             intType = 6;
                             break;
                         default:
-                            throw new Exception("Wrong file");  //TODO catch
+                            throw new Exception("Wrong file"); // TODO catch
                     }
                 }
             }
@@ -80,7 +80,7 @@ public class Convertion {
     private static boolean isNumber(String s) {
         try {
             Integer i = Integer.parseInt(s);
-            if (i > 0 && i <= 6)
+            if (i >= 0 && i <= 6)
                 return true;
             else
                 return false;
