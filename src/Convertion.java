@@ -138,6 +138,9 @@ public class Convertion {
         else
             res += "1";
 
+        if(counter==12)
+            return res+="S";
+
         switch (counter % 9) {
             case 0:
                 return res += ".";
