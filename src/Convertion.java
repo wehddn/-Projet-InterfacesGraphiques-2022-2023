@@ -1,8 +1,13 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.File;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
 
 //TODO
 //ajouter type
@@ -15,7 +20,7 @@ public class Convertion {
         ArrayList<ArrayList<Tuile>> tuiles = new ArrayList<>();
         int intType = 0;
 
-        File gr = new File("levels\\level" + fileNumber + ".nrg");
+        File gr = new File("levels/level" + fileNumber + ".nrg");
 
         try (Scanner scanFile = new Scanner(gr)) {
             scanFile.useDelimiter(System.getProperty("line.separator"));
@@ -86,6 +91,69 @@ public class Convertion {
                 return false;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    public static HashMap<String, BufferedImage> parseTextures() {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("tuiles/tuiles.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int texture4Size = 120;
+
+        HashMap<String, BufferedImage> textures = new HashMap<String, BufferedImage>();
+
+        int counter = 0;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 3; j++) {
+                int x = j * texture4Size;
+                int y = i * texture4Size;
+
+                BufferedImage texture = new BufferedImage(texture4Size, texture4Size, BufferedImage.TYPE_INT_ARGB);
+
+                for (int k = 0; k < texture4Size; k++) {
+                    for (int l = 0; l < texture4Size; l++) {
+                        int color = image.getRGB(x + l, y + k);
+                        texture.setRGB(l, k, color);
+                    }
+                }
+                String key = setNom(counter);
+                if (key != null)
+                    textures.put(key, texture);
+                counter++;
+            }
+        }
+
+        System.out.println(textures.keySet());
+        return textures;
+    }
+
+    private static String setNom(int counter) {
+        String res = "";
+        if (counter >= 0 && counter < 9)
+            res += "0";
+        else
+            res += "1";
+
+        switch (counter % 9) {
+            case 0:
+                return res += ".";
+            case 4:
+                return res += "W";
+            case 5:
+                return res += "L";
+            case 6:
+                return res += "C1";
+            case 7:
+                return res += "C2";
+            case 8:
+                return res += "C3";
+            default:
+                return null;
+
         }
     }
 }
