@@ -97,4 +97,17 @@ public class Panel extends JPanel {
 
         return result;
     }
+
+    public Integer getTuileX(int x) {
+        return x/120;
+    }
+
+    public int getTuileY(int y) {
+        return y/120;
+    }
+
+    public void setTuiles(ArrayList<ArrayList<Tuile>> tuiles) {
+        this.tuiles = tuiles;
+        repaint();
+    }
 }

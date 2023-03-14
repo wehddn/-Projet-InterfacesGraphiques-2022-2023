@@ -13,7 +13,7 @@ public class Plateau {
         lampes = new ArrayList<>();
         bornes = new ArrayList<>();
         generateTuiles();
-        // randomizeTuiles();
+        randomizeTuiles();
         settings();
     }
 
@@ -31,7 +31,7 @@ public class Plateau {
     public void generateTuiles() {
         tuiles = new ArrayList<ArrayList<Tuile>>();
         // lecture du txt
-        tuiles = Convertion.parseFile(3);
+        tuiles = Convertion.parseFile(2);
     }
 
     // Le but du jeu est d'allumer toutes les lampes. On va vérifier les lampes

@@ -10,7 +10,7 @@ public class Main {
         Plateau plateau = new Plateau();
         System.out.println(plateau);
         Panel view = new Panel(plateau.getTuiles());
-        Controller controller = new Controller(plateau, view);
+        new Controller(plateau, view);
 
         JFrame frame = new JFrame("My Graph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
