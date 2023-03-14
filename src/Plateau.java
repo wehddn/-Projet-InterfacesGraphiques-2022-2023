@@ -8,10 +8,12 @@ public class Plateau {
     private ArrayList<ArrayList<Tuile>> tuiles;
     private ArrayList<ArrayList<Integer>> lampes;
     private ArrayList<ArrayList<Integer>> bornes;
+    private ArrayList<ArrayList<Integer>> sources;
 
     public Plateau() {
         lampes = new ArrayList<>();
         bornes = new ArrayList<>();
+        sources = new ArrayList<>();
         generateTuiles();
         randomizeTuiles();
         settings();
@@ -46,6 +48,7 @@ public class Plateau {
                     // on allume les sources et les tuiles connectés
                     case 'S':
                         turnOn(i, j);
+                        sources.add(new ArrayList<>(List.of(i, j)));
                         break;
                     case 'L':
                         lampes.add(new ArrayList<>(List.of(i, j)));
@@ -62,35 +65,17 @@ public class Plateau {
 
     // fonction pour tourner la tuile sélectionnée
     public void turn(int i, int j) {
-        Tuile currentTuile = tuiles.get(i).get(j);
-        currentTuile.turn();
-
-        // Si la tuile est la source, allumer toutes les tuiles
-        if (currentTuile.getComposant() == 'S') {
-            // TODO La fonction turnOn ne vérifie que les tuiles désactivées, c'est pourquoi
-            // cette ligne est ici
-            currentTuile.setPower(false);
-            turnOn(i, j);
-        } else {
-            // S'il n'y a pas de tuiles allumées autour, désactivez la tuile sélectionnée
-            if (!turnedOnNeighborExist(i, j)) {
-                currentTuile.setPower(false);
-            } else {
-                // Pour chaque tuile adjacente, on vérifie s'il y a une source dans le circuit
-                // S'il y a au moins une source, allumer tout, sinon éteigner
-                ArrayList<ArrayList<Integer>> neighbors = getConnectedNeighbors(i, j);
-                boolean source = false;
-                for (ArrayList<Integer> neighbor : neighbors) {
-                    if (sourceExist(neighbor.get(0), neighbor.get(1)))
-                        source = true;
-                    resetVisited();
-                }
-                if (source)
-                    turnOn(i, j);
-                else
-                    turnOff(i, j);
+        tuiles.get(i).get(j).turn();
+        for (ArrayList<Tuile> tuileRow : tuiles) {
+            for (Tuile tuile : tuileRow) {
+                tuile.setPower(false);
             }
         }
+
+        for (ArrayList<Integer> source : sources) {
+            turnOn(source.get(0), source.get(1));
+        }
+
         // On vérifie si toutes les lampes sont allumées
         if (checkWin())
             System.out.println("YOU WIN");
@@ -113,47 +98,6 @@ public class Plateau {
         return result;
     }
 
-    private void resetVisited() {
-        for (ArrayList<Tuile> tuileRow : tuiles) {
-            for (Tuile tuile : tuileRow) {
-                tuile.setVisited(false);
-            }
-        }
-    }
-
-    // On vérifie récursivement toutes les tuiles, et si on trouve une source,
-    // renvoie true
-    public boolean sourceExist(int i, int j) {
-        tuiles.get(i).get(j).setVisited(true);
-        if (tuiles.get(i).get(j).isPower()) {
-            ArrayList<ArrayList<Integer>> tuilesToCheck = getConnectedNeighbors(i, j);
-            for (ArrayList<Integer> tuileСoordinates : tuilesToCheck) {
-                if (tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).getComposant() == 'S') {
-                    return true;
-                } else if (!tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).isVisited()) {
-                    if (sourceExist(tuileСoordinates.get(0), tuileСoordinates.get(1)))
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    // On vérifie toutes les tuiles connectées et si au moins une est activée,
-    // renvoie true
-    public boolean turnedOnNeighborExist(int i, int j) {
-        ArrayList<ArrayList<Integer>> tuilesTurnedOn = getConnectedNeighbors(i, j);
-        for (ArrayList<Integer> tuileСoordinates : tuilesTurnedOn) {
-            if (tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).isPower())
-                return true;
-        }
-        for (ArrayList<Integer> borne : bornes) {
-            if (tuiles.get(borne.get(0)).get(borne.get(1)).isPower())
-                return true;
-        }
-        return false;
-    }
-
     // On allume une tuile actuelle, obtient la liste des tuiles connectées et les
     // allume récursivement
     public void turnOn(int i, int j) {
@@ -163,17 +107,6 @@ public class Plateau {
             ArrayList<ArrayList<Integer>> tuilesToTurnOn = getConnectedNeighbors(i, j);
             for (ArrayList<Integer> tuileСoordinates : tuilesToTurnOn) {
                 turnOn(tuileСoordinates.get(0), tuileСoordinates.get(1));
-            }
-        }
-    }
-
-    public void turnOff(int i, int j) {
-        // Si une tuile est déjà allumé, il n'est pas nécessaire de la visiter
-        if (tuiles.get(i).get(j).isPower()) {
-            tuiles.get(i).get(j).setPower(false);
-            ArrayList<ArrayList<Integer>> tuilesToTurnOff = getConnectedNeighbors(i, j);
-            for (ArrayList<Integer> tuileСoordinates : tuilesToTurnOff) {
-                turnOff(tuileСoordinates.get(0), tuileСoordinates.get(1));
             }
         }
     }
