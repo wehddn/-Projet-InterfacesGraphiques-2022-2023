@@ -214,7 +214,7 @@ public class Plateau {
         switch (connexion) {
             case 0:
                 if (i != 0)
-                    neighbor = getNeighborIfValid(i, j, neighbor, neighborConnexion);
+                    neighbor = getNeighborIfValid(i - 1, j, neighbor, neighborConnexion);
                 break;
             case 1:
                 if (j != rowSize - 1)

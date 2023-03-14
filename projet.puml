@@ -24,3 +24,15 @@ class staticConvertion {
     -ean isNumber(String s)
     +storeFile()
 }
+
+class Controller{
+    listener
+}
+
+Controller -- Plateau
+
+class View{
+
+}
+
+Controller -- View
