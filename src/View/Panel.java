@@ -8,7 +8,6 @@ import java.util.HashMap;
 import javax.swing.*;
 
 import src.Convertion;
-import src.Plateau;
 import src.Tuile;
 
 public class Panel extends JPanel {
@@ -21,6 +20,7 @@ public class Panel extends JPanel {
     private int tuilesHeight; 
 
     public Panel(ArrayList<ArrayList<Tuile>> tuiles) {
+        //On crée un plateau et des textures
         this.tuiles = tuiles;
 
         tuilesWidth = tuiles.get(0).size();
@@ -38,6 +38,8 @@ public class Panel extends JPanel {
         super.repaint();
     }
 
+    //Pour chaque tuile, on crée une clé pour trouver la texture dans le dictionnaire
+    //TODO créer des textures de connexion 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
