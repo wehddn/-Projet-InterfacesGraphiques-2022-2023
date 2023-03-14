@@ -1,14 +1,23 @@
 package src;
 
-import src.View.View;
+import javax.swing.JFrame;
+
+import src.Controller.Controller;
+import src.View.Panel;
 
 public class Main {
     public static void main(String[] args) {
-        Plateau p = new Plateau();
-        System.out.println(p);
-        p.turn(3, 2);
-        System.out.println(p);
+        // On crée un plateau et une vue, et on attribue tous les deux au contrôleur qui
+        // va les gerer
+        Plateau plateau = new Plateau();
+        System.out.println(plateau);
+        Panel view = new Panel(plateau.getTuiles());
+        new Controller(plateau, view);
 
-        View v = new View();
+        JFrame frame = new JFrame("My Graph");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(view);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
