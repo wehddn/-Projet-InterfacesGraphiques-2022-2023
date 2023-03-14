@@ -143,7 +143,7 @@ public class Convertion {
 
         switch (counter % 9) {
             case 0:
-                return res += ".";
+                return res += "E";
             case 4:
                 return res += "W";
             case 5:

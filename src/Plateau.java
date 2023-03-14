@@ -282,4 +282,16 @@ public class Plateau {
         }
         return result;
     }
+
+    public int getWith() {
+        return tuiles.get(0).size();
+    }
+
+    public int getHeight() {
+        return tuiles.size();
+    }
+
+    public ArrayList<ArrayList<Tuile>> getTuiles() {
+        return tuiles;
+    }
 }
