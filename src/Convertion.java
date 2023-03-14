@@ -15,7 +15,7 @@ public class Convertion {
         ArrayList<ArrayList<Tuile>> tuiles = new ArrayList<>();
         int intType = 0;
 
-        File gr = new File("levels\\level" + fileNumber + ".nrg");
+        File gr = new File("levels/level" + fileNumber + ".nrg");
 
         try (Scanner scanFile = new Scanner(gr)) {
             scanFile.useDelimiter(System.getProperty("line.separator"));
