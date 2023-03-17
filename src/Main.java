@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import src.Controller.Controller;
 import src.View.Panel;
+import src.View.View;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,11 +14,7 @@ public class Main {
         System.out.println(plateau);
         Panel view = new Panel(plateau.getTuiles());
         new Controller(plateau, view);
+        View v = new View(view);
 
-        JFrame frame = new JFrame("My Graph");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(view);
-        frame.pack();
-        frame.setVisible(true);
     }
 }

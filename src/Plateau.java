@@ -1,5 +1,7 @@
 package src;
 
+//enum pour directions 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

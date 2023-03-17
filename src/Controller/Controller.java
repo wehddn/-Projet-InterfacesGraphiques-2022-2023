@@ -7,7 +7,7 @@ import javax.swing.event.*;
 import src.Plateau;
 import src.View.Panel;
 
-public class Controller implements MouseInputListener{
+public class Controller implements MouseInputListener {
 
     private Plateau plateau;
     private Panel view;
@@ -27,43 +27,43 @@ public class Controller implements MouseInputListener{
         plateau.turn(y, x);
         System.out.println(plateau);
         view.setTuiles(plateau.getTuiles());
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
         // TODO Auto-generated method stub
-        
-    }
 
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
 }

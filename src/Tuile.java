@@ -2,10 +2,24 @@ package src;
 
 import java.util.ArrayList;
 
+//TO DO: enums
+
 public class Tuile {
+    enum Type {
+        FOUR,
+        SIX
+    }
+
+    enum Composant {
+        SOURCE,
+        LAMP,
+        WIFI // ne pas oublier "."
+    }
+
+    private Type enum_type;
     private int type; // 4/6
     private char composant; // S/L/W/.
-    private ArrayList<Integer> connexions; // static?
+    private ArrayList<Integer> connexions;
     private boolean power;
     private boolean visited;
 

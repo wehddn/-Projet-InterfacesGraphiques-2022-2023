@@ -3,12 +3,12 @@ package src.View;
 import javax.swing.*;
 
 public class View {
-    public View() {
-        JFrame frame = new JFrame();
-        frame.setSize(600, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Energy");
-        frame.setVisible(true);
 
+    public View(Panel view) {
+        JFrame frame = new JFrame("Energy");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(view);
+        frame.pack();
+        frame.setVisible(true);
     }
 }

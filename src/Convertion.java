@@ -39,7 +39,7 @@ public class Convertion {
                             intType = 6;
                             break;
                         default:
-                            throw new Exception("Wrong file"); // TODO catch
+                            throw new Exception("Wrong file");
                     }
                 }
             }
@@ -94,6 +94,7 @@ public class Convertion {
         }
     }
 
+    // TO DO : enum séparé au lieu des string
     public static HashMap<String, BufferedImage> parseTextures() {
         BufferedImage image = null;
         try {
@@ -138,8 +139,8 @@ public class Convertion {
         else
             res += "1";
 
-        if(counter==12)
-            return res+="S";
+        if (counter == 12)
+            return res += "S";
 
         switch (counter % 9) {
             case 0:
