@@ -4,6 +4,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+enum Type {
+    SQR(4),
+    HEX(6);
+
+    private final int type;
+
+    Type(int type) {
+        this.type = type;
+    }
+
+    public int getValue() {
+        return type;
+    }
+}
+
 public class TuilesList implements Iterable<Tuile> {
     private ArrayList<ArrayList<Tuile>> tuiles;
     private ArrayList<ArrayList<Integer>> lampes;
@@ -12,7 +27,7 @@ public class TuilesList implements Iterable<Tuile> {
     private int rowsNumber;
     private int columnsNumber;
 
-    private int type; // 4/6
+    private Type type; // 4/6
 
     public TuilesList() {
         tuiles = new ArrayList<>();
@@ -22,7 +37,7 @@ public class TuilesList implements Iterable<Tuile> {
         tuiles.add(parseString);
     }
 
-    public void setType(int type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -75,7 +90,7 @@ public class TuilesList implements Iterable<Tuile> {
     }
 
     public void turn(int i, int j) {
-        tuiles.get(i).get(j).turn(type);
+        tuiles.get(i).get(j).turn(type.getValue());
     }
 
     public boolean isPower(int i, int j) {
@@ -90,8 +105,12 @@ public class TuilesList implements Iterable<Tuile> {
         return tuiles.get(i).get(j).getConnexions();
     }
 
-    public int getType() {
+    public Type getType() {
         return type;
+    }
+
+    public int getTypeValue() {
+        return type.getValue();
     }
 
     public ArrayList<ArrayList<Tuile>> getTuiles() {

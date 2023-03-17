@@ -32,10 +32,10 @@ public class Convertion {
                     String stringType = string.substring(string.length() - 1);
                     switch (stringType) {
                         case "S":
-                            tuiles.setType(4);
+                            tuiles.setType(Type.SQR);
                             break;
                         case "H":
-                            tuiles.setType(6);
+                            tuiles.setType(Type.HEX);
                             break;
                         default:
                             throw new Exception("Wrong file"); // TODO catch

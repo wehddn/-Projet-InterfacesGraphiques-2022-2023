@@ -18,8 +18,8 @@ public class Plateau {
         int n;
 
         for (Tuile tuile : tuiles) {
-            n = r.nextInt(tuiles.getType() - 1) + 1;
-            tuile.turnNtimes(n, tuiles.getType());
+            n = r.nextInt(tuiles.getTypeValue() - 1) + 1;
+            tuile.turnNtimes(n, tuiles.getTypeValue());
         }
     }
 
@@ -128,7 +128,7 @@ public class Plateau {
     // Par exemple, pour une tuile qui a une connexion 0, il faut vérifier si la
     // tuile existe sur le dessus et qu'elle a une connexion 2
     private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
-        if (tuiles.getType() == 4)
+        if (tuiles.getType() == Type.SQR)
             return getNeighbor4(i, j, connexion);
         else
             return getNeighbor6(i, j, connexion);
