@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Plateau {
-    private ArrayList<ArrayList<Tuile>> tuiles;
+    private TuilesList tuilesList;
     private ArrayList<ArrayList<Integer>> lampes;
     private ArrayList<ArrayList<Integer>> bornes;
     private ArrayList<ArrayList<Integer>> sources;
@@ -22,18 +22,17 @@ public class Plateau {
     public void randomizeTuiles() {
         Random r = new Random(System.currentTimeMillis());
         int n;
-        for (ArrayList<Tuile> t : tuiles) {
-            for (Tuile tuile : t) {
-                n = r.nextInt(tuile.getType() - 1) + 1;
-                tuile.turnNtimes(n);
-            }
+
+        for (Tuile tuile : tuilesList) {
+            n = r.nextInt(tuile.getType() - 1) + 1;
+            tuile.turnNtimes(n);
         }
     }
 
     public void generateTuiles() {
-        tuiles = new ArrayList<ArrayList<Tuile>>();
         // lecture du txt
-        tuiles = Convertion.parseFile(2);
+        tuilesList = new TuilesList(Convertion.parseFile(2));
+        // lecture du txt
     }
 
     // Le but du jeu est d'allumer toutes les lampes. On va vérifier les lampes
@@ -41,9 +40,9 @@ public class Plateau {
     // des lampes
     // En plus, on va enregistrer les coordonnées des bornes pour un accès rapide
     public void settings() {
-        for (int i = 0; i < tuiles.size(); i++) {
-            for (int j = 0; j < tuiles.get(0).size(); j++) {
-                Composant composant = tuiles.get(i).get(j).getComposant();
+        for (int i = 0; i < tuilesList.rowsNumber(); i++) {
+            for (int j = 0; j < tuilesList.columnsNumber(); j++) {
+                Composant composant = tuilesList.getComposant(i, j);
                 switch (composant) {
                     // on allume les sources et les tuiles connectés
                     case SOURCE:
@@ -65,11 +64,9 @@ public class Plateau {
 
     // fonction pour tourner la tuile sélectionnée
     public void turn(int i, int j) {
-        tuiles.get(i).get(j).turn();
-        for (ArrayList<Tuile> tuileRow : tuiles) {
-            for (Tuile tuile : tuileRow) {
-                tuile.setPower(false);
-            }
+        tuilesList.turn(i, j);
+        for (Tuile tuile : tuilesList) {
+            tuile.setPower(false);
         }
 
         for (ArrayList<Integer> source : sources) {
@@ -92,7 +89,7 @@ public class Plateau {
     private boolean checkWin() {
         boolean result = true;
         for (ArrayList<Integer> tuileСoordinates : lampes) {
-            if (!tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).isPower())
+            if (!tuilesList.isPower(tuileСoordinates.get(0), tuileСoordinates.get(1)))
                 result = false;
         }
         return result;
@@ -102,8 +99,8 @@ public class Plateau {
     // allume récursivement
     public void turnOn(int i, int j) {
         // Si une tuile est déjà allumé, il n'est pas nécessaire de la visiter
-        if (!tuiles.get(i).get(j).isPower()) {
-            tuiles.get(i).get(j).setPower(true);
+        if (!tuilesList.isPower(i, j)) {
+            tuilesList.setPower(i, j);
             ArrayList<ArrayList<Integer>> tuilesToTurnOn = getConnectedNeighbors(i, j);
             for (ArrayList<Integer> tuileСoordinates : tuilesToTurnOn) {
                 turnOn(tuileСoordinates.get(0), tuileСoordinates.get(1));
@@ -115,7 +112,7 @@ public class Plateau {
     // connectée
     public ArrayList<ArrayList<Integer>> getConnectedNeighbors(int i, int j) {
         ArrayList<ArrayList<Integer>> neighbors = new ArrayList<>();
-        ArrayList<Integer> connexions = tuiles.get(i).get(j).getConnexions();
+        ArrayList<Integer> connexions = tuilesList.getConnexions(i, j);
         ArrayList<Integer> neighbor;
         for (Integer connexion : connexions) {
             neighbor = getNeighbor(i, j, connexion);
@@ -123,7 +120,7 @@ public class Plateau {
                 neighbors.add(neighbor);
         }
         // On ajoute des bornes commes des voisins
-        if (tuiles.get(i).get(j).getComposant() == Composant.WIFI)
+        if (tuilesList.getComposant(i, j) == Composant.WIFI)
             neighbors.addAll(getNeighborsBornes(i, j));
         return neighbors;
     }
@@ -133,7 +130,7 @@ public class Plateau {
     // Par exemple, pour une tuile qui a une connexion 0, il faut vérifier si la
     // tuile existe sur le dessus et qu'elle a une connexion 2
     private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
-        if (tuiles.get(0).get(0).getType() == 4)
+        if (tuilesList.getType() == 4)
             return getNeighbor4(i, j, connexion);
         else
             return getNeighbor6(i, j, connexion);
@@ -142,8 +139,8 @@ public class Plateau {
     private ArrayList<Integer> getNeighbor6(int i, int j, Integer connexion) {
         ArrayList<Integer> neighbor = new ArrayList<>();
         Integer neighborConnexion = (connexion + 3) % 6;
-        int rowSize = tuiles.get(0).size();
-        int columnSize = tuiles.size();
+        int rowSize = tuilesList.rowsNumber();
+        int columnSize = tuilesList.columnsNumber();
         switch (connexion) {
             case 0:
                 if (i != 0)
@@ -182,11 +179,11 @@ public class Plateau {
             neighbor = getNeighborIfValid(i - 1, j, neighbor, neighborConnexion);
         }
 
-        if (connexion == 1 && j != tuiles.get(0).size() - 1) {
+        if (connexion == 1 && j != tuilesList.columnsNumber() - 1) {
             neighbor = getNeighborIfValid(i, j + 1, neighbor, neighborConnexion);
         }
 
-        if (connexion == 2 && i != tuiles.size() - 1) {
+        if (connexion == 2 && i != tuilesList.rowsNumber() - 1) {
             neighbor = getNeighborIfValid(i + 1, j, neighbor, neighborConnexion);
         }
 
@@ -199,15 +196,15 @@ public class Plateau {
 
     private ArrayList<Integer> getNeighborIfValid(int i, int j, ArrayList<Integer> neighbor,
             Integer neighborConnexion) {
-        if (tuiles.get(i).get(j).getConnexions().contains(neighborConnexion))
+        if (tuilesList.getConnexions(i, j).contains(neighborConnexion))
             neighbor = new ArrayList<>(List.of(i, j));
         return neighbor;
     }
 
     @Override
     public String toString() {
-        String result = "Plateau type : " + tuiles.get(0).get(0).getType() + "\n";
-        for (ArrayList<Tuile> arrayList : tuiles) {
+        String result = "Plateau type : " + tuilesList.getType() + "\n";
+        for (ArrayList<Tuile> arrayList : tuilesList.getTuiles()) {
             for (Tuile tuile : arrayList) {
                 result += tuile + " | ";
             }
@@ -217,14 +214,14 @@ public class Plateau {
     }
 
     public int getWith() {
-        return tuiles.get(0).size();
+        return tuilesList.columnsNumber();
     }
 
     public int getHeight() {
-        return tuiles.size();
+        return tuilesList.rowsNumber();
     }
 
     public ArrayList<ArrayList<Tuile>> getTuiles() {
-        return tuiles;
+        return tuilesList.getTuiles();
     }
 }
