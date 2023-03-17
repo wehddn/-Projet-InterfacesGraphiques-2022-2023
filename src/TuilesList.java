@@ -2,16 +2,23 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class TuilesList implements Iterable<Tuile> {
     private ArrayList<ArrayList<Tuile>> tuiles;
+    private ArrayList<ArrayList<Integer>> lampes;
+    private ArrayList<ArrayList<Integer>> bornes;
+    private ArrayList<ArrayList<Integer>> sources;
     private int rowsNumber;
     private int columnsNumber;
 
-    public TuilesList(ArrayList<ArrayList<Tuile>> tuiles){
+    public TuilesList(ArrayList<ArrayList<Tuile>> tuiles) {
         this.tuiles = tuiles;
         rowsNumber = tuiles.size();
         columnsNumber = tuiles.get(0).size();
+        lampes = new ArrayList<>();
+        bornes = new ArrayList<>();
+        sources = new ArrayList<>();
     }
 
     @Override
@@ -46,7 +53,7 @@ public class TuilesList implements Iterable<Tuile> {
         return rowsNumber;
     }
 
-    public int columnsNumber(){
+    public int columnsNumber() {
         return columnsNumber;
     }
 
@@ -76,5 +83,29 @@ public class TuilesList implements Iterable<Tuile> {
 
     public ArrayList<ArrayList<Tuile>> getTuiles() {
         return tuiles;
+    }
+
+    public void addSource(int i, int j) {
+        sources.add(new ArrayList<>(List.of(i, j)));
+    }
+
+    public void addLampe(int i, int j) {
+        lampes.add(new ArrayList<>(List.of(i, j)));
+    }
+
+    public void addBorne(int i, int j) {
+        bornes.add(new ArrayList<>(List.of(i, j)));
+    }
+
+    public ArrayList<ArrayList<Integer>> getSources() {
+        return sources;
+    }
+
+    public ArrayList<ArrayList<Integer>> getBornes() {
+        return bornes;
+    }
+
+    public ArrayList<ArrayList<Integer>> getLampes() {
+        return lampes;
     }
 }

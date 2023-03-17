@@ -6,14 +6,8 @@ import java.util.Random;
 
 public class Plateau {
     private TuilesList tuilesList;
-    private ArrayList<ArrayList<Integer>> lampes;
-    private ArrayList<ArrayList<Integer>> bornes;
-    private ArrayList<ArrayList<Integer>> sources;
 
     public Plateau() {
-        lampes = new ArrayList<>();
-        bornes = new ArrayList<>();
-        sources = new ArrayList<>();
         generateTuiles();
         randomizeTuiles();
         settings();
@@ -47,13 +41,13 @@ public class Plateau {
                     // on allume les sources et les tuiles connectés
                     case SOURCE:
                         turnOn(i, j);
-                        sources.add(new ArrayList<>(List.of(i, j)));
+                        tuilesList.addSource(i, j);
                         break;
                     case LAMPE:
-                        lampes.add(new ArrayList<>(List.of(i, j)));
+                        tuilesList.addLampe(i, j);
                         break;
                     case WIFI:
-                        bornes.add(new ArrayList<>(List.of(i, j)));
+                        tuilesList.addBorne(i, j);
                         break;
                     default:
                         break;
@@ -72,7 +66,7 @@ public class Plateau {
         }
 
         // On allume toutes les tuiles récursivement à partir des sources
-        for (ArrayList<Integer> source : sources) {
+        for (ArrayList<Integer> source : tuilesList.getSources()) {
             turnOn(source.get(0), source.get(1));
         }
 
@@ -83,7 +77,7 @@ public class Plateau {
 
     // Obtenir la liste des bornes sans borne spécifié.
     private ArrayList<ArrayList<Integer>> getNeighborsBornes(int i, int j) {
-        ArrayList<ArrayList<Integer>> newBornes = new ArrayList<>(bornes);
+        ArrayList<ArrayList<Integer>> newBornes = new ArrayList<>(tuilesList.getBornes());
         newBornes.remove(new ArrayList<>(List.of(i, j)));
         return newBornes;
     }
@@ -91,7 +85,7 @@ public class Plateau {
     // On vérifie si toutes les lampes sont allumées
     private boolean checkWin() {
         boolean result = true;
-        for (ArrayList<Integer> tuileСoordinates : lampes) {
+        for (ArrayList<Integer> tuileСoordinates : tuilesList.getLampes()) {
             if (!tuilesList.isPower(tuileСoordinates.get(0), tuileСoordinates.get(1)))
                 result = false;
         }
