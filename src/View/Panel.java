@@ -11,22 +11,23 @@ import javax.swing.*;
 
 import src.Convertion;
 import src.Tuile;
+import src.TuilesList;
 
 public class Panel extends JPanel {
     
-    private ArrayList<ArrayList<Tuile>> tuiles;
+    private TuilesList tuiles;
     private int panelWidth;
     private int panelHeight;
     private HashMap<String, BufferedImage> textures;
     private int tuilesWidth;
     private int tuilesHeight;
 
-    public Panel(ArrayList<ArrayList<Tuile>> tuiles) {
+    public Panel(TuilesList tuilesList) {
         //On crée un plateau et des textures
-        this.tuiles = tuiles;
+        this.tuiles = tuilesList;
 
-        tuilesWidth = tuiles.get(0).size();
-        tuilesHeight = tuiles.size();
+        tuilesWidth = tuilesList.columnsNumber();
+        tuilesHeight = tuilesList.rowsNumber();
 
         panelWidth = tuilesWidth*120;
         panelHeight = tuilesHeight*120;
@@ -47,12 +48,12 @@ public class Panel extends JPanel {
 
         for(int i = 0; i<tuilesHeight; i++){
             for(int j = 0; j<tuilesWidth; j++){
-                ArrayList<String> texturesName = textureNameFromTuile(tuiles.get(i).get(j));
+                ArrayList<String> texturesName = textureNameFromTuile(tuiles.get(i, j));
                 for (String textureName : texturesName) {
                     g.drawImage(textures.get(textureName), j*120, i*120, null);   
                 }
 
-                ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i).get(j), g);
+                ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i, j), g);
                 for (Image connexion : connexions) {
                     g.drawImage(connexion, j*120, i*120, null);   
                 }
@@ -111,7 +112,7 @@ public class Panel extends JPanel {
         return y/120;
     }
 
-    public void setTuiles(ArrayList<ArrayList<Tuile>> tuiles) {
+    public void setTuiles(TuilesList tuiles) {
         this.tuiles = tuiles;
         repaint();
     }

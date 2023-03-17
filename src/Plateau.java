@@ -206,7 +206,7 @@ public class Plateau {
         return tuiles.rowsNumber();
     }
 
-    public ArrayList<ArrayList<Tuile>> getTuiles() {
-        return tuiles.getTuiles();
+    public TuilesList getTuiles() {
+        return tuiles;
     }
 }

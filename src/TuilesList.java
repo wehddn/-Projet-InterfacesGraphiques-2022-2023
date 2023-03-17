@@ -140,4 +140,8 @@ public class TuilesList implements Iterable<Tuile> {
     public ArrayList<ArrayList<Integer>> getLampes() {
         return lampes;
     }
+
+    public Tuile get(int i, int j) {
+        return tuiles.get(i).get(j);
+    }
 }
