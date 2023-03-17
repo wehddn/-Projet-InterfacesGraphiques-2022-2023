@@ -65,10 +65,13 @@ public class Plateau {
     // fonction pour tourner la tuile sélectionnée
     public void turn(int i, int j) {
         tuilesList.turn(i, j);
+
+        // On éteint tous les tuiles
         for (Tuile tuile : tuilesList) {
             tuile.setPower(false);
         }
 
+        // On allume toutes les tuiles récursivement à partir des sources
         for (ArrayList<Integer> source : sources) {
             turnOn(source.get(0), source.get(1));
         }
