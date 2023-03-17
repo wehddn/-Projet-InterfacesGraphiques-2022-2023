@@ -33,10 +33,10 @@ public class Convertion {
                     String stringType = string.substring(string.length() - 1);
                     switch (stringType) {
                         case "S":
-                            intType = 4;
+                            tuiles.setType(4);
                             break;
                         case "H":
-                            intType = 6;
+                            tuiles.setType(6);
                             break;
                         default:
                             throw new Exception("Wrong file"); // TODO catch
@@ -47,10 +47,6 @@ public class Convertion {
         } catch (Exception e) {
             System.out.println("Exception " + e);
         }
-
-            for (Tuile tuile : tuiles) {
-                tuile.setType(intType);
-            }
         
         return tuiles;
     }

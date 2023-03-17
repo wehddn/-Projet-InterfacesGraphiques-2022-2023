@@ -18,8 +18,8 @@ public class Plateau {
         int n;
 
         for (Tuile tuile : tuiles) {
-            n = r.nextInt(tuile.getType() - 1) + 1;
-            tuile.turnNtimes(n);
+            n = r.nextInt(tuiles.getType() - 1) + 1;
+            tuile.turnNtimes(n, tuiles.getType());
         }
     }
 

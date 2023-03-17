@@ -12,12 +12,18 @@ public class TuilesList implements Iterable<Tuile> {
     private int rowsNumber;
     private int columnsNumber;
 
+    private int type; // 4/6
+
     public TuilesList() {
         tuiles = new ArrayList<>();
     }
 
     public void add(ArrayList<Tuile> parseString) {
         tuiles.add(parseString);
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setVariables() {
@@ -69,7 +75,7 @@ public class TuilesList implements Iterable<Tuile> {
     }
 
     public void turn(int i, int j) {
-        tuiles.get(i).get(j).turn();
+        tuiles.get(i).get(j).turn(type);
     }
 
     public boolean isPower(int i, int j) {
@@ -85,7 +91,7 @@ public class TuilesList implements Iterable<Tuile> {
     }
 
     public int getType() {
-        return tuiles.get(0).get(0).getType();
+        return type;
     }
 
     public ArrayList<ArrayList<Tuile>> getTuiles() {

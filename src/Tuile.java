@@ -10,7 +10,6 @@ enum Composant {
   }
 
 public class Tuile {
-    private int type; // 4/6
     private Composant composant; // S/L/W/.
     private ArrayList<Integer> connexions; // static?
     private boolean power;
@@ -19,14 +18,6 @@ public class Tuile {
     public Tuile(Composant composant, ArrayList<Integer> connexions) {
         this.composant = composant;
         this.connexions = connexions;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public Composant getComposant() {
@@ -77,13 +68,13 @@ public class Tuile {
         return result;
     }
 
-    public void turnNtimes(int n) {
+    public void turnNtimes(int n, int type) {
         for (int i = 0; i < connexions.size(); i++) {
             connexions.set(i, (connexions.get(i) + n) % type);
         }
     }
 
-    public void turn() {
+    public void turn(int type) {
         for (int i = 0; i < connexions.size(); i++) {
             connexions.set(i, (connexions.get(i) + 1) % type);
         }
