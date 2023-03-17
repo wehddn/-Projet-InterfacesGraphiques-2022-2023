@@ -18,7 +18,6 @@ public class Convertion {
     public static TuilesList parseFile(Integer fileNumber) {
         boolean start = true;
         TuilesList tuiles = new TuilesList();
-        int intType = 0;
 
         File gr = new File("levels/level" + fileNumber + ".nrg");
 
