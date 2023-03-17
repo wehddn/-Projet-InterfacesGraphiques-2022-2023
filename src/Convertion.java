@@ -54,7 +54,7 @@ public class Convertion {
         ArrayList<Tuile> result = new ArrayList<Tuile>();
         String[] symbols = input.split(" ");
         Composant composant = null;
-        ArrayList<Integer> connexions = new ArrayList<>();
+        ArrayList<Connexion> connexions = new ArrayList<>();
         for (String symbol : symbols) {
             if (isLetter(symbol)) {
                 if (composant != null) {
@@ -63,13 +63,12 @@ public class Convertion {
                 composant = getComposantBySymbol(symbol);
                 connexions = new ArrayList<>();
             } else if (isNumber(symbol)) {
-                connexions.add(Integer.parseInt(symbol));
+                connexions.add(Connexion.intToEnum(Integer.parseInt(symbol)));
             }
         }
         if (composant != null) {
             result.add(new Tuile(composant, connexions));
         }
-        System.out.println(result);
         return result;
     }
 
@@ -137,7 +136,6 @@ public class Convertion {
             }
         }
 
-        System.out.println(textures.keySet());
         return textures;
     }
 

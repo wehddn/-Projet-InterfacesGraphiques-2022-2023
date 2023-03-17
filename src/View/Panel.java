@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.geom.AffineTransform;
+import src.Connexion;
 
 import javax.swing.*;
 
@@ -72,8 +73,8 @@ public class Panel extends JPanel {
 
         type+="C1";
 
-        for (Integer intConnexion : tuile.getConnexions()) {
-            Image image = rotateImageByDegrees(textures.get(type), intConnexion*90);
+        for (Connexion intConnexion : tuile.getConnexions()) {
+            Image image = rotateImageByDegrees(textures.get(type), intConnexion.getValue()*90);
             connexions.add(image);
         }
         return connexions;

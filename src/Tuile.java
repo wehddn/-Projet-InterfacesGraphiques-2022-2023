@@ -7,15 +7,15 @@ enum Composant {
     LAMPE,
     WIFI,
     EMPTY
-  }
+}
 
 public class Tuile {
     private Composant composant; // S/L/W/.
-    private ArrayList<Integer> connexions; // static?
+    private ArrayList<Connexion> connexions; // static?
     private boolean power;
     private boolean visited;
 
-    public Tuile(Composant composant, ArrayList<Integer> connexions) {
+    public Tuile(Composant composant, ArrayList<Connexion> connexions) {
         this.composant = composant;
         this.connexions = connexions;
     }
@@ -28,11 +28,11 @@ public class Tuile {
         this.composant = composant;
     }
 
-    public ArrayList<Integer> getConnexions() {
+    public ArrayList<Connexion> getConnexions() {
         return connexions;
     }
 
-    public void setConnexions(ArrayList<Integer> connexions) {
+    public void setConnexions(ArrayList<Connexion> connexions) {
         this.connexions = connexions;
     }
 
@@ -57,8 +57,8 @@ public class Tuile {
         String result = String.valueOf(composant) + " ";
         if (connexions.size() != 0) {
             result += "- ";
-            for (Integer connexion : connexions) {
-                result += connexion.toString() + " ";
+            for (Connexion connexion : connexions) {
+                result += connexion.getValue() + " ";
             }
         }
         if (power)
@@ -70,13 +70,13 @@ public class Tuile {
 
     public void turnNtimes(int n, int type) {
         for (int i = 0; i < connexions.size(); i++) {
-            connexions.set(i, (connexions.get(i) + n) % type);
+            connexions.set(i, Connexion.intToEnum((connexions.get(i).getValue() + n) % type));
         }
     }
 
     public void turn(int type) {
         for (int i = 0; i < connexions.size(); i++) {
-            connexions.set(i, (connexions.get(i) + 1) % type);
+            connexions.set(i, Connexion.intToEnum((connexions.get(i).getValue() + 1) % type));
         }
     }
 }

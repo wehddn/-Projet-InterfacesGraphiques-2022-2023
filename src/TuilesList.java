@@ -101,7 +101,7 @@ public class TuilesList implements Iterable<Tuile> {
         tuiles.get(i).get(j).setPower(true);
     }
 
-    public ArrayList<Integer> getConnexions(int i, int j) {
+    public ArrayList<Connexion> getConnexions(int i, int j) {
         return tuiles.get(i).get(j).getConnexions();
     }
 

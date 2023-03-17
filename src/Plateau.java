@@ -110,10 +110,10 @@ public class Plateau {
     // connectée
     public ArrayList<ArrayList<Integer>> getConnectedNeighbors(int i, int j) {
         ArrayList<ArrayList<Integer>> neighbors = new ArrayList<>();
-        ArrayList<Integer> connexions = tuiles.getConnexions(i, j);
+        ArrayList<Connexion> connexions = tuiles.getConnexions(i, j);
         ArrayList<Integer> neighbor;
-        for (Integer connexion : connexions) {
-            neighbor = getNeighbor(i, j, connexion);
+        for (Connexion connexion : connexions) {
+            neighbor = getNeighbor(i, j, connexion.getValue());
             if (neighbor.size() != 0)
                 neighbors.add(neighbor);
         }
@@ -129,7 +129,7 @@ public class Plateau {
     // tuile existe sur le dessus et qu'elle a une connexion 2
     private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
         ArrayList<Integer> neighbor = new ArrayList<>();
-        Integer neighborConnexion = (connexion + tuiles.getTypeValue() / 2) % tuiles.getTypeValue();
+        Connexion neighborConnexion = Connexion.intToEnum((connexion + tuiles.getTypeValue() / 2) % tuiles.getTypeValue());
 
         // Dans HEX tuile il y a 6 côtés, donc il faut faire correspondre SQR at HEX
         // tuiles pour que le swith fonctionne correctement
@@ -180,7 +180,7 @@ public class Plateau {
     }
 
     private ArrayList<Integer> getNeighborIfValid(int i, int j, ArrayList<Integer> neighbor,
-            Integer neighborConnexion) {
+            Connexion neighborConnexion) {
         if (tuiles.getConnexions(i, j).contains(neighborConnexion))
             neighbor = new ArrayList<>(List.of(i, j));
         return neighbor;
