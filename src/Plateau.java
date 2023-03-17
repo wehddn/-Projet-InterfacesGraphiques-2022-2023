@@ -25,7 +25,8 @@ public class Plateau {
 
     public void generateTuiles() {
         // lecture du txt
-        tuiles = new TuilesList(Convertion.parseFile(2));
+        tuiles = Convertion.parseFile(2);
+        tuiles.setVariables();
         // lecture du txt
     }
 

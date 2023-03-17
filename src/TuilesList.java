@@ -12,8 +12,15 @@ public class TuilesList implements Iterable<Tuile> {
     private int rowsNumber;
     private int columnsNumber;
 
-    public TuilesList(ArrayList<ArrayList<Tuile>> tuiles) {
-        this.tuiles = tuiles;
+    public TuilesList() {
+        tuiles = new ArrayList<>();
+    }
+
+    public void add(ArrayList<Tuile> parseString) {
+        tuiles.add(parseString);
+    }
+
+    public void setVariables() {
         rowsNumber = tuiles.size();
         columnsNumber = tuiles.get(0).size();
         lampes = new ArrayList<>();

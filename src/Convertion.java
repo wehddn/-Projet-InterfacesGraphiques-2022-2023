@@ -15,9 +15,9 @@ import java.awt.image.BufferedImage;
 //Ou stocker dans plateau?
 public class Convertion {
 
-    public static ArrayList<ArrayList<Tuile>> parseFile(Integer fileNumber) {
+    public static TuilesList parseFile(Integer fileNumber) {
         boolean start = true;
-        ArrayList<ArrayList<Tuile>> tuiles = new ArrayList<>();
+        TuilesList tuiles = new TuilesList();
         int intType = 0;
 
         File gr = new File("levels/level" + fileNumber + ".nrg");
@@ -48,11 +48,10 @@ public class Convertion {
             System.out.println("Exception " + e);
         }
 
-        for (ArrayList<Tuile> tuileRow : tuiles) {
-            for (Tuile tuile : tuileRow) {
+            for (Tuile tuile : tuiles) {
                 tuile.setType(intType);
             }
-        }
+        
         return tuiles;
     }
 
