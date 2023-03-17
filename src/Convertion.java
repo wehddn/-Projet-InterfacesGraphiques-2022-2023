@@ -59,14 +59,14 @@ public class Convertion {
     public static ArrayList<Tuile> parseString(String input) {
         ArrayList<Tuile> result = new ArrayList<Tuile>();
         String[] symbols = input.split(" ");
-        String composant = null;
+        Composant composant = null;
         ArrayList<Integer> connexions = new ArrayList<>();
         for (String symbol : symbols) {
             if (isLetter(symbol)) {
                 if (composant != null) {
                     result.add(new Tuile(composant, connexions));
                 }
-                composant = symbol;
+                composant = getComposantBySymbol(symbol);
                 connexions = new ArrayList<>();
             } else if (isNumber(symbol)) {
                 connexions.add(Integer.parseInt(symbol));
@@ -75,7 +75,23 @@ public class Convertion {
         if (composant != null) {
             result.add(new Tuile(composant, connexions));
         }
+        System.out.println(result);
         return result;
+    }
+
+    private static Composant getComposantBySymbol(String symbol) {
+        switch(symbol){
+            case "S":
+                return Composant.SOURCE;
+            case "L":
+                return Composant.LAMPE;
+            case "W": 
+                return Composant.WIFI;
+            case ".":
+                return Composant.EMPTY;
+            default:
+                return null; //TODO catch
+        }
     }
 
     private static boolean isLetter(String s) {
@@ -139,15 +155,15 @@ public class Convertion {
             res += "1";
 
         if(counter==12)
-            return res+="S";
+            return res+=Composant.SOURCE;
 
         switch (counter % 9) {
             case 0:
                 return res += "E";
             case 4:
-                return res += "W";
+                return res += Composant.WIFI;
             case 5:
-                return res += "L";
+                return res += Composant.LAMPE;
             case 6:
                 return res += "C1";
             case 7:

@@ -2,15 +2,22 @@ package src;
 
 import java.util.ArrayList;
 
+enum Composant {
+    SOURCE,
+    LAMPE,
+    WIFI,
+    EMPTY
+  }
+
 public class Tuile {
     private int type; // 4/6
-    private char composant; // S/L/W/.
+    private Composant composant; // S/L/W/.
     private ArrayList<Integer> connexions; // static?
     private boolean power;
     private boolean visited;
 
-    public Tuile(String composant, ArrayList<Integer> connexions) {
-        this.composant = composant.charAt(0);
+    public Tuile(Composant composant, ArrayList<Integer> connexions) {
+        this.composant = composant;
         this.connexions = connexions;
     }
 
@@ -22,11 +29,11 @@ public class Tuile {
         this.type = type;
     }
 
-    public char getComposant() {
+    public Composant getComposant() {
         return composant;
     }
 
-    public void setComposant(char composant) {
+    public void setComposant(Composant composant) {
         this.composant = composant;
     }
 

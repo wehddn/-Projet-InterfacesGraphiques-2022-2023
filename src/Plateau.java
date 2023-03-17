@@ -43,17 +43,17 @@ public class Plateau {
     public void settings() {
         for (int i = 0; i < tuiles.size(); i++) {
             for (int j = 0; j < tuiles.get(0).size(); j++) {
-                char composant = tuiles.get(i).get(j).getComposant();
+                Composant composant = tuiles.get(i).get(j).getComposant();
                 switch (composant) {
                     // on allume les sources et les tuiles connectés
-                    case 'S':
+                    case SOURCE:
                         turnOn(i, j);
                         sources.add(new ArrayList<>(List.of(i, j)));
                         break;
-                    case 'L':
+                    case LAMPE:
                         lampes.add(new ArrayList<>(List.of(i, j)));
                         break;
-                    case 'W':
+                    case WIFI:
                         bornes.add(new ArrayList<>(List.of(i, j)));
                         break;
                     default:
@@ -123,7 +123,7 @@ public class Plateau {
                 neighbors.add(neighbor);
         }
         // On ajoute des bornes commes des voisins
-        if (tuiles.get(i).get(j).getComposant() == 'W')
+        if (tuiles.get(i).get(j).getComposant() == Composant.WIFI)
             neighbors.addAll(getNeighborsBornes(i, j));
         return neighbors;
     }
