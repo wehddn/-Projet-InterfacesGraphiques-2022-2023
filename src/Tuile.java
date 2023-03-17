@@ -4,43 +4,36 @@ import java.util.ArrayList;
 
 //TO DO: enums
 
+enum Type {
+    SQR,
+    HEX
+}
+
+enum Composant {
+    SOURCE,
+    LAMPE,
+    WIFI,
+    EMPTY
+}
+
 public class Tuile {
-    enum Type {
-        FOUR,
-        SIX
-    }
-
-    enum Composant {
-        SOURCE,
-        LAMP,
-        WIFI // ne pas oublier "."
-    }
-
     private Type enum_type;
     private int type; // 4/6
-    private char composant; // S/L/W/.
-    private ArrayList<Integer> connexions;
+    private Composant composant; // S/L/W/.
+    private ArrayList<Integer> connexions; // static?
     private boolean power;
     private boolean visited;
 
-    public Tuile(String composant, ArrayList<Integer> connexions) {
-        this.composant = composant.charAt(0);
+    public Tuile(Composant composant, ArrayList<Integer> connexions) {
+        this.composant = composant;
         this.connexions = connexions;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public char getComposant() {
+    public Composant getComposant() {
         return composant;
     }
 
-    public void setComposant(char composant) {
+    public void setComposant(Composant composant) {
         this.composant = composant;
     }
 
@@ -84,13 +77,13 @@ public class Tuile {
         return result;
     }
 
-    public void turnNtimes(int n) {
+    public void turnNtimes(int n, int type) {
         for (int i = 0; i < connexions.size(); i++) {
             connexions.set(i, (connexions.get(i) + n) % type);
         }
     }
 
-    public void turn() {
+    public void turn(int type) {
         for (int i = 0; i < connexions.size(); i++) {
             connexions.set(i, (connexions.get(i) + 1) % type);
         }

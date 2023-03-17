@@ -7,13 +7,9 @@ import java.util.List;
 import java.util.Random;
 
 public class Plateau {
-    private ArrayList<ArrayList<Tuile>> tuiles;
-    private ArrayList<ArrayList<Integer>> lampes;
-    private ArrayList<ArrayList<Integer>> bornes;
+    private TuilesList tuiles;
 
     public Plateau() {
-        lampes = new ArrayList<>();
-        bornes = new ArrayList<>();
         generateTuiles();
         randomizeTuiles();
         settings();
@@ -22,18 +18,18 @@ public class Plateau {
     public void randomizeTuiles() {
         Random r = new Random(System.currentTimeMillis());
         int n;
-        for (ArrayList<Tuile> t : tuiles) {
-            for (Tuile tuile : t) {
-                n = r.nextInt(tuile.getType() - 1) + 1;
-                tuile.turnNtimes(n);
-            }
+
+        for (Tuile tuile : tuiles) {
+            n = r.nextInt(tuiles.getTypeValue() - 1) + 1;
+            tuile.turnNtimes(n, tuiles.getTypeValue());
         }
     }
 
     public void generateTuiles() {
-        tuiles = new ArrayList<ArrayList<Tuile>>();
         // lecture du txt
         tuiles = Convertion.parseFile(2);
+        tuiles.setVariables();
+        // lecture du txt
     }
 
     // Le but du jeu est d'allumer toutes les lampes. On va vérifier les lampes
@@ -41,19 +37,20 @@ public class Plateau {
     // des lampes
     // En plus, on va enregistrer les coordonnées des bornes pour un accès rapide
     public void settings() {
-        for (int i = 0; i < tuiles.size(); i++) {
-            for (int j = 0; j < tuiles.get(0).size(); j++) {
-                char composant = tuiles.get(i).get(j).getComposant();
+        for (int i = 0; i < tuiles.rowsNumber(); i++) {
+            for (int j = 0; j < tuiles.columnsNumber(); j++) {
+                Composant composant = tuiles.getComposant(i, j);
                 switch (composant) {
                     // on allume les sources et les tuiles connectés
-                    case 'S':
+                    case SOURCE:
                         turnOn(i, j);
+                        tuiles.addSource(i, j);
                         break;
-                    case 'L':
-                        lampes.add(new ArrayList<>(List.of(i, j)));
+                    case LAMPE:
+                        tuiles.addLampe(i, j);
                         break;
-                    case 'W':
-                        bornes.add(new ArrayList<>(List.of(i, j)));
+                    case WIFI:
+                        tuiles.addBorne(i, j);
                         break;
                     default:
                         break;
@@ -64,35 +61,18 @@ public class Plateau {
 
     // fonction pour tourner la tuile sélectionnée
     public void turn(int i, int j) {
-        Tuile currentTuile = tuiles.get(i).get(j);
-        currentTuile.turn();
+        tuiles.turn(i, j);
 
-        // Si la tuile est la source, allumer toutes les tuiles
-        if (currentTuile.getComposant() == 'S') {
-            // TODO La fonction turnOn ne vérifie que les tuiles désactivées, c'est pourquoi
-            // cette ligne est ici
-            currentTuile.setPower(false);
-            turnOn(i, j);
-        } else {
-            // S'il n'y a pas de tuiles allumées autour, désactivez la tuile sélectionnée
-            if (!turnedOnNeighborExist(i, j)) {
-                currentTuile.setPower(false);
-            } else {
-                // Pour chaque tuile adjacente, on vérifie s'il y a une source dans le circuit
-                // S'il y a au moins une source, allumer tout, sinon éteigner
-                ArrayList<ArrayList<Integer>> neighbors = getConnectedNeighbors(i, j);
-                boolean source = false;
-                for (ArrayList<Integer> neighbor : neighbors) {
-                    if (sourceExist(neighbor.get(0), neighbor.get(1)))
-                        source = true;
-                    resetVisited();
-                }
-                if (source)
-                    turnOn(i, j);
-                else
-                    turnOff(i, j);
-            }
+        // On éteint tous les tuiles
+        for (Tuile tuile : tuiles) {
+            tuile.setPower(false);
         }
+
+        // On allume toutes les tuiles récursivement à partir des sources
+        for (ArrayList<Integer> source : tuiles.getSources()) {
+            turnOn(source.get(0), source.get(1));
+        }
+
         // On vérifie si toutes les lampes sont allumées
         if (checkWin())
             System.out.println("YOU WIN");
@@ -100,7 +80,7 @@ public class Plateau {
 
     // Obtenir la liste des bornes sans borne spécifié.
     private ArrayList<ArrayList<Integer>> getNeighborsBornes(int i, int j) {
-        ArrayList<ArrayList<Integer>> newBornes = new ArrayList<>(bornes);
+        ArrayList<ArrayList<Integer>> newBornes = new ArrayList<>(tuiles.getBornes());
         newBornes.remove(new ArrayList<>(List.of(i, j)));
         return newBornes;
     }
@@ -108,74 +88,22 @@ public class Plateau {
     // On vérifie si toutes les lampes sont allumées
     private boolean checkWin() {
         boolean result = true;
-        for (ArrayList<Integer> tuileСoordinates : lampes) {
-            if (!tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).isPower())
+        for (ArrayList<Integer> tuileСoordinates : tuiles.getLampes()) {
+            if (!tuiles.isPower(tuileСoordinates.get(0), tuileСoordinates.get(1)))
                 result = false;
         }
         return result;
-    }
-
-    private void resetVisited() {
-        for (ArrayList<Tuile> tuileRow : tuiles) {
-            for (Tuile tuile : tuileRow) {
-                tuile.setVisited(false);
-            }
-        }
-    }
-
-    // On vérifie récursivement toutes les tuiles, et si on trouve une source,
-    // renvoie true
-    public boolean sourceExist(int i, int j) {
-        tuiles.get(i).get(j).setVisited(true);
-        if (tuiles.get(i).get(j).isPower()) {
-            ArrayList<ArrayList<Integer>> tuilesToCheck = getConnectedNeighbors(i, j);
-            for (ArrayList<Integer> tuileСoordinates : tuilesToCheck) {
-                if (tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).getComposant() == 'S') {
-                    return true;
-                } else if (!tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).isVisited()) {
-                    if (sourceExist(tuileСoordinates.get(0), tuileСoordinates.get(1)))
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    // On vérifie toutes les tuiles connectées et si au moins une est activée,
-    // renvoie true
-    public boolean turnedOnNeighborExist(int i, int j) {
-        ArrayList<ArrayList<Integer>> tuilesTurnedOn = getConnectedNeighbors(i, j);
-        for (ArrayList<Integer> tuileСoordinates : tuilesTurnedOn) {
-            if (tuiles.get(tuileСoordinates.get(0)).get(tuileСoordinates.get(1)).isPower())
-                return true;
-        }
-        for (ArrayList<Integer> borne : bornes) {
-            if (tuiles.get(borne.get(0)).get(borne.get(1)).isPower())
-                return true;
-        }
-        return false;
     }
 
     // On allume une tuile actuelle, obtient la liste des tuiles connectées et les
     // allume récursivement
     public void turnOn(int i, int j) {
         // Si une tuile est déjà allumé, il n'est pas nécessaire de la visiter
-        if (!tuiles.get(i).get(j).isPower()) {
-            tuiles.get(i).get(j).setPower(true);
+        if (!tuiles.isPower(i, j)) {
+            tuiles.setPower(i, j);
             ArrayList<ArrayList<Integer>> tuilesToTurnOn = getConnectedNeighbors(i, j);
             for (ArrayList<Integer> tuileСoordinates : tuilesToTurnOn) {
                 turnOn(tuileСoordinates.get(0), tuileСoordinates.get(1));
-            }
-        }
-    }
-
-    public void turnOff(int i, int j) {
-        // Si une tuile est déjà allumé, il n'est pas nécessaire de la visiter
-        if (tuiles.get(i).get(j).isPower()) {
-            tuiles.get(i).get(j).setPower(false);
-            ArrayList<ArrayList<Integer>> tuilesToTurnOff = getConnectedNeighbors(i, j);
-            for (ArrayList<Integer> tuileСoordinates : tuilesToTurnOff) {
-                turnOff(tuileСoordinates.get(0), tuileСoordinates.get(1));
             }
         }
     }
@@ -184,7 +112,7 @@ public class Plateau {
     // connectée
     public ArrayList<ArrayList<Integer>> getConnectedNeighbors(int i, int j) {
         ArrayList<ArrayList<Integer>> neighbors = new ArrayList<>();
-        ArrayList<Integer> connexions = tuiles.get(i).get(j).getConnexions();
+        ArrayList<Integer> connexions = tuiles.getConnexions(i, j);
         ArrayList<Integer> neighbor;
         for (Integer connexion : connexions) {
             neighbor = getNeighbor(i, j, connexion);
@@ -192,7 +120,7 @@ public class Plateau {
                 neighbors.add(neighbor);
         }
         // On ajoute des bornes commes des voisins
-        if (tuiles.get(i).get(j).getComposant() == 'W')
+        if (tuiles.getComposant(i, j) == Composant.WIFI)
             neighbors.addAll(getNeighborsBornes(i, j));
         return neighbors;
     }
@@ -202,81 +130,68 @@ public class Plateau {
     // Par exemple, pour une tuile qui a une connexion 0, il faut vérifier si la
     // tuile existe sur le dessus et qu'elle a une connexion 2
     private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
-        if (tuiles.get(0).get(0).getType() == 4)
-            return getNeighbor4(i, j, connexion);
-        else
-            return getNeighbor6(i, j, connexion);
-    }
-
-    private ArrayList<Integer> getNeighbor6(int i, int j, Integer connexion) {
         ArrayList<Integer> neighbor = new ArrayList<>();
-        Integer neighborConnexion = (connexion + 3) % 6;
-        int rowSize = tuiles.get(0).size();
-        int columnSize = tuiles.size();
+        Integer neighborConnexion = (connexion + tuiles.getTypeValue() / 2) % tuiles.getTypeValue();
+
+        // Dans HEX tuile il y a 6 côtés, donc il faut faire correspondre SQR at HEX
+        // tuiles pour que le swith fonctionne correctement
+        // 0, 1, 2, 3 de SQR = 0, 1, 3, 5 de HEX
+        if (tuiles.getType() == Type.SQR && connexion > 1)
+            connexion = 2 * connexion - 1;
+
+        int neighborI, neighborJ;
+
         switch (connexion) {
             case 0:
-                if (i != 0)
-                    neighbor = getNeighborIfValid(i - 1, j, neighbor, neighborConnexion);
+                neighborI = i - 1;
+                neighborJ = j;
                 break;
             case 1:
-                if (j != rowSize - 1)
-                    neighbor = getNeighborIfValid(i, j + 1, neighbor, neighborConnexion);
+                neighborI = i;
+                neighborJ = j + 1;
                 break;
             case 2:
-                if (i != columnSize - 1 && j != rowSize - 1)
-                    neighbor = getNeighborIfValid(i + 1, j + 1, neighbor, neighborConnexion);
+                neighborI = i + 1;
+                neighborJ = j + 1;
                 break;
             case 3:
-                if (i != columnSize - 1)
-                    neighbor = getNeighborIfValid(i + 1, j, neighbor, neighborConnexion);
+                neighborI = i + 1;
+                neighborJ = j;
                 break;
             case 4:
-                if (i != columnSize - 1 && j != 0)
-                    neighbor = getNeighborIfValid(i + 1, j - 1, neighbor, neighborConnexion);
+                neighborI = i + 1;
+                neighborJ = j - 1;
                 break;
             case 5:
-                if (j != 0)
-                    neighbor = getNeighborIfValid(i, j - 1, neighbor, neighborConnexion);
+                neighborI = i;
+                neighborJ = j - 1;
                 break;
             default:
-                break;
+                return neighbor;
         }
+
+        if (isValid(neighborI, neighborJ)) {
+            neighbor = getNeighborIfValid(neighborI, neighborJ, neighbor, neighborConnexion);
+        }
+
         return neighbor;
     }
 
-    private ArrayList<Integer> getNeighbor4(int i, int j, Integer connexion) {
-        ArrayList<Integer> neighbor = new ArrayList<>();
-        Integer neighborConnexion = (connexion + 2) % 4;
-        if (connexion == 0 && i != 0) {
-            neighbor = getNeighborIfValid(i - 1, j, neighbor, neighborConnexion);
-        }
-
-        if (connexion == 1 && j != tuiles.get(0).size() - 1) {
-            neighbor = getNeighborIfValid(i, j + 1, neighbor, neighborConnexion);
-        }
-
-        if (connexion == 2 && i != tuiles.size() - 1) {
-            neighbor = getNeighborIfValid(i + 1, j, neighbor, neighborConnexion);
-        }
-
-        if (connexion == 3 && j != 0) {
-            neighbor = getNeighborIfValid(i, j - 1, neighbor, neighborConnexion);
-        }
-
-        return neighbor;
+    private boolean isValid(int i, int j) {
+        return i >= 0 && i < tuiles.rowsNumber() && j >= 0 && j < tuiles.columnsNumber();
     }
 
     private ArrayList<Integer> getNeighborIfValid(int i, int j, ArrayList<Integer> neighbor,
             Integer neighborConnexion) {
-        if (tuiles.get(i).get(j).getConnexions().contains(neighborConnexion))
+        if (tuiles.getConnexions(i, j).contains(neighborConnexion))
             neighbor = new ArrayList<>(List.of(i, j));
         return neighbor;
     }
 
     @Override
     public String toString() {
-        String result = "Plateau type : " + tuiles.get(0).get(0).getType() + "\n";
-        for (ArrayList<Tuile> arrayList : tuiles) {
+        String result = "Plateau type : " + tuiles.getType() + "\n";
+        for (ArrayList<Tuile> arrayList : tuiles.getTuiles()) {
             for (Tuile tuile : arrayList) {
                 result += tuile + " | ";
             }
@@ -286,14 +201,14 @@ public class Plateau {
     }
 
     public int getWith() {
-        return tuiles.get(0).size();
+        return tuiles.columnsNumber();
     }
 
     public int getHeight() {
-        return tuiles.size();
+        return tuiles.rowsNumber();
     }
 
     public ArrayList<ArrayList<Tuile>> getTuiles() {
-        return tuiles;
+        return tuiles.getTuiles();
     }
 }

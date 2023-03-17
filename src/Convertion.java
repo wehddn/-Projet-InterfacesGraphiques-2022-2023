@@ -15,10 +15,9 @@ import java.awt.image.BufferedImage;
 //Ou stocker dans plateau?
 public class Convertion {
 
-    public static ArrayList<ArrayList<Tuile>> parseFile(Integer fileNumber) {
+    public static TuilesList parseFile(Integer fileNumber) {
         boolean start = true;
-        ArrayList<ArrayList<Tuile>> tuiles = new ArrayList<>();
-        int intType = 0;
+        TuilesList tuiles = new TuilesList();
 
         File gr = new File("levels/level" + fileNumber + ".nrg");
 
@@ -33,10 +32,10 @@ public class Convertion {
                     String stringType = string.substring(string.length() - 1);
                     switch (stringType) {
                         case "S":
-                            intType = 4;
+                            tuiles.setType(Type.SQR);
                             break;
                         case "H":
-                            intType = 6;
+                            tuiles.setType(Type.HEX);
                             break;
                         default:
                             throw new Exception("Wrong file");
@@ -48,25 +47,20 @@ public class Convertion {
             System.out.println("Exception " + e);
         }
 
-        for (ArrayList<Tuile> tuileRow : tuiles) {
-            for (Tuile tuile : tuileRow) {
-                tuile.setType(intType);
-            }
-        }
         return tuiles;
     }
 
     public static ArrayList<Tuile> parseString(String input) {
         ArrayList<Tuile> result = new ArrayList<Tuile>();
         String[] symbols = input.split(" ");
-        String composant = null;
+        Composant composant = null;
         ArrayList<Integer> connexions = new ArrayList<>();
         for (String symbol : symbols) {
             if (isLetter(symbol)) {
                 if (composant != null) {
                     result.add(new Tuile(composant, connexions));
                 }
-                composant = symbol;
+                composant = getComposantBySymbol(symbol);
                 connexions = new ArrayList<>();
             } else if (isNumber(symbol)) {
                 connexions.add(Integer.parseInt(symbol));
@@ -75,7 +69,23 @@ public class Convertion {
         if (composant != null) {
             result.add(new Tuile(composant, connexions));
         }
+        System.out.println(result);
         return result;
+    }
+
+    private static Composant getComposantBySymbol(String symbol) {
+        switch (symbol) {
+            case "S":
+                return Composant.SOURCE;
+            case "L":
+                return Composant.LAMPE;
+            case "W":
+                return Composant.WIFI;
+            case ".":
+                return Composant.EMPTY;
+            default:
+                return null; // TODO catch
+        }
     }
 
     private static boolean isLetter(String s) {
@@ -140,15 +150,15 @@ public class Convertion {
             res += "1";
 
         if (counter == 12)
-            return res += "S";
+            return res += Composant.SOURCE;
 
         switch (counter % 9) {
             case 0:
                 return res += "E";
             case 4:
-                return res += "W";
+                return res += Composant.WIFI;
             case 5:
-                return res += "L";
+                return res += Composant.LAMPE;
             case 6:
                 return res += "C1";
             case 7:

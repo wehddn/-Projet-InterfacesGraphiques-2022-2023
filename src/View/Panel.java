@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
 
@@ -51,7 +52,7 @@ public class Panel extends JPanel {
                     g.drawImage(textures.get(textureName), j * 120, i * 120, null);
                 }
 
-                ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i).get(j));
+                ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i).get(j), g);
                 for (Image connexion : connexions) {
                     g.drawImage(connexion, j * 120, i * 120, null);
                 }
@@ -60,7 +61,7 @@ public class Panel extends JPanel {
         }
     }
 
-    private ArrayList<Image> connexionsFromTuile(Tuile tuile) {
+    private ArrayList<Image> connexionsFromTuile(Tuile tuile, Graphics g) {
         ArrayList<Image> connexions = new ArrayList<>();
         String type = "";
         if (tuile.isPower()) {
@@ -72,7 +73,8 @@ public class Panel extends JPanel {
         type += "C1";
 
         for (Integer intConnexion : tuile.getConnexions()) {
-            connexions.add(textures.get(type));
+            Image image = rotateImageByDegrees(textures.get(type), intConnexion*90);
+            connexions.add(image);
         }
         return connexions;
     }
@@ -112,5 +114,23 @@ public class Panel extends JPanel {
     public void setTuiles(ArrayList<ArrayList<Tuile>> tuiles) {
         this.tuiles = tuiles;
         repaint();
+    }
+
+    public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
+        int w = img.getWidth();
+        int h = img.getHeight();
+    
+        BufferedImage rotated = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotated.createGraphics();
+        AffineTransform at = new AffineTransform();
+    
+        int x = w / 2;
+        int y = h / 2;
+    
+        at.rotate(Math.toRadians(angle), x, y);
+        g2d.setTransform(at);
+        g2d.drawImage(img, 0, 0, this);
+    
+        return rotated;
     }
 }
