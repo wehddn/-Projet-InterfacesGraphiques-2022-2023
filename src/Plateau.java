@@ -128,68 +128,55 @@ public class Plateau {
     // Par exemple, pour une tuile qui a une connexion 0, il faut vérifier si la
     // tuile existe sur le dessus et qu'elle a une connexion 2
     private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
-        if (tuiles.getType() == Type.SQR)
-            return getNeighbor4(i, j, connexion);
-        else
-            return getNeighbor6(i, j, connexion);
-    }
-
-    private ArrayList<Integer> getNeighbor6(int i, int j, Integer connexion) {
         ArrayList<Integer> neighbor = new ArrayList<>();
-        Integer neighborConnexion = (connexion + 3) % 6;
-        int rowSize = tuiles.rowsNumber();
-        int columnSize = tuiles.columnsNumber();
+        Integer neighborConnexion = (connexion + tuiles.getTypeValue() / 2) % tuiles.getTypeValue();
+
+        // Dans HEX tuile il y a 6 côtés, donc il faut faire correspondre SQR at HEX
+        // tuiles pour que le swith fonctionne correctement
+        // 0, 1, 2, 3 de SQR = 0, 1, 3, 5 de HEX
+        if (tuiles.getType() == Type.SQR && connexion > 1)
+            connexion = 2 * connexion - 1;
+
+        int neighborI, neighborJ;
+
         switch (connexion) {
             case 0:
-                if (i != 0)
-                    neighbor = getNeighborIfValid(i - 1, j, neighbor, neighborConnexion);
+                neighborI = i - 1;
+                neighborJ = j;
                 break;
             case 1:
-                if (j != rowSize - 1)
-                    neighbor = getNeighborIfValid(i, j + 1, neighbor, neighborConnexion);
+                neighborI = i;
+                neighborJ = j + 1;
                 break;
             case 2:
-                if (i != columnSize - 1 && j != rowSize - 1)
-                    neighbor = getNeighborIfValid(i + 1, j + 1, neighbor, neighborConnexion);
+                neighborI = i + 1;
+                neighborJ = j + 1;
                 break;
             case 3:
-                if (i != columnSize - 1)
-                    neighbor = getNeighborIfValid(i + 1, j, neighbor, neighborConnexion);
+                neighborI = i + 1;
+                neighborJ = j;
                 break;
             case 4:
-                if (i != columnSize - 1 && j != 0)
-                    neighbor = getNeighborIfValid(i + 1, j - 1, neighbor, neighborConnexion);
+                neighborI = i + 1;
+                neighborJ = j - 1;
                 break;
             case 5:
-                if (j != 0)
-                    neighbor = getNeighborIfValid(i, j - 1, neighbor, neighborConnexion);
+                neighborI = i;
+                neighborJ = j - 1;
                 break;
             default:
-                break;
+                return neighbor;
         }
+
+        if (isValid(neighborI, neighborJ)) {
+            neighbor = getNeighborIfValid(neighborI, neighborJ, neighbor, neighborConnexion);
+        }
+
         return neighbor;
     }
 
-    private ArrayList<Integer> getNeighbor4(int i, int j, Integer connexion) {
-        ArrayList<Integer> neighbor = new ArrayList<>();
-        Integer neighborConnexion = (connexion + 2) % 4;
-        if (connexion == 0 && i != 0) {
-            neighbor = getNeighborIfValid(i - 1, j, neighbor, neighborConnexion);
-        }
-
-        if (connexion == 1 && j != tuiles.columnsNumber() - 1) {
-            neighbor = getNeighborIfValid(i, j + 1, neighbor, neighborConnexion);
-        }
-
-        if (connexion == 2 && i != tuiles.rowsNumber() - 1) {
-            neighbor = getNeighborIfValid(i + 1, j, neighbor, neighborConnexion);
-        }
-
-        if (connexion == 3 && j != 0) {
-            neighbor = getNeighborIfValid(i, j - 1, neighbor, neighborConnexion);
-        }
-
-        return neighbor;
+    private boolean isValid(int i, int j) {
+        return i >= 0 && i < tuiles.rowsNumber() && j >= 0 && j < tuiles.columnsNumber();
     }
 
     private ArrayList<Integer> getNeighborIfValid(int i, int j, ArrayList<Integer> neighbor,
