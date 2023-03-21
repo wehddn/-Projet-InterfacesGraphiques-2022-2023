@@ -112,60 +112,102 @@ public class Convertion {
             e.printStackTrace();
         }
 
-        int texture4Size = 120;
-
         HashMap<String, BufferedImage> textures = new HashMap<String, BufferedImage>();
 
+        int textureWidth = 120;
+        int textureHeight = 120;
+        int startColumn = 0;
+        int endColumn = 3;
+
+        addTextures(image, textureWidth, textureHeight, startColumn, endColumn, textures, Type.SQR);
+
+        textureWidth = 120;
+        textureHeight = 104;
+        startColumn = 3;
+        endColumn = 7;
+
+        addTextures(image, textureWidth, textureHeight, startColumn, endColumn, textures, Type.HEX);
+
+        return textures;
+    }
+
+    private static void addTextures(BufferedImage image, int textureWidth,
+            int textureHeight, int startColumn, int endColumn, HashMap<String, BufferedImage> textures, Type type) {
+        int cellWidth = 120;
+        int cellHeight = 120;
         int counter = 0;
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 3; j++) {
-                int x = j * texture4Size;
-                int y = i * texture4Size;
+            for (int j = startColumn; j < endColumn; j++) {
+                int x = j * cellWidth;
+                int y = i * cellHeight;
 
-                BufferedImage texture = new BufferedImage(texture4Size, texture4Size, BufferedImage.TYPE_INT_ARGB);
+                BufferedImage texture = new BufferedImage(cellWidth, cellWidth, BufferedImage.TYPE_INT_ARGB);
 
-                for (int k = 0; k < texture4Size; k++) {
-                    for (int l = 0; l < texture4Size; l++) {
+                for (int k = 0; k < textureHeight; k++) {
+                    for (int l = 0; l < textureWidth; l++) {
                         int color = image.getRGB(x + l, y + k);
                         texture.setRGB(l, k, color);
                     }
                 }
-                String key = setNom(counter);
+                String key = setNom(counter, type);
                 if (key != null)
                     textures.put(key, texture);
                 counter++;
             }
         }
-
-        return textures;
     }
 
-    private static String setNom(int counter) {
-        String res = "";
-        if (counter >= 0 && counter < 9)
+    private static String setNom(int counter, Type type) {
+        String res = type.toString();
+
+        if (counter >= 0 && counter < type.getTexturesCount())
             res += "0";
         else
             res += "1";
 
-        if (counter == 12)
-            return res += Composant.SOURCE;
+        if (type == Type.SQR)
+            switch (counter % type.getTexturesCount()) {
+                case 0:
+                    return res += "E";
+                case 3:
+                    if(counter > type.getTexturesCount())
+                        return res += Composant.SOURCE;
+                case 4:
+                    return res += Composant.WIFI;
+                case 5:
+                    return res += Composant.LAMPE;
+                case 6:
+                    return res += "C1";
+                case 7:
+                    return res += "C2";
+                case 8:
+                    return res += "C3";
+                default:
+                    return null;
 
-        switch (counter % 9) {
-            case 0:
-                return res += "E";
-            case 4:
-                return res += Composant.WIFI;
-            case 5:
-                return res += Composant.LAMPE;
-            case 6:
-                return res += "C1";
-            case 7:
-                return res += "C2";
-            case 8:
-                return res += "C3";
-            default:
-                return null;
+            }
+        else
+            switch (counter % type.getTexturesCount()) {
+                case 0:
+                    return res += "E";
+                case 4:
+                    if(counter > type.getTexturesCount())
+                        return res += Composant.SOURCE;
+                case 5:
+                    return res += Composant.WIFI;
+                case 6:
+                    return res += Composant.LAMPE;
+                case 8:
+                    return res += "C1";
+                case 9:
+                    return res += "C2";
+                case 10:
+                    return res += "C3";
+                case 11:
+                    return res += "C4";
+                default:
+                    return null;
 
-        }
+            }
     }
 }

@@ -64,7 +64,7 @@ public class Panel extends JPanel {
 
     private ArrayList<Image> connexionsFromTuile(Tuile tuile, Graphics g) {
         ArrayList<Image> connexions = new ArrayList<>();
-        String type = "";
+        String type = tuiles.getType().toString();
         if (tuile.isPower()) {
             type += "1";
         } else {
@@ -81,8 +81,8 @@ public class Panel extends JPanel {
     }
 
     private ArrayList<String> textureNameFromTuile(Tuile tuile) {
-        String type = "";
-        String board = "";
+        String type = tuiles.getType().toString();
+        String board = tuiles.getType().toString();
 
         if (tuile.isPower()) {
             type += "1";

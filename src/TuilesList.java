@@ -4,21 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-enum Type {
-    SQR(4),
-    HEX(6);
-
-    private final int type;
-
-    Type(int type) {
-        this.type = type;
-    }
-
-    public int getValue() {
-        return type;
-    }
-}
-
 public class TuilesList implements Iterable<Tuile> {
     private ArrayList<ArrayList<Tuile>> tuiles;
     private ArrayList<ArrayList<Integer>> lampes;
