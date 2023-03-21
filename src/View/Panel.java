@@ -21,6 +21,8 @@ public class Panel extends JPanel {
     private HashMap<String, BufferedImage> textures;
     private int tuilesWidth;
     private int tuilesHeight;
+    private int textureWidth;
+    private int textureHeight;
 
     public Panel(TuilesList tuilesList) {
         // On crée un plateau et des textures
@@ -28,6 +30,9 @@ public class Panel extends JPanel {
 
         tuilesWidth = tuilesList.columnsNumber();
         tuilesHeight = tuilesList.rowsNumber();
+
+        textureWidth = 120;
+        textureHeight = tuiles.getType().getHeight();
 
         panelWidth = tuilesWidth * 120;
         panelHeight = tuilesHeight * 120;
@@ -50,12 +55,12 @@ public class Panel extends JPanel {
             for (int j = 0; j < tuilesWidth; j++) {
                 ArrayList<String> texturesName = textureNameFromTuile(tuiles.get(i, j));
                 for (String textureName : texturesName) {
-                    g.drawImage(textures.get(textureName), j * 120, i * 120, null);
+                    g.drawImage(textures.get(textureName), j * textureWidth, i * textureHeight, null);
                 }
 
                 ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i, j), g);
                 for (Image connexion : connexions) {
-                    g.drawImage(connexion, j * 120, i * 120, null);
+                    g.drawImage(connexion, j * textureWidth, i * textureHeight, null);
                 }
 
             }
@@ -116,15 +121,12 @@ public class Panel extends JPanel {
     }
 
     public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
-        int w = img.getWidth();
-        int h = img.getHeight();
-
-        BufferedImage rotated = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage rotated = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = rotated.createGraphics();
         AffineTransform at = new AffineTransform();
 
-        int x = w / 2;
-        int y = h / 2;
+        int x = textureWidth / 2;
+        int y = textureHeight / 2;
 
         at.rotate(Math.toRadians(angle), x, y);
         g2d.setTransform(at);
