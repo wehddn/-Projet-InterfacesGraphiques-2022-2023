@@ -5,9 +5,22 @@ public enum Type {
     HEX(6);
 
     private final int type;
+    private final int height;
+    private final int texturesCount;
+    private final int rotateAngle;
 
     Type(int type) {
         this.type = type;
+        if (type == 4){
+            this.height =  120;
+            this.texturesCount = 9;
+            this.rotateAngle = 90;
+        }
+        else{
+            this.height =  104;
+            this.texturesCount = 12;
+            this.rotateAngle = 60;
+        }
     }
 
     public int getValue() {
@@ -15,16 +28,15 @@ public enum Type {
     }
 
     public int getHeight() {
-        if (this == SQR)
-            return 120;
-        else
-            return 104;
+        return height;
     }
 
     public int getTexturesCount(){
-        if (this == SQR)
-            return 9;
-        else
-            return 12;
+        return texturesCount;
     }
+
+    public int getRotateAngle() {
+        return rotateAngle;
+    }
+
 }

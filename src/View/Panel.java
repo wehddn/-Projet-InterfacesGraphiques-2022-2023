@@ -74,7 +74,7 @@ public class Panel extends JPanel {
         type += "C1";
 
         for (Connexion intConnexion : tuile.getConnexions()) {
-            Image image = rotateImageByDegrees(textures.get(type), intConnexion.getValue() * 90);
+            Image image = rotateImageByDegrees(textures.get(type), intConnexion.getValue() * tuiles.getType().getRotateAngle());
             connexions.add(image);
         }
         return connexions;
