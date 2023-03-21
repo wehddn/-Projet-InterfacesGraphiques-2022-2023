@@ -21,13 +21,12 @@ public class Controller implements MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(e.getX() + " " + e.getY());
-        int x = view.getTuileX(e.getX());
-        int y = view.getTuileY(e.getY());
-        plateau.turn(y, x);
-        System.out.println(plateau);
-        view.setTuiles(plateau.getTuiles());
-
+        int[] coords = view.getTuileCoords(e.getX(), e.getY());
+        if (coords != null) {
+            plateau.turn(coords[1], coords[0]);
+            System.out.println(plateau);
+            view.setTuiles(plateau.getTuiles());
+        }
     }
 
     @Override

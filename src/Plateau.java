@@ -132,7 +132,6 @@ public class Plateau {
         ArrayList<Integer> neighbor = new ArrayList<>();
         Connexion neighborConnexion = Connexion
                 .intToEnum((connexion + tuiles.getTypeValue() / 2) % tuiles.getTypeValue());
-        System.out.println(i + " " + j + " " + connexion + " " + neighborConnexion);
 
         // Dans HEX tuile il y a 6 côtés, donc il faut faire correspondre SQR at HEX
         // tuiles pour que le swith fonctionne correctement
@@ -200,8 +199,6 @@ public class Plateau {
                 default:
                     return neighbor;
             }
-
-        System.out.println(neighborI + " " + neighborJ);
 
         if (isValid(neighborI, neighborJ)) {
             neighbor = getNeighborIfValid(neighborI, neighborJ, neighbor, neighborConnexion);

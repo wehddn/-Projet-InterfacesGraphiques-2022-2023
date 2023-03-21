@@ -24,6 +24,7 @@ public class Panel extends JPanel {
     private int tuilesHeight;
     private int textureWidth;
     private int textureHeight;
+    private ArrayList<ArrayList<int[]>> centersList;
 
     public Panel(TuilesList tuilesList) {
         // On crée un plateau et des textures
@@ -36,7 +37,13 @@ public class Panel extends JPanel {
         textureHeight = tuiles.getType().getHeight();
 
         panelWidth = tuilesWidth * 120;
-        panelHeight = tuilesHeight * 120;
+        panelHeight = tuilesHeight * textureHeight;
+
+        if (tuiles.getType() == Type.HEX) {
+            panelWidth -= (tuilesWidth - 1) * (textureWidth / 4);
+            panelHeight += textureHeight / 2;
+        }
+
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(Color.BLACK);
 
@@ -60,8 +67,11 @@ public class Panel extends JPanel {
                 drawX = j * textureWidth;
                 drawY = i * textureHeight;
 
-                if(tuiles.getType() == Type.HEX && j % 2 == 1)
-                    drawY += textureHeight/2; 
+                if (tuiles.getType() == Type.HEX) {
+                    drawX -= j * (textureWidth / 4);
+                    if (j % 2 == 1)
+                        drawY += textureHeight / 2;
+                }
 
                 ArrayList<String> texturesName = textureNameFromTuile(tuiles.get(i, j));
                 for (String textureName : texturesName) {
@@ -72,7 +82,6 @@ public class Panel extends JPanel {
                 for (Image connexion : connexions) {
                     g.drawImage(connexion, drawX, drawY, null);
                 }
-
             }
         }
     }
@@ -87,9 +96,9 @@ public class Panel extends JPanel {
         }
 
         type += "C1";
-
         for (Connexion intConnexion : tuile.getConnexions()) {
-            Image image = rotateImageByDegrees(textures.get(type), intConnexion.getValue() * tuiles.getType().getRotateAngle());
+            Image image = rotateImageByDegrees(textures.get(type),
+                    intConnexion.getValue() * tuiles.getType().getRotateAngle());
             connexions.add(image);
         }
         return connexions;
@@ -117,12 +126,11 @@ public class Panel extends JPanel {
         return result;
     }
 
-    public Integer getTuileX(int x) {
-        return x / 120;
-    }
-
-    public int getTuileY(int y) {
-        return y / 120;
+    public int[] getTuileCoords(int x, int y) {
+        if (tuiles.getType() == Type.SQR)
+            return new int[] { (x / 120), (y / 120) };
+        else
+            return new int[] { (x / 120), (y / 120) };
     }
 
     public void setTuiles(TuilesList tuiles) {
