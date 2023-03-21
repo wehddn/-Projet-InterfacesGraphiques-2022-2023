@@ -12,6 +12,7 @@ import javax.swing.*;
 import src.Convertion;
 import src.Tuile;
 import src.TuilesList;
+import src.Type;
 
 public class Panel extends JPanel {
 
@@ -51,16 +52,25 @@ public class Panel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        int drawX;
+        int drawY;
+
         for (int i = 0; i < tuilesHeight; i++) {
             for (int j = 0; j < tuilesWidth; j++) {
+                drawX = j * textureWidth;
+                drawY = i * textureHeight;
+
+                if(tuiles.getType() == Type.HEX && j % 2 == 1)
+                    drawY += textureHeight/2; 
+
                 ArrayList<String> texturesName = textureNameFromTuile(tuiles.get(i, j));
                 for (String textureName : texturesName) {
-                    g.drawImage(textures.get(textureName), j * textureWidth, i * textureHeight, null);
+                    g.drawImage(textures.get(textureName), drawX, drawY, null);
                 }
 
                 ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i, j), g);
                 for (Image connexion : connexions) {
-                    g.drawImage(connexion, j * textureWidth, i * textureHeight, null);
+                    g.drawImage(connexion, drawX, drawY, null);
                 }
 
             }
