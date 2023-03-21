@@ -4,20 +4,20 @@ import javax.swing.JFrame;
 
 import src.Controller.Controller;
 import src.View.Panel;
+import src.View.View;
 
 public class Main {
+
+    // TO DO: demander pour les fenetres menu / plateau
     public static void main(String[] args) {
         // On crée un plateau et une vue, et on attribue tous les deux au contrôleur qui
         // va les gerer
         Plateau plateau = new Plateau();
         System.out.println(plateau);
-        Panel view = new Panel(plateau.getTuiles());
-        new Controller(plateau, view);
+        Panel panel = new Panel(plateau.getTuiles());
+        new Controller(plateau, panel);
 
-        JFrame frame = new JFrame("My Graph");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(view);
-        frame.pack();
-        frame.setVisible(true);
+        View view = new View(panel);
+
     }
 }

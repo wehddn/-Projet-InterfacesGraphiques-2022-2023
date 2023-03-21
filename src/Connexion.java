@@ -1,5 +1,7 @@
 package src;
 
+//TO DO : interfaces?
+
 public enum Connexion {
     ZERO(0),
     ONE(1),

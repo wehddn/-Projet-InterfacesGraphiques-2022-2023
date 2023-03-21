@@ -23,9 +23,10 @@ public class Plateau {
         }
     }
 
+    // TO DO: passer le num de level en param
     public void generateTuiles() {
         // lecture du txt
-        tuiles = Convertion.parseFile(2);
+        tuiles = Convertion.parseFile(3);
         tuiles.setVariables();
         // lecture du txt
     }

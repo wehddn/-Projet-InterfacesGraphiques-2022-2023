@@ -1,5 +1,6 @@
 package src;
 
+//TO DO: verifier les valeur des attributs
 public enum Type {
     SQR(4),
     HEX(6);
@@ -11,13 +12,12 @@ public enum Type {
 
     Type(int type) {
         this.type = type;
-        if (type == 4){
-            this.height =  120;
+        if (type == 4) {
+            this.height = 120;
             this.texturesCount = 9;
             this.rotateAngle = 90;
-        }
-        else{
-            this.height =  104;
+        } else {
+            this.height = 104;
             this.texturesCount = 12;
             this.rotateAngle = 60;
         }
@@ -31,7 +31,7 @@ public enum Type {
         return height;
     }
 
-    public int getTexturesCount(){
+    public int getTexturesCount() {
         return texturesCount;
     }
 

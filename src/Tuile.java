@@ -10,8 +10,8 @@ enum Composant {
 }
 
 public class Tuile {
-    private Composant composant; // S/L/W/.
-    private ArrayList<Connexion> connexions; // static?
+    private Composant composant;
+    private ArrayList<Connexion> connexions;
     private boolean power;
     private boolean visited;
 

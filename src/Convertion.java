@@ -103,7 +103,6 @@ public class Convertion {
         }
     }
 
-    // TO DO : enum séparé au lieu des string
     public static HashMap<String, BufferedImage> parseTextures() {
         BufferedImage image = null;
         try {
@@ -170,7 +169,7 @@ public class Convertion {
                 case 0:
                     return res += "E";
                 case 3:
-                    if(counter > type.getTexturesCount())
+                    if (counter > type.getTexturesCount())
                         return res += Composant.SOURCE;
                 case 4:
                     return res += Composant.WIFI;
@@ -191,7 +190,7 @@ public class Convertion {
                 case 0:
                     return res += "E";
                 case 4:
-                    if(counter > type.getTexturesCount())
+                    if (counter > type.getTexturesCount())
                         return res += Composant.SOURCE;
                 case 5:
                     return res += Composant.WIFI;
