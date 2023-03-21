@@ -38,7 +38,7 @@ public class Convertion {
                             tuiles.setType(Type.HEX);
                             break;
                         default:
-                            throw new Exception("Wrong file"); // TODO catch
+                            throw new Exception("Wrong file");
                     }
                 }
             }
@@ -46,7 +46,7 @@ public class Convertion {
         } catch (Exception e) {
             System.out.println("Exception " + e);
         }
-        
+
         return tuiles;
     }
 
@@ -73,17 +73,17 @@ public class Convertion {
     }
 
     private static Composant getComposantBySymbol(String symbol) {
-        switch(symbol){
+        switch (symbol) {
             case "S":
                 return Composant.SOURCE;
             case "L":
                 return Composant.LAMPE;
-            case "W": 
+            case "W":
                 return Composant.WIFI;
             case ".":
                 return Composant.EMPTY;
             default:
-                return null; //TODO catch
+                return null; // TODO catch
         }
     }
 
@@ -103,6 +103,7 @@ public class Convertion {
         }
     }
 
+    // TO DO : enum séparé au lieu des string
     public static HashMap<String, BufferedImage> parseTextures() {
         BufferedImage image = null;
         try {
@@ -146,8 +147,8 @@ public class Convertion {
         else
             res += "1";
 
-        if(counter==12)
-            return res+=Composant.SOURCE;
+        if (counter == 12)
+            return res += Composant.SOURCE;
 
         switch (counter % 9) {
             case 0:
