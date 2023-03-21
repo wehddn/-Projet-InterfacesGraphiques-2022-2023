@@ -131,6 +131,7 @@ public class Plateau {
         ArrayList<Integer> neighbor = new ArrayList<>();
         Connexion neighborConnexion = Connexion
                 .intToEnum((connexion + tuiles.getTypeValue() / 2) % tuiles.getTypeValue());
+        System.out.println(i + " " + j + " " + connexion + " " + neighborConnexion);
 
         // Dans HEX tuile il y a 6 côtés, donc il faut faire correspondre SQR at HEX
         // tuiles pour que le swith fonctionne correctement
@@ -140,34 +141,66 @@ public class Plateau {
 
         int neighborI, neighborJ;
 
-        switch (connexion) {
-            case 0:
-                neighborI = i - 1;
-                neighborJ = j;
-                break;
-            case 1:
-                neighborI = i;
-                neighborJ = j + 1;
-                break;
-            case 2:
-                neighborI = i + 1;
-                neighborJ = j + 1;
-                break;
-            case 3:
-                neighborI = i + 1;
-                neighborJ = j;
-                break;
-            case 4:
-                neighborI = i + 1;
-                neighborJ = j - 1;
-                break;
-            case 5:
-                neighborI = i;
-                neighborJ = j - 1;
-                break;
-            default:
-                return neighbor;
-        }
+        if (j % 2 == 1 || tuiles.getType() == Type.SQR)
+            switch (connexion) {
+                case 0:
+                    neighborI = i - 1;
+                    neighborJ = j;
+                    break;
+                case 1:
+                    neighborI = i;
+                    neighborJ = j + 1;
+                    break;
+                case 2:
+                    neighborI = i + 1;
+                    neighborJ = j + 1;
+                    break;
+                case 3:
+                    neighborI = i + 1;
+                    neighborJ = j;
+                    break;
+                case 4:
+                    neighborI = i + 1;
+                    neighborJ = j - 1;
+                    break;
+                case 5:
+                    neighborI = i;
+                    neighborJ = j - 1;
+                    break;
+                default:
+                    return neighbor;
+            }
+        else
+            switch (connexion) {
+                case 0:
+                    neighborI = i - 1;
+                    neighborJ = j;
+                    break;
+                case 1:
+                    neighborI = i - 1;
+                    neighborJ = j + 1;
+                    break;
+                case 2:
+                    neighborI = i;
+                    neighborJ = j + 1;
+                    break;
+                case 3:
+                    neighborI = i + 1;
+                    neighborJ = j;
+                    break;
+                case 4:
+                    neighborI = i;
+                    neighborJ = j - 1;
+                    break;
+                case 5:
+                    neighborI = i - 1;
+                    neighborJ = j - 1;
+                    break;
+                default:
+                    return neighbor;
+            }
+
+        System.out.println(neighborI + " " + neighborJ);
 
         if (isValid(neighborI, neighborJ)) {
             neighbor = getNeighborIfValid(neighborI, neighborJ, neighbor, neighborConnexion);
