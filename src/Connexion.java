@@ -20,6 +20,7 @@ public enum Connexion {
         return connexion;
     }
 
+    //TODO
     public static Connexion intToEnum(int i) {
         switch (i) {
             case 0:

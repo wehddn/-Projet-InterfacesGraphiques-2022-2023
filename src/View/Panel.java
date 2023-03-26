@@ -3,6 +3,8 @@ package src.View;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.awt.geom.AffineTransform;
 import src.Connexion;
@@ -49,43 +51,42 @@ public class Panel extends JPanel {
 
         textures = Convertion.parseTextures();
 
-        if(tuiles.getType() == Type.HEX)
-            setUpCooridnates();        
+        if (tuiles.getType() == Type.HEX)
+            setUpCooridnates();
     }
 
     private void setUpCooridnates() {
         coords = new ArrayList<>();
-        for(int i = 0; i<tuilesHeight; i++){
+        for (int i = 0; i < tuilesHeight; i++) {
             ArrayList<Integer[][]> coordsRow = new ArrayList<>();
-            for(int j = 0; j<tuilesWidth; j++){
+            for (int j = 0; j < tuilesWidth; j++) {
                 Integer[][] coordsTuile = new Integer[6][2];
-                if (j % 2 == 0){
-                    coordsTuile[0][1] = i*textureHeight;
-                    coordsTuile[1][1] = i*textureHeight;
-                    coordsTuile[2][1] = i*textureHeight + textureHeight/2;
-                    coordsTuile[3][1] = (i+1)*textureHeight;
-                    coordsTuile[4][1] = (i+1)*textureHeight;
-                    coordsTuile[5][1] = i*textureHeight + textureHeight/2;
-                }
-                else{
-                    coordsTuile[0][1] = i*textureHeight + textureHeight/2;
-                    coordsTuile[1][1] = i*textureHeight + textureHeight/2;
-                    coordsTuile[2][1] = (i+1)*textureHeight;
-                    coordsTuile[3][1] = (i+1)*textureHeight + textureHeight/2;
-                    coordsTuile[4][1] = (i+1)*textureHeight + textureHeight/2;
-                    coordsTuile[5][1] = (i+1)*textureHeight;
+                if (j % 2 == 0) {
+                    coordsTuile[0][1] = i * textureHeight;
+                    coordsTuile[1][1] = i * textureHeight;
+                    coordsTuile[2][1] = i * textureHeight + textureHeight / 2;
+                    coordsTuile[3][1] = (i + 1) * textureHeight;
+                    coordsTuile[4][1] = (i + 1) * textureHeight;
+                    coordsTuile[5][1] = i * textureHeight + textureHeight / 2;
+                } else {
+                    coordsTuile[0][1] = i * textureHeight + textureHeight / 2;
+                    coordsTuile[1][1] = i * textureHeight + textureHeight / 2;
+                    coordsTuile[2][1] = (i + 1) * textureHeight;
+                    coordsTuile[3][1] = (i + 1) * textureHeight + textureHeight / 2;
+                    coordsTuile[4][1] = (i + 1) * textureHeight + textureHeight / 2;
+                    coordsTuile[5][1] = (i + 1) * textureHeight;
                 }
 
-                coordsTuile[0][0] = textureWidth/4+j*textureWidth*3/4;
-                coordsTuile[1][0] = textureWidth*3/4+j*textureWidth*3/4;
-                coordsTuile[2][0] = textureWidth+j*textureWidth*3/4;
-                coordsTuile[3][0] = textureWidth*3/4+j*textureWidth*3/4;
-                coordsTuile[4][0] = textureWidth/4+j*textureWidth*3/4;
-                coordsTuile[5][0] = j*textureWidth*3/4;
-                
+                coordsTuile[0][0] = textureWidth / 4 + j * textureWidth * 3 / 4;
+                coordsTuile[1][0] = textureWidth * 3 / 4 + j * textureWidth * 3 / 4;
+                coordsTuile[2][0] = textureWidth + j * textureWidth * 3 / 4;
+                coordsTuile[3][0] = textureWidth * 3 / 4 + j * textureWidth * 3 / 4;
+                coordsTuile[4][0] = textureWidth / 4 + j * textureWidth * 3 / 4;
+                coordsTuile[5][0] = j * textureWidth * 3 / 4;
+
                 coordsRow.add(coordsTuile);
-            }  
-            coords.add(coordsRow); 
+            }
+            coords.add(coordsRow);
         }
     }
 
@@ -117,16 +118,23 @@ public class Panel extends JPanel {
                     g.drawImage(textures.get(textureName), drawX, drawY, null);
                 }
 
-                ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i, j), g);
+                ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i, j));
                 for (Image connexion : connexions) {
                     g.drawImage(connexion, drawX, drawY, null);
                 }
+
             }
         }
+        System.out.println();
     }
 
-    private ArrayList<Image> connexionsFromTuile(Tuile tuile, Graphics g) {
+    private ArrayList<Image> connexionsFromTuile(Tuile tuile) {
+
         ArrayList<Image> connexions = new ArrayList<>();
+
+        ArrayList<Integer> edges = tuile.getIntConnexions();
+        Collections.sort(edges);
+
         String type = tuiles.getType().toString();
         if (tuile.isPower()) {
             type += "1";
@@ -134,13 +142,70 @@ public class Panel extends JPanel {
             type += "0";
         }
 
-        type += "C1";
-        for (Connexion intConnexion : tuile.getConnexions()) {
-            Image image = rotateImageByDegrees(textures.get(type),
-                    intConnexion.getValue() * tuiles.getType().getRotateAngle());
-            connexions.add(image);
+        type += "C";
+        Image image;
+        int firstConnexion;
+        int secondConnexion;
+
+        switch (edges.size()) {
+            case 0:
+                break;
+            case 1:
+                type += "1";
+                image = rotateImageByDegrees(textures.get(type),
+                        edges.get(0) * tuiles.getType().getRotateAngle());
+                connexions.add(image);
+                break;
+            case 2:
+                firstConnexion = edges.get(0);
+                secondConnexion = edges.get(1);
+                connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
+                break;
+            default:
+                for (int i = 0; i < edges.size(); i++) {
+                    int j;
+
+                    if (i == edges.size() - 1)
+                        j = 0;
+                    else
+                        j = i + 1;
+
+                    if (edges.get(i) - edges.get(j) != 3 && edges.get(i) - edges.get(j) != -3) {
+                        System.out.print(edges.get(i) + " " + edges.get(j) + "; ");
+                        if (edges.get(i) < edges.get(j)) {
+                            firstConnexion = edges.get(i);
+                            secondConnexion = edges.get(j);
+                        } else {
+                            firstConnexion = edges.get(j);
+                            secondConnexion = edges.get(i);
+                        }
+                        connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
+                    }
+                }
+                System.out.println();
         }
         return connexions;
+    }
+
+    private Image getTextureConnexion(String type, int firstConnexion, int secondConnexion) {
+        Image image;
+        int diff = secondConnexion - firstConnexion;
+        if (diff == 1 || diff == 5)
+            type += "2";
+        if (diff == 2 || diff == 4)
+            type += "3";
+        if (diff == 3)
+            type += "4";
+
+        int rotateTimes = 0;
+        if (diff > 3)
+            rotateTimes = secondConnexion;
+        if (diff <= 3)
+            rotateTimes = firstConnexion;
+
+        image = rotateImageByDegrees(textures.get(type),
+                rotateTimes * tuiles.getType().getRotateAngle());
+        return image;
     }
 
     private ArrayList<String> textureNameFromTuile(Tuile tuile) {
@@ -177,15 +242,16 @@ public class Panel extends JPanel {
             for (int j = 0; j < coords.get(i).size(); j++) { // loop through columns of hexagons
                 Integer[][] hexagonCoords = coords.get(i).get(j);
                 if (isPointInsideHexagon(hexagonCoords, x, y)) {
-                    return new int[] {j, i};
+                    return new int[] { j, i };
                 }
             }
         }
         return null;
     }
-    
+
     private boolean isPointInsideHexagon(Integer[][] hexagonCoords, int x, int y) {
-        // Use the point-in-polygon algorithm to determine if the point is inside the hexagon
+        // Use the point-in-polygon algorithm to determine if the point is inside the
+        // hexagon
         int i, j;
         boolean c = false;
         for (i = 0, j = 6 - 1; i < 6; j = i++) {
@@ -199,7 +265,7 @@ public class Panel extends JPanel {
         }
         return c;
     }
-    
+
     public void setTuiles(TuilesList tuiles) {
         this.tuiles = tuiles;
         repaint();

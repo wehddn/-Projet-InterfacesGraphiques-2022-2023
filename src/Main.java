@@ -14,7 +14,6 @@ public class Main {
         Panel panel = new Panel(plateau.getTuiles());
         new Controller(plateau, panel);
 
-        View view = new View(panel);
-
+        new View(panel);
     }
 }

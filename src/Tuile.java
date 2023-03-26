@@ -2,13 +2,6 @@ package src;
 
 import java.util.ArrayList;
 
-enum Composant {
-    SOURCE,
-    LAMPE,
-    WIFI,
-    EMPTY
-}
-
 public class Tuile {
     private Composant composant;
     private ArrayList<Connexion> connexions;
@@ -78,5 +71,13 @@ public class Tuile {
         for (int i = 0; i < connexions.size(); i++) {
             connexions.set(i, Connexion.intToEnum((connexions.get(i).getValue() + 1) % type));
         }
+    }
+
+    public ArrayList<Integer> getIntConnexions() {
+        ArrayList<Integer> intConnexions = new ArrayList<>();
+        for (Connexion connexion : connexions) {
+            intConnexions.add(connexion.getValue());
+        }
+        return intConnexions;
     }
 }
