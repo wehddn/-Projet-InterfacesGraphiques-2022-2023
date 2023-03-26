@@ -186,10 +186,9 @@ public class Panel extends JPanel {
     
     private boolean isPointInsideHexagon(Integer[][] hexagonCoords, int x, int y) {
         // Use the point-in-polygon algorithm to determine if the point is inside the hexagon
-        int numPoints = hexagonCoords.length;
         int i, j;
         boolean c = false;
-        for (i = 0, j = numPoints - 1; i < numPoints; j = i++) {
+        for (i = 0, j = 6 - 1; i < 6; j = i++) {
             int xi = hexagonCoords[i][0];
             int yi = hexagonCoords[i][1];
             int xj = hexagonCoords[j][0];
@@ -201,7 +200,6 @@ public class Panel extends JPanel {
         return c;
     }
     
-
     public void setTuiles(TuilesList tuiles) {
         this.tuiles = tuiles;
         repaint();
