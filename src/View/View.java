@@ -9,6 +9,5 @@ public class View {
         frame.getContentPane().add(panel);
         frame.pack();
         frame.setVisible(true);
-
     }
 }

@@ -24,7 +24,6 @@ public class Controller implements MouseInputListener {
         int[] coords = view.getTuileCoords(e.getX(), e.getY());
         if (coords != null) {
             plateau.turn(coords[1], coords[0]);
-            System.out.println(plateau);
             view.setTuiles(plateau.getTuiles());
         }
     }

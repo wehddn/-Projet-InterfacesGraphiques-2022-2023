@@ -24,7 +24,7 @@ public class Panel extends JPanel {
     private int tuilesHeight;
     private int textureWidth;
     private int textureHeight;
-    private ArrayList<ArrayList<int[]>> centersList;
+    ArrayList<ArrayList<Integer[][]>> coords;
 
     public Panel(TuilesList tuilesList) {
         // On crée un plateau et des textures
@@ -48,6 +48,45 @@ public class Panel extends JPanel {
         this.setBackground(Color.BLACK);
 
         textures = Convertion.parseTextures();
+
+        if(tuiles.getType() == Type.HEX)
+            setUpCooridnates();        
+    }
+
+    private void setUpCooridnates() {
+        coords = new ArrayList<>();
+        for(int i = 0; i<tuilesHeight; i++){
+            ArrayList<Integer[][]> coordsRow = new ArrayList<>();
+            for(int j = 0; j<tuilesWidth; j++){
+                Integer[][] coordsTuile = new Integer[6][2];
+                if (j % 2 == 0){
+                    coordsTuile[0][1] = i*textureHeight;
+                    coordsTuile[1][1] = i*textureHeight;
+                    coordsTuile[2][1] = i*textureHeight + textureHeight/2;
+                    coordsTuile[3][1] = (i+1)*textureHeight;
+                    coordsTuile[4][1] = (i+1)*textureHeight;
+                    coordsTuile[5][1] = i*textureHeight + textureHeight/2;
+                }
+                else{
+                    coordsTuile[0][1] = i*textureHeight + textureHeight/2;
+                    coordsTuile[1][1] = i*textureHeight + textureHeight/2;
+                    coordsTuile[2][1] = (i+1)*textureHeight;
+                    coordsTuile[3][1] = (i+1)*textureHeight + textureHeight/2;
+                    coordsTuile[4][1] = (i+1)*textureHeight + textureHeight/2;
+                    coordsTuile[5][1] = (i+1)*textureHeight;
+                }
+
+                coordsTuile[0][0] = textureWidth/4+j*textureWidth*3/4;
+                coordsTuile[1][0] = textureWidth*3/4+j*textureWidth*3/4;
+                coordsTuile[2][0] = textureWidth+j*textureWidth*3/4;
+                coordsTuile[3][0] = textureWidth*3/4+j*textureWidth*3/4;
+                coordsTuile[4][0] = textureWidth/4+j*textureWidth*3/4;
+                coordsTuile[5][0] = j*textureWidth*3/4;
+                
+                coordsRow.add(coordsTuile);
+            }  
+            coords.add(coordsRow); 
+        }
     }
 
     public void repaint() {
@@ -130,8 +169,38 @@ public class Panel extends JPanel {
         if (tuiles.getType() == Type.SQR)
             return new int[] { (x / 120), (y / 120) };
         else
-            return new int[] { (x / 120), (y / 120) };
+            return getHexCoords(x, y);
     }
+
+    public int[] getHexCoords(int x, int y) {
+        for (int i = 0; i < coords.size(); i++) { // loop through rows of hexagons
+            for (int j = 0; j < coords.get(i).size(); j++) { // loop through columns of hexagons
+                Integer[][] hexagonCoords = coords.get(i).get(j);
+                if (isPointInsideHexagon(hexagonCoords, x, y)) {
+                    return new int[] {j, i};
+                }
+            }
+        }
+        return null;
+    }
+    
+    private boolean isPointInsideHexagon(Integer[][] hexagonCoords, int x, int y) {
+        // Use the point-in-polygon algorithm to determine if the point is inside the hexagon
+        int numPoints = hexagonCoords.length;
+        int i, j;
+        boolean c = false;
+        for (i = 0, j = numPoints - 1; i < numPoints; j = i++) {
+            int xi = hexagonCoords[i][0];
+            int yi = hexagonCoords[i][1];
+            int xj = hexagonCoords[j][0];
+            int yj = hexagonCoords[j][1];
+            if (((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) {
+                c = !c;
+            }
+        }
+        return c;
+    }
+    
 
     public void setTuiles(TuilesList tuiles) {
         this.tuiles = tuiles;
