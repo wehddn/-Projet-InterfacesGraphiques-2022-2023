@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.awt.geom.AffineTransform;
+
+import src.Composant;
 import src.Connexion;
 
 import javax.swing.*;
@@ -157,32 +159,84 @@ public class Panel extends JPanel {
                 connexions.add(image);
                 break;
             case 2:
-                firstConnexion = edges.get(0);
-                secondConnexion = edges.get(1);
-                connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
+                if (tuile.getComposant() == Composant.EMPTY) {
+                    firstConnexion = edges.get(0);
+                    secondConnexion = edges.get(1);
+                    connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
+                } else
+                    connexions.addAll(getTextureConnexionWithComposant(type, edges));
                 break;
+
             default:
-                for (int i = 0; i < edges.size(); i++) {
-                    int j;
+                int exclude = allConexionsNearby(edges);
+                if (tuile.getComposant() == Composant.EMPTY) {
+                    for (int i = 0; i < edges.size(); i++) {
+                        int j;
 
-                    if (i == edges.size() - 1)
-                        j = 0;
-                    else
-                        j = i + 1;
+                        if (i == edges.size() - 1)
+                            j = 0;
+                        else
+                            j = i + 1;
 
-                    if (edges.get(i) - edges.get(j) != 3 && edges.get(i) - edges.get(j) != -3) {
-                        System.out.print(edges.get(i) + " " + edges.get(j) + "; ");
-                        if (edges.get(i) < edges.get(j)) {
-                            firstConnexion = edges.get(i);
-                            secondConnexion = edges.get(j);
-                        } else {
-                            firstConnexion = edges.get(j);
-                            secondConnexion = edges.get(i);
+                        if (edges.get(i) - edges.get(j) != 3 && edges.get(i) - edges.get(j) != -3 && i != exclude) {
+                            System.out.print(edges.get(i) + " " + edges.get(j) + "; ");
+                            if (edges.get(i) < edges.get(j)) {
+                                firstConnexion = edges.get(i);
+                                secondConnexion = edges.get(j);
+                            } else {
+                                firstConnexion = edges.get(j);
+                                secondConnexion = edges.get(i);
+                            }
+                            connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
                         }
-                        connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
                     }
-                }
+                } else
+                    connexions.addAll(getTextureConnexionWithComposant(type, edges));
                 System.out.println();
+        }
+        return connexions;
+    }
+
+    private int allConexionsNearby(ArrayList<Integer> edges) {
+        int j, currentConnexion, nextConnexion;
+
+        int notNeighboorCount = 0;
+        int notNeighboorIndex = -1;
+
+        if (edges.size() == 6)
+            return -1;
+
+        for (int i = 0; i < edges.size(); i++) {
+            if (i == edges.size() - 1)
+                j = 0;
+            else
+                j = i + 1;
+
+            currentConnexion = edges.get(i);
+            
+            if (edges.get(j) == 0)
+                nextConnexion = 6;
+            else
+                nextConnexion = edges.get(j);
+            
+            if (nextConnexion - currentConnexion != 1) {
+                notNeighboorCount++;
+                notNeighboorIndex = i;
+            }
+        }
+        if (notNeighboorCount == 1)
+            return notNeighboorIndex;
+        else
+            return -1;
+    }
+
+    private ArrayList<Image> getTextureConnexionWithComposant(String type, ArrayList<Integer> edges) {
+        ArrayList<Image> connexions = new ArrayList<>();
+        type += "1";
+        for (Integer intConnexion : edges) {
+            Image image = rotateImageByDegrees(textures.get(type),
+                    intConnexion * tuiles.getType().getRotateAngle());
+            connexions.add(image);
         }
         return connexions;
     }
