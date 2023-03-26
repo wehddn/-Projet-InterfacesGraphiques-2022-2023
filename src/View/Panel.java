@@ -57,6 +57,8 @@ public class Panel extends JPanel {
             setUpCooridnates();
     }
 
+    //On stocke les coordonnées des sommets de tous les hexagones
+    //Les sommets de tous les hexagones peuvent être calculés par rapport à leurs dimensions
     private void setUpCooridnates() {
         coords = new ArrayList<>();
         for (int i = 0; i < tuilesHeight; i++) {
@@ -71,6 +73,7 @@ public class Panel extends JPanel {
                     coordsTuile[4][1] = (i + 1) * textureHeight;
                     coordsTuile[5][1] = i * textureHeight + textureHeight / 2;
                 } else {
+                    //Les hexagones dans les colonnes impaires doivent être décalés de la moitié de la hauteur de la texture
                     coordsTuile[0][1] = i * textureHeight + textureHeight / 2;
                     coordsTuile[1][1] = i * textureHeight + textureHeight / 2;
                     coordsTuile[2][1] = (i + 1) * textureHeight;
@@ -96,8 +99,6 @@ public class Panel extends JPanel {
         super.repaint();
     }
 
-    // Pour chaque tuile, on crée une clé pour trouver la texture dans le
-    // dictionnaire
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -106,17 +107,20 @@ public class Panel extends JPanel {
 
         for (int i = 0; i < tuilesHeight; i++) {
             for (int j = 0; j < tuilesWidth; j++) {
+                
+                //Coordonnées de dessin de texture
                 drawX = j * textureWidth;
                 drawY = i * textureHeight;
 
+                //Toutes les textures d'hexagones doivent être décalées horizontalement, ainsi que les textures dans les colonnes impaires verticalement
                 if (tuiles.getType() == Type.HEX) {
                     drawX -= j * (textureWidth / 4);
                     if (j % 2 == 1)
                         drawY += textureHeight / 2;
                 }
 
-                ArrayList<String> texturesName = textureNameFromTuile(tuiles.get(i, j));
-                for (String textureName : texturesName) {
+                ArrayList<String> composant = textureComposantFromTuile(tuiles.get(i, j));
+                for (String textureName : composant) {
                     g.drawImage(textures.get(textureName), drawX, drawY, null);
                 }
 
@@ -179,7 +183,6 @@ public class Panel extends JPanel {
                             j = i + 1;
 
                         if (edges.get(i) - edges.get(j) != 3 && edges.get(i) - edges.get(j) != -3 && i != exclude) {
-                            System.out.print(edges.get(i) + " " + edges.get(j) + "; ");
                             if (edges.get(i) < edges.get(j)) {
                                 firstConnexion = edges.get(i);
                                 secondConnexion = edges.get(j);
@@ -192,7 +195,6 @@ public class Panel extends JPanel {
                     }
                 } else
                     connexions.addAll(getTextureConnexionWithComposant(type, edges));
-                System.out.println();
         }
         return connexions;
     }
@@ -262,7 +264,7 @@ public class Panel extends JPanel {
         return image;
     }
 
-    private ArrayList<String> textureNameFromTuile(Tuile tuile) {
+    private ArrayList<String> textureComposantFromTuile(Tuile tuile) {
         String type = tuiles.getType().toString();
         String board = tuiles.getType().toString();
 
