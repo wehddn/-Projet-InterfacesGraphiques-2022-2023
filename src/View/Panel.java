@@ -56,7 +56,7 @@ public class Panel extends JPanel {
     }
 
     //On stocke les coordonnées des sommets de tous les hexagones
-    //Les sommets de tous les hexagones peuvent être calculés par rapport à leurs dimensions
+    //On les calcule par rapport à leurs dimensions
     private void setUpCooridnates() {
         coords = new ArrayList<>();
         for (int i = 0; i < tuilesHeight; i++) {
@@ -122,7 +122,7 @@ public class Panel extends JPanel {
                     g.drawImage(textures.get(textureName), drawX, drawY, null);
                 }
 
-                ArrayList<Image> connexions = connexionsFromTuile(tuiles.get(i, j));
+                ArrayList<Image> connexions = textureConnexionsFromTuile(tuiles.get(i, j));
                 for (Image connexion : connexions) {
                     g.drawImage(connexion, drawX, drawY, null);
                 }
@@ -130,7 +130,7 @@ public class Panel extends JPanel {
         }
     }
 
-    private ArrayList<Image> connexionsFromTuile(Tuile tuile) {
+    private ArrayList<Image> textureConnexionsFromTuile(Tuile tuile) {
         ArrayList<Image> connexions = new ArrayList<>();
 
         ArrayList<Integer> edges = tuile.getIntConnexions();
@@ -146,24 +146,29 @@ public class Panel extends JPanel {
         type += "C";
         Image image;
 
+        //Le type de texture dépend du nombre de connexions dans la tuile
         switch (edges.size()) {
             case 0:
                 break;
             case 1:
+                // Connexion courte simple
                 type += "1";
                 image = rotateImageByDegrees(textures.get(type),
                         edges.get(0) * tuiles.getType().getRotateAngle());
                 connexions.add(image);
                 break;
             case 2:
+                // S'il y a un composant, on dessine des connexions courtes
                 if (tuile.getComposant() == Composant.EMPTY) {
                     connexions.add(getTextureConnexion(type, edges.get(0), edges.get(1)));
                 } else
                     connexions.addAll(getTextureConnexionWithComposant(type, edges));
                 break;
-
             default:
+            // Nombre de connexions est supérieur à 2 :
+            // Si toutes les connexions qu'on connecte sont voisins, on exclut la dernière connexion entre les points non adjacents
             int exclude = allConexionsNearby(edges);
+                // S'il y a un composant, on dessine des connexions courtes
                 if (tuile.getComposant() == Composant.EMPTY) {
                     for (int i = 0; i < edges.size(); i++) {
                         int j;
@@ -175,6 +180,7 @@ public class Panel extends JPanel {
 
                         int diff = tuiles.getTypeValue()/2;
 
+                        // On ne dessine pas une connexion directe entre les points opposés, et une connexion à partir du point exclu
                         if (Math.abs(edges.get(i) - edges.get(j)) != diff && i != exclude) {
                             if (edges.get(i) < edges.get(j)) {
                                 connexions.add(getTextureConnexion(type, edges.get(i), edges.get(j)));
@@ -190,10 +196,12 @@ public class Panel extends JPanel {
 
     }
 
+    // Texture de connexion pour 2 points
     private Image getTextureConnexion(String type, int firstConnexion, int secondConnexion) {
         Image image;
         int diff = secondConnexion - firstConnexion;
 
+        // On trouve la texture en fonction de la distance entre les connexions
         switch (diff) {
             case 1:
             case 5:
@@ -204,10 +212,12 @@ public class Panel extends JPanel {
                 type += "3";
                 break;
             case 3:
+                // Selon le type, la dernière texture peut avoir le numéro 2 pour SQR ou 4 pour HEX
                 type += tuiles.getTypeValue()/2;
                 break;
         }
 
+        // On détermine combien de fois il faut tourner la texture
         int rotateTimes = 0;
 
         if (diff > tuiles.getTypeValue()/2)
@@ -220,15 +230,19 @@ public class Panel extends JPanel {
         return image;
     }
 
+    // On vérifie si toutes les connexions sont voisines et, si oui, renvoie la connexion pour laquelle il ne faut pas dessiner une texture
     private int allConexionsNearby(ArrayList<Integer> edges) {
         int j, currentConnexion, nextConnexion;
 
         int notNeighboorCount = 0;
         int notNeighboorIndex = -1;
 
+        // Si le nombre de connexions correspond au nombre de côtés, tous les points sont adjacents
         if (edges.size() == tuiles.getTypeValue())
             return -1;
 
+        // On vérifie la différence entre deux connexions adjacentes
+        // Si tous les points sont adjacents, la différence entre le dernier et le premier ne sera pas égale à 1
         for (int i = 0; i < edges.size(); i++) {
             if (i == edges.size() - 1)
                 j = 0;
@@ -237,6 +251,7 @@ public class Panel extends JPanel {
 
             currentConnexion = edges.get(i);
             
+            // Pour calculer la différence entre la connexion 0 et tout autre, on peut utiliser le nombre de côtés au lieu de 0
             if (edges.get(j) == 0)
                 nextConnexion = tuiles.getTypeValue();
             else
@@ -294,8 +309,8 @@ public class Panel extends JPanel {
     }
 
     public int[] getHexCoords(int x, int y) {
-        for (int i = 0; i < coords.size(); i++) { // loop through rows of hexagons
-            for (int j = 0; j < coords.get(i).size(); j++) { // loop through columns of hexagons
+        for (int i = 0; i < coords.size(); i++) {
+            for (int j = 0; j < coords.get(i).size(); j++) {
                 Integer[][] hexagonCoords = coords.get(i).get(j);
                 if (isPointInsideHexagon(hexagonCoords, x, y)) {
                     return new int[] { j, i };
@@ -306,8 +321,7 @@ public class Panel extends JPanel {
     }
 
     private boolean isPointInsideHexagon(Integer[][] hexagonCoords, int x, int y) {
-        // Use the point-in-polygon algorithm to determine if the point is inside the
-        // hexagon
+        // On tilise l'algorithme de point dans le polygone pour déterminer si le point est à l'intérieur du hexagone
         int i, j;
         boolean c = false;
         for (i = 0, j = 6 - 1; i < 6; j = i++) {
