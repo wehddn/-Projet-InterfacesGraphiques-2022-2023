@@ -3,13 +3,11 @@ package src.View;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.awt.geom.AffineTransform;
 
 import src.Composant;
-import src.Connexion;
 
 import javax.swing.*;
 
@@ -128,19 +126,16 @@ public class Panel extends JPanel {
                 for (Image connexion : connexions) {
                     g.drawImage(connexion, drawX, drawY, null);
                 }
-
             }
         }
-        System.out.println();
     }
 
     private ArrayList<Image> connexionsFromTuile(Tuile tuile) {
-
         ArrayList<Image> connexions = new ArrayList<>();
 
         ArrayList<Integer> edges = tuile.getIntConnexions();
         Collections.sort(edges);
-
+        
         String type = tuiles.getType().toString();
         if (tuile.isPower()) {
             type += "1";
@@ -150,8 +145,6 @@ public class Panel extends JPanel {
 
         type += "C";
         Image image;
-        int firstConnexion;
-        int secondConnexion;
 
         switch (edges.size()) {
             case 0:
@@ -164,15 +157,13 @@ public class Panel extends JPanel {
                 break;
             case 2:
                 if (tuile.getComposant() == Composant.EMPTY) {
-                    firstConnexion = edges.get(0);
-                    secondConnexion = edges.get(1);
-                    connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
+                    connexions.add(getTextureConnexion(type, edges.get(0), edges.get(1)));
                 } else
                     connexions.addAll(getTextureConnexionWithComposant(type, edges));
                 break;
 
             default:
-                int exclude = allConexionsNearby(edges);
+            int exclude = allConexionsNearby(edges);
                 if (tuile.getComposant() == Composant.EMPTY) {
                     for (int i = 0; i < edges.size(); i++) {
                         int j;
@@ -182,21 +173,51 @@ public class Panel extends JPanel {
                         else
                             j = i + 1;
 
-                        if (edges.get(i) - edges.get(j) != 3 && edges.get(i) - edges.get(j) != -3 && i != exclude) {
+                        int diff = tuiles.getTypeValue()/2;
+
+                        if (Math.abs(edges.get(i) - edges.get(j)) != diff && i != exclude) {
                             if (edges.get(i) < edges.get(j)) {
-                                firstConnexion = edges.get(i);
-                                secondConnexion = edges.get(j);
+                                connexions.add(getTextureConnexion(type, edges.get(i), edges.get(j)));
                             } else {
-                                firstConnexion = edges.get(j);
-                                secondConnexion = edges.get(i);
+                                connexions.add(getTextureConnexion(type, edges.get(j), edges.get(i)));
                             }
-                            connexions.add(getTextureConnexion(type, firstConnexion, secondConnexion));
                         }
                     }
                 } else
                     connexions.addAll(getTextureConnexionWithComposant(type, edges));
         }
         return connexions;
+
+    }
+
+    private Image getTextureConnexion(String type, int firstConnexion, int secondConnexion) {
+        Image image;
+        int diff = secondConnexion - firstConnexion;
+
+        switch (diff) {
+            case 1:
+            case 5:
+                type += "2";
+                break;
+            case 2:
+            case 4:
+                type += "3";
+                break;
+            case 3:
+                type += tuiles.getTypeValue()/2;
+                break;
+        }
+
+        int rotateTimes = 0;
+
+        if (diff > tuiles.getTypeValue()/2)
+            rotateTimes = secondConnexion;
+        else
+            rotateTimes = firstConnexion;
+
+        image = rotateImageByDegrees(textures.get(type),
+                rotateTimes * tuiles.getType().getRotateAngle());
+        return image;
     }
 
     private int allConexionsNearby(ArrayList<Integer> edges) {
@@ -205,7 +226,7 @@ public class Panel extends JPanel {
         int notNeighboorCount = 0;
         int notNeighboorIndex = -1;
 
-        if (edges.size() == 6)
+        if (edges.size() == tuiles.getTypeValue())
             return -1;
 
         for (int i = 0; i < edges.size(); i++) {
@@ -217,7 +238,7 @@ public class Panel extends JPanel {
             currentConnexion = edges.get(i);
             
             if (edges.get(j) == 0)
-                nextConnexion = 6;
+                nextConnexion = tuiles.getTypeValue();
             else
                 nextConnexion = edges.get(j);
             
@@ -241,27 +262,6 @@ public class Panel extends JPanel {
             connexions.add(image);
         }
         return connexions;
-    }
-
-    private Image getTextureConnexion(String type, int firstConnexion, int secondConnexion) {
-        Image image;
-        int diff = secondConnexion - firstConnexion;
-        if (diff == 1 || diff == 5)
-            type += "2";
-        if (diff == 2 || diff == 4)
-            type += "3";
-        if (diff == 3)
-            type += "4";
-
-        int rotateTimes = 0;
-        if (diff > 3)
-            rotateTimes = secondConnexion;
-        if (diff <= 3)
-            rotateTimes = firstConnexion;
-
-        image = rotateImageByDegrees(textures.get(type),
-                rotateTimes * tuiles.getType().getRotateAngle());
-        return image;
     }
 
     private ArrayList<String> textureComposantFromTuile(Tuile tuile) {
