@@ -7,10 +7,10 @@ import src.TuilesList;
 public class View {
 
     Panel panel;
-    Menu menu;
+    static Menu menu;
+    static JFrame frame = new JFrame("Energy");
 
     public View() {
-        JFrame frame = new JFrame("Energy");
         menu = new Menu();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(menu);
@@ -25,5 +25,18 @@ public class View {
 
     public void setTuiles(TuilesList tuiles) {
         panel.setTuiles(tuiles);
+    }
+
+    public static void switchPanel(int n){
+        switch(n){
+            case 1:
+                Banque banque = new Banque();
+                frame.setContentPane(banque);
+                frame.validate(); 
+                break;
+            default:
+                frame.getContentPane().add(menu);
+                frame.setSize(400  , 300);
+        }
     }
 }
