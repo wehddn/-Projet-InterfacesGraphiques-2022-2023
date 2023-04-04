@@ -9,6 +9,8 @@ import java.awt.Insets;
 
 import javax.swing.*;
 
+//setPrefered... et pack le frame de View
+
 public class Menu extends JPanel{
     public Menu(){
         JLabel title = new JLabel("Energy");
