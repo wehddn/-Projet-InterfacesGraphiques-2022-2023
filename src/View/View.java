@@ -9,7 +9,6 @@ import src.Controller.GameController;
 
 public class View {
 
-    static GameView game;
     static Menu menu;
     static JFrame frame = new JFrame("Energy");
 
@@ -20,14 +19,6 @@ public class View {
         frame.setSize(400  , 300);
 
         frame.setVisible(true);
-    }
-
-    public int[] getTuileCoords(int x, int y) {
-        return game.getTuileCoords(x, y);
-    }
-
-    public void setTuiles(TuilesList tuiles) {
-        game.setTuiles(tuiles);
     }
 
     public static void switchPanel(int n){
