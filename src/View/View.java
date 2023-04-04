@@ -3,8 +3,10 @@ package src.View;
 import javax.swing.*;
 
 public class View {
+    private JFrame frame = new JFrame("Energy");
+
+
     public View(Panel panel) {
-        JFrame frame = new JFrame("Energy");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);
         frame.pack();
@@ -12,6 +14,13 @@ public class View {
     }
 
     public View(){
+        Menu menu= new Menu();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(menu);
+        frame.setSize(400  , 300);
+
+        frame.setVisible(true);
+
         
     }
 }
