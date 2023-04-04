@@ -2,8 +2,8 @@ package src;
 
 import src.View.*;
 
-import src.Controller.Controller;
-import src.View.Game;
+import src.Controller.GameController;
+import src.View.GameView;
 import src.View.View;
 
 public class Main {
@@ -17,6 +17,6 @@ public class Main {
         new Controller(plateau, panel);
 
         new View(panel);*/
-        new Controller();
+        new View();
     }
 }

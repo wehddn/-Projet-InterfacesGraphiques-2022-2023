@@ -26,17 +26,9 @@ public class Menu extends JPanel{
         gbc.gridy++;
         this.add(banque2, gbc);
 
-
-
-
         banque1.addActionListener(e->{
             View.switchPanel(1);
         });
-
-       /*  this.setBorder(BorderLayout.CENTER);
-        this.add(panel, BorderLayout.CENTER);
-        this.add(panel, BorderLayout.CENTER);*/
-        
     }
     
 }

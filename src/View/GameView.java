@@ -16,7 +16,7 @@ import src.Tuile;
 import src.TuilesList;
 import src.Type;
 
-public class Game extends JPanel {
+public class GameView extends JPanel {
 
     private TuilesList tuiles;
     private int panelWidth;
@@ -28,7 +28,7 @@ public class Game extends JPanel {
     private int textureHeight;
     ArrayList<ArrayList<Integer[][]>> coords;
 
-    public Game(TuilesList tuilesList) {
+    public GameView(TuilesList tuilesList) {
         // On crée un plateau et des textures
         this.tuiles = tuilesList;
 
@@ -53,8 +53,6 @@ public class Game extends JPanel {
 
         if (tuiles.getType() == Type.HEX)
             setUpCooridnates();
-
-        this.addMouseListener(new GameMouseListener());
     }
 
     //On stocke les coordonnées des sommets de tous les hexagones

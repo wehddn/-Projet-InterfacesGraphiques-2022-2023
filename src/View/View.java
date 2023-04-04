@@ -3,11 +3,11 @@ package src.View;
 import javax.swing.*;
 
 import src.TuilesList;
-import src.Controller.Controller;
+import src.Controller.GameController;
 
 public class View {
 
-    Game panel;
+    static GameView game;
     static Menu menu;
     static JFrame frame = new JFrame("Energy");
 
@@ -21,11 +21,11 @@ public class View {
     }
 
     public int[] getTuileCoords(int x, int y) {
-        return panel.getTuileCoords(x, y);
+        return game.getTuileCoords(x, y);
     }
 
     public void setTuiles(TuilesList tuiles) {
-        panel.setTuiles(tuiles);
+        game.setTuiles(tuiles);
     }
 
     public static void switchPanel(int n){
@@ -36,8 +36,10 @@ public class View {
                 frame.validate(); 
                 break;
             case 2:
-                Game game = new Game(Controller.createPlateau(n));          //n = doc du niveau n = 2 pour l'instant
-                frame.setContentPane(game);
+                //GameController
+                //game = new GameView(GameController.createPlateau(n));          //n = doc du niveau n = 2 pour l'instant
+                GameController gameController = new GameController(n);
+                frame.setContentPane(gameController.getView());
                 frame.validate(); 
                 break;
             default:
