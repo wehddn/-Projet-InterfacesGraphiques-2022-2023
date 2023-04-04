@@ -18,7 +18,7 @@ import src.Type;
 
 public class GameView extends JPanel {
 
-    private TuilesList tuiles;
+    protected TuilesList tuiles;
     private int panelWidth;
     private int panelHeight;
     private HashMap<String, BufferedImage> textures;
