@@ -16,8 +16,7 @@ public class View {
         menu = new Menu();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(menu);
-        frame.setSize(400  , 300);
-
+        frame.pack();
         frame.setVisible(true);
     }
 
@@ -26,18 +25,18 @@ public class View {
             case 1:
                 Banque banque = new Banque();
                 frame.setContentPane(banque);
-                frame.validate(); 
+                frame.pack(); 
                 break;
             case 2:
                 //GameController
                 //game = new GameView(GameController.createPlateau(n));          //n = doc du niveau n = 2 pour l'instant
                 GameController gameController = new GameController(n);
                 frame.setContentPane(gameController.getView());
-                frame.validate(); 
+                frame.pack(); 
                 break;
             default:
                 frame.getContentPane().add(menu);
-                frame.setSize(400  , 300);
+                frame.pack();
         }
     }
 }

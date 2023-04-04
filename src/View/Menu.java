@@ -2,6 +2,7 @@ package src.View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +16,7 @@ public class Menu extends JPanel{
     public Menu(){
         JLabel title = new JLabel("Energy");
         title.setHorizontalAlignment(SwingConstants.CENTER); // center the label
+        this.setPreferredSize(new Dimension(400, 300));
         this.add(title, BorderLayout.NORTH);
 
         this.setLayout(new GridBagLayout());
