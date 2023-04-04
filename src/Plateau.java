@@ -241,4 +241,32 @@ public class Plateau {
     public TuilesList getTuiles() {
         return tuiles;
     }
+
+    public void toggleComposant(int[] coords) {
+        int i = coords[0];
+        int j = coords[1];
+        
+        tuiles.toggleComposant(i, j);
+
+        for (Tuile tuile : tuiles) {
+            tuile.setPower(false);
+        }
+        
+        tuiles.setVariables();
+        settings();
+        
+    }
+
+    public void toggleConnexion(int[] coords, Connexion connexion) {
+        int i = coords[0];
+        int j = coords[1];
+        tuiles.toggleConnexion(i, j, connexion);
+
+        for (Tuile tuile : tuiles) {
+            tuile.setPower(false);
+        }
+        
+        tuiles.setVariables();
+        settings();
+    }
 }

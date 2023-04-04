@@ -1,14 +1,11 @@
 package src.Controller;
 
-import java.awt.Container;
 import java.awt.event.MouseEvent;
 
-import javax.swing.event.*;
+import javax.swing.event.MouseInputAdapter;
 
 import src.Plateau;
-import src.TuilesList;
 import src.View.GameView;
-import src.View.View;
 
 public class GameController extends MouseInputAdapter {
 

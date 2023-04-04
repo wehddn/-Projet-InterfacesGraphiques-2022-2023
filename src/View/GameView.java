@@ -25,7 +25,7 @@ public class GameView extends JPanel {
     private int tuilesWidth;
     private int tuilesHeight;
     private int textureWidth;
-    private int textureHeight;
+    protected int textureHeight;
     ArrayList<ArrayList<Integer[][]>> coords;
 
     public GameView(TuilesList tuilesList) {

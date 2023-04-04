@@ -80,4 +80,13 @@ public class Tuile {
         }
         return intConnexions;
     }
+
+    public void nextComposant() {
+        composant = composant.next();
+    }
+
+    public void toggleConnexion(Connexion connexion) {
+        if(!connexions.remove(connexion))
+            connexions.add(connexion);
+    }
 }
