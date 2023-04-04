@@ -5,6 +5,8 @@ import javax.swing.*;
 import src.TuilesList;
 import src.Controller.Controller;
 
+//Dimensions fixes
+
 public class View {
 
     Game panel;
