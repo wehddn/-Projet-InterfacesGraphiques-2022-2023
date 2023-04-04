@@ -21,15 +21,19 @@ public class Banque extends JPanel {
         this.add(title, BorderLayout.NORTH);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        JButton banque1 = new JButton("Niveau 1");
-        JButton banque2 = new JButton("Niveau 2");
+        JButton level1 = new JButton("Niveau 1");
+        JButton level2 = new JButton("Niveau 2");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
-        panel.add(banque1, gbc);
+        panel.add(level1, gbc);
         gbc.gridy++;
-        panel.add(banque2, gbc);
+        panel.add(level2, gbc);
+
+        level1.addActionListener(e->{
+            View.switchPanel(2);
+        });
 
         this.add(panel, BorderLayout.CENTER);
         this.add(panel, BorderLayout.CENTER);

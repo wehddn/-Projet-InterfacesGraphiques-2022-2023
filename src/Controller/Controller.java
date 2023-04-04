@@ -5,7 +5,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.*;
 
 import src.Plateau;
-import src.View.Panel;
+import src.TuilesList;
+import src.View.Game;
 import src.View.View;
 
 public class Controller {
@@ -14,7 +15,6 @@ public class Controller {
     private static View view;
 
     public Controller() {
-        plateau = new Plateau();
         view = new View();
     }
 
@@ -24,5 +24,11 @@ public class Controller {
             plateau.turn(coords[1], coords[0]);
             view.setTuiles(plateau.getTuiles());
         }
+    }
+
+    public static TuilesList createPlateau(int n) {
+        plateau = new Plateau(n);
+
+        return plateau.getTuiles();
     }
 }

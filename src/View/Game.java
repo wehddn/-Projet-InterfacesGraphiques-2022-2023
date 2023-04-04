@@ -16,7 +16,7 @@ import src.Tuile;
 import src.TuilesList;
 import src.Type;
 
-public class Panel extends JPanel {
+public class Game extends JPanel {
 
     private TuilesList tuiles;
     private int panelWidth;
@@ -28,7 +28,7 @@ public class Panel extends JPanel {
     private int textureHeight;
     ArrayList<ArrayList<Integer[][]>> coords;
 
-    public Panel(TuilesList tuilesList) {
+    public Game(TuilesList tuilesList) {
         // On crée un plateau et des textures
         this.tuiles = tuilesList;
 

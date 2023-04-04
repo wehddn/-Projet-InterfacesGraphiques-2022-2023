@@ -3,7 +3,7 @@ package src;
 import src.View.*;
 
 import src.Controller.Controller;
-import src.View.Panel;
+import src.View.Game;
 import src.View.View;
 
 public class Main {

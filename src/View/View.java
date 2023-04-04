@@ -3,10 +3,11 @@ package src.View;
 import javax.swing.*;
 
 import src.TuilesList;
+import src.Controller.Controller;
 
 public class View {
 
-    Panel panel;
+    Game panel;
     static Menu menu;
     static JFrame frame = new JFrame("Energy");
 
@@ -32,6 +33,11 @@ public class View {
             case 1:
                 Banque banque = new Banque();
                 frame.setContentPane(banque);
+                frame.validate(); 
+                break;
+            case 2:
+                Game game = new Game(Controller.createPlateau(n));          //n = doc du niveau n = 2 pour l'instant
+                frame.setContentPane(game);
                 frame.validate(); 
                 break;
             default:

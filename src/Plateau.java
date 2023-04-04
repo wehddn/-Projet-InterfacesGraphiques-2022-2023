@@ -7,8 +7,8 @@ import java.util.Random;
 public class Plateau {
     private TuilesList tuiles;
 
-    public Plateau() {
-        generateTuiles();
+    public Plateau(int n) {
+        generateTuiles(n);
         randomizeTuiles();
         settings();
     }
@@ -24,9 +24,9 @@ public class Plateau {
     }
 
     // TO DO: passer le num de level en param
-    public void generateTuiles() {
+    public void generateTuiles(int n) {
         // lecture du txt
-        tuiles = Convertion.parseFile(3);
+        tuiles = Convertion.parseFile(n);
         tuiles.setVariables();
         // lecture du txt
     }
