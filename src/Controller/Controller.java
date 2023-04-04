@@ -6,64 +6,23 @@ import javax.swing.event.*;
 
 import src.Plateau;
 import src.View.Panel;
+import src.View.View;
 
-public class Controller implements MouseInputListener {
+public class Controller {
 
-    private Plateau plateau;
-    private Panel view;
+    private static Plateau plateau;
+    private static View view;
 
-    public Controller(Plateau plateau, Panel view) {
-        this.plateau = plateau;
-        this.view = view;
-
-        view.addMouseListener(this);
+    public Controller() {
+        plateau = new Plateau();
+        view = new View();
     }
 
-    
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        int[] coords = view.getTuileCoords(e.getX(), e.getY());
+    public static void turnTuile(int x, int y){
+        int[] coords = view.getTuileCoords(x, y);
         if (coords != null) {
             plateau.turn(coords[1], coords[0]);
             view.setTuiles(plateau.getTuiles());
         }
     }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
-
 }

@@ -53,6 +53,8 @@ public class Panel extends JPanel {
 
         if (tuiles.getType() == Type.HEX)
             setUpCooridnates();
+
+        this.addMouseListener(new GameMouseListener());
     }
 
     //On stocke les coordonnées des sommets de tous les hexagones

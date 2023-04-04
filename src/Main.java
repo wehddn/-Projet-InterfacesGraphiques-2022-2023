@@ -17,6 +17,6 @@ public class Main {
         new Controller(plateau, panel);
 
         new View(panel);*/
-        new Menu();
+        new Controller();
     }
 }
