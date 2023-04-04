@@ -129,4 +129,12 @@ public class TuilesList implements Iterable<Tuile> {
     public Tuile get(int i, int j) {
         return tuiles.get(i).get(j);
     }
+
+    public void toggleComposant(int i, int j) {
+        tuiles.get(j).get(i).nextComposant();
+    }
+
+    public void toggleConnexion(int i, int j, Connexion connexion) {
+        tuiles.get(j).get(i).toggleConnexion(connexion);
+    }
 }
