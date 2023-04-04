@@ -19,6 +19,8 @@ public class Controller implements MouseInputListener {
         view.addMouseListener(this);
     }
 
+    
+
     @Override
     public void mousePressed(MouseEvent e) {
         int[] coords = view.getTuileCoords(e.getX(), e.getY());

@@ -10,4 +10,8 @@ public class View {
         frame.pack();
         frame.setVisible(true);
     }
+
+    public View(){
+        
+    }
 }
