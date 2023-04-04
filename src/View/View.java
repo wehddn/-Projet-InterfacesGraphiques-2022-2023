@@ -10,11 +10,12 @@ public class View {
     Menu menu;
 
     public View() {
-        Menu menu = new Menu();
         JFrame frame = new JFrame("Energy");
+        menu = new Menu();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(menu);
-        frame.pack();
+        frame.setSize(400  , 300);
+
         frame.setVisible(true);
     }
 
