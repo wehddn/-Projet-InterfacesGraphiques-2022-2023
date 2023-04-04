@@ -212,8 +212,10 @@ public class GameView extends JPanel {
                 type += "3";
                 break;
             case 3:
-                // Selon le type, la dernière texture peut avoir le numéro 2 pour SQR ou 4 pour HEX
-                type += tuiles.getTypeValue()/2;
+                if(tuiles.getType() == Type.SQR)
+                    type+="2";
+                else
+                    type+="4";
                 break;
         }
 
