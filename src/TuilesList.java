@@ -165,4 +165,32 @@ public class TuilesList implements Iterable<Tuile> {
                 break;
         }
     }
+
+    public void deleteSide(int side) {
+        ArrayList<Tuile> row;
+        switch (side) {
+            case 0:
+                row = new ArrayList<>();
+                for (int i = 0; i < tuiles.get(0).size(); i++) {
+                    row.add(new Tuile(Composant.EMPTY, new ArrayList<Connexion>()));
+                }
+                tuiles.remove(0);
+                break;
+            case 1:
+                for (ArrayList<Tuile> line : tuiles) {
+                    line.remove(0);
+                }
+                break;
+            case 2:
+                tuiles.remove(tuiles.size()-1);
+                break;
+            case 3:
+                for (ArrayList<Tuile> line : tuiles) {
+                    line.remove(line.size()-1);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

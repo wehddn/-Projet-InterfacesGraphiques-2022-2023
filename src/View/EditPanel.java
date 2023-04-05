@@ -28,19 +28,6 @@ public class EditPanel extends JPanel {
 
         editView = new EditView(tuilesList);
         this.add(editView);
-
-                /*JButton button = new JButton("Increase Height");
-        button.addActionListener(e -> {
-            Dimension currSize = this.getSize();
-            int newHeight = currSize.height + 10;
-            this.setPreferredSize(new Dimension(currSize.width, newHeight));
-            this.revalidate();
-            this.repaint();
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            frame.pack();
-        });*/
-
-        //this.add(button);
     }
 
     public List<JPanel> createPanels() {
@@ -60,7 +47,7 @@ public class EditPanel extends JPanel {
 
             delete.addActionListener(e -> {
                 EditController.modifyPlateau(side, 0);
-                //updateFrame();
+                editView.updateFrame();
             });
 
             panel.add(add, new GridBagConstraints());

@@ -270,7 +270,10 @@ public class Plateau {
         settings();
     }
 
-    public void addData(int side) {
-        tuiles.addSide(side);
+    public void modifyData(int side, int action) {
+        if(action == 1)
+            tuiles.addSide(side);
+        else
+            tuiles.deleteSide(side);
     }
 }

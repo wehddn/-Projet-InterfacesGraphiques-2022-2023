@@ -45,7 +45,6 @@ public class EditController extends MouseInputAdapter {
 
     //enums
     public static void modifyPlateau(int side, int action) {
-        if(action == 1)
-            plateau.addData(side);
+        plateau.modifyData(side, action);
     }
 }
