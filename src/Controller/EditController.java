@@ -2,6 +2,8 @@ package src.Controller;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 import src.Connexion;
@@ -46,5 +48,8 @@ public class EditController extends MouseInputAdapter {
     //enums
     public static void modifyPlateau(int side, int action) {
         plateau.modifyData(side, action);
+        editView.updateFrame();
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(editView);
+        frame.pack();
     }
 }

@@ -271,9 +271,12 @@ public class Plateau {
     }
 
     public void modifyData(int side, int action) {
-        if(action == 1)
+        if(action == 1){
             tuiles.addSide(side);
-        else
-            tuiles.deleteSide(side);
+        }
+        else{
+            if(((side==0 || side==2) && getHeight()>1) || ((side==1 || side==3) && getWith()>1))
+                tuiles.deleteSide(side);
+        }
     }
 }

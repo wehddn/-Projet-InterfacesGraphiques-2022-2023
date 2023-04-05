@@ -93,12 +93,10 @@ public class EditView extends GameView {
         return closestSide;
     }
 
-    void updateFrame() {
+    public void updateFrame() {
         setUpSizes();
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.revalidate();
         this.repaint();
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        frame.pack();
     }
 }
