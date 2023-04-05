@@ -18,9 +18,9 @@ import src.Type;
 
 public class GameView extends JPanel {
 
-    protected TuilesList tuiles;
-    private int panelWidth;
-    private int panelHeight;
+    public TuilesList tuiles;
+    protected int panelWidth;
+    protected int panelHeight;
     private HashMap<String, BufferedImage> textures;
     private int tuilesWidth;
     private int tuilesHeight;
@@ -32,8 +32,20 @@ public class GameView extends JPanel {
         // On crée un plateau et des textures
         this.tuiles = tuilesList;
 
-        tuilesWidth = tuilesList.columnsNumber();
-        tuilesHeight = tuilesList.rowsNumber();
+        setUpSizes();
+
+        this.setPreferredSize(new Dimension(panelWidth, panelHeight));
+        this.setBackground(Color.BLACK);
+
+        textures = Convertion.parseTextures();
+
+        if (tuiles.getType() == Type.HEX)
+            setUpCooridnates();
+    }
+
+    protected void setUpSizes() {
+        tuilesWidth = tuiles.columnsNumber();
+        tuilesHeight = tuiles.rowsNumber();
 
         textureWidth = 120;
         textureHeight = tuiles.getType().getHeight();
@@ -45,14 +57,6 @@ public class GameView extends JPanel {
             panelWidth -= (tuilesWidth - 1) * (textureWidth / 4);
             panelHeight += textureHeight / 2;
         }
-
-        this.setPreferredSize(new Dimension(panelWidth, panelHeight));
-        this.setBackground(Color.BLACK);
-
-        textures = Convertion.parseTextures();
-
-        if (tuiles.getType() == Type.HEX)
-            setUpCooridnates();
     }
 
     //On stocke les coordonnées des sommets de tous les hexagones

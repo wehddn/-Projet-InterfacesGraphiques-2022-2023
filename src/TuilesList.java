@@ -9,8 +9,6 @@ public class TuilesList implements Iterable<Tuile> {
     private ArrayList<ArrayList<Integer>> lampes;
     private ArrayList<ArrayList<Integer>> bornes;
     private ArrayList<ArrayList<Integer>> sources;
-    private int rowsNumber;
-    private int columnsNumber;
 
     private Type type; // 4/6
 
@@ -27,8 +25,6 @@ public class TuilesList implements Iterable<Tuile> {
     }
 
     public void setVariables() {
-        rowsNumber = tuiles.size();
-        columnsNumber = tuiles.get(0).size();
         lampes = new ArrayList<>();
         bornes = new ArrayList<>();
         sources = new ArrayList<>();
@@ -63,11 +59,11 @@ public class TuilesList implements Iterable<Tuile> {
     }
 
     public int rowsNumber() {
-        return rowsNumber;
+        return tuiles.size();
     }
 
     public int columnsNumber() {
-        return columnsNumber;
+        return tuiles.get(0).size();
     }
 
     public Composant getComposant(int i, int j) {
@@ -136,5 +132,37 @@ public class TuilesList implements Iterable<Tuile> {
 
     public void toggleConnexion(int i, int j, Connexion connexion) {
         tuiles.get(j).get(i).toggleConnexion(connexion);
+    }
+
+    public void addSide(int side) {
+        ArrayList<Tuile> row;
+        switch (side) {
+            case 0:
+                row = new ArrayList<>();
+                for (int i = 0; i < tuiles.get(0).size(); i++) {
+                    row.add(new Tuile(Composant.EMPTY, new ArrayList<Connexion>()));
+                }
+                tuiles.add(0, row);
+                break;
+            case 1:
+                for (ArrayList<Tuile> line : tuiles) {
+                    line.add(0, new Tuile(Composant.EMPTY, new ArrayList<Connexion>()));
+                }
+                break;
+            case 2:
+                row = new ArrayList<>();
+                for (int i = 0; i < tuiles.get(0).size(); i++) {
+                    row.add(new Tuile(Composant.EMPTY, new ArrayList<Connexion>()));
+                }
+                tuiles.add(row);
+                break;
+            case 3:
+                for (ArrayList<Tuile> line : tuiles) {
+                    line.add(new Tuile(Composant.EMPTY, new ArrayList<Connexion>()));
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -269,4 +269,8 @@ public class Plateau {
         tuiles.setVariables();
         settings();
     }
+
+    public void addData(int side) {
+        tuiles.addSide(side);
+    }
 }

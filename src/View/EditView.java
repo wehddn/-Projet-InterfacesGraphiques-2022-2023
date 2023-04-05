@@ -1,7 +1,10 @@
 package src.View;
 
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import src.Connexion;
 import src.TuilesList;
@@ -88,5 +91,14 @@ public class EditView extends GameView {
 
         // Return the side number of the closest side
         return closestSide;
+    }
+
+    void updateFrame() {
+        setUpSizes();
+        this.setPreferredSize(new Dimension(panelWidth, panelHeight));
+        this.revalidate();
+        this.repaint();
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.pack();
     }
 }
