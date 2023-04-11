@@ -37,7 +37,7 @@ public class Banque extends JPanel {
 
             int n=i;
             level.addActionListener(e->{
-                View.switchPanel(3);
+                View.switchPanel(n);
             });
             
             i++;
