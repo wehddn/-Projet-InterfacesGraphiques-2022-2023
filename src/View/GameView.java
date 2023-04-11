@@ -24,7 +24,7 @@ public class GameView extends JPanel {
     private HashMap<String, BufferedImage> textures;
     private int tuilesWidth;
     private int tuilesHeight;
-    private int textureWidth;
+    protected int textureWidth;
     protected int textureHeight;
     ArrayList<ArrayList<Integer[][]>> coords;
 
@@ -47,10 +47,21 @@ public class GameView extends JPanel {
         tuilesWidth = tuiles.columnsNumber();
         tuilesHeight = tuiles.rowsNumber();
 
-        textureWidth = 120;
-        textureHeight = tuiles.getType().getHeight();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double screenHeight = screenSize.getHeight()-tuiles.getType().getHeight();
+        double screenWidth = screenSize.getWidth()-120;
 
-        panelWidth = tuilesWidth * 120;
+        if (screenHeight < tuilesHeight * tuiles.getType().getHeight())
+            textureHeight = (int) screenHeight / tuilesHeight;
+        else
+            textureHeight = tuiles.getType().getHeight();
+
+        if (screenWidth < tuilesWidth * 120)
+            textureWidth = (int) screenWidth / tuilesWidth;
+        else
+            textureWidth = 120;
+
+        panelWidth = tuilesWidth * textureWidth;
         panelHeight = tuilesHeight * textureHeight;
 
         if (tuiles.getType() == Type.HEX) {
@@ -123,12 +134,12 @@ public class GameView extends JPanel {
 
                 ArrayList<String> composant = textureComposantFromTuile(tuiles.get(i, j));
                 for (String textureName : composant) {
-                    g.drawImage(textures.get(textureName), drawX, drawY, null);
+                    g.drawImage(textures.get(textureName), drawX, drawY, textureWidth, textureHeight, null);
                 }
 
                 ArrayList<Image> connexions = textureConnexionsFromTuile(tuiles.get(i, j));
                 for (Image connexion : connexions) {
-                    g.drawImage(connexion, drawX, drawY, null);
+                    g.drawImage(connexion, drawX, drawY, textureWidth, textureHeight, null);
                 }
             }
         }
@@ -309,7 +320,7 @@ public class GameView extends JPanel {
 
     public int[] getTuileCoords(int x, int y) {
         if (tuiles.getType() == Type.SQR)
-            return new int[] { (x / 120), (y / 120) };
+            return new int[] { (x / textureWidth), (y / textureHeight) };
         else
             return getHexCoords(x, y);
     }
@@ -347,18 +358,18 @@ public class GameView extends JPanel {
         repaint();
     }
 
-    public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
-        BufferedImage rotated = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = rotated.createGraphics();
-        AffineTransform at = new AffineTransform();
-
-        int x = textureWidth / 2;
-        int y = textureHeight / 2;
-
-        at.rotate(Math.toRadians(angle), x, y);
-        g2d.setTransform(at);
-        g2d.drawImage(img, 0, 0, this);
-
-        return rotated;
+    public BufferedImage rotateImageByDegrees(BufferedImage image, double angle) {
+        angle = Math.toRadians(angle);
+        double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+        int w = image.getWidth(), h = image.getHeight();
+        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
+        GraphicsConfiguration gc = getGraphicsConfiguration();
+        BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
+        Graphics2D g = result.createGraphics();
+        g.translate((neww - w) / 2, (newh - h) / 2);
+        g.rotate(angle, w / 2, h / 2);
+        g.drawRenderedImage(image, null);
+        g.dispose();
+        return result;
     }
 }
