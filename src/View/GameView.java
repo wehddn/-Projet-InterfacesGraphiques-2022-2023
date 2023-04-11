@@ -24,7 +24,7 @@ public class GameView extends JPanel {
     private HashMap<String, BufferedImage> textures;
     private int tuilesWidth;
     private int tuilesHeight;
-    private int textureWidth;
+    protected int textureWidth;
     protected int textureHeight;
     ArrayList<ArrayList<Integer[][]>> coords;
 
@@ -56,8 +56,8 @@ public class GameView extends JPanel {
         else
             textureHeight = tuiles.getType().getHeight();
 
-        if (screenWidth < screenWidth * 120)
-            textureWidth = (int) screenHeight / tuilesHeight;
+        if (screenWidth < tuilesWidth * 120)
+            textureWidth = (int) screenWidth / tuilesWidth;
         else
             textureWidth = 120;
 

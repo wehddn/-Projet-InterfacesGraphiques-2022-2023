@@ -3,9 +3,6 @@ package src.View;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import src.Connexion;
 import src.TuilesList;
 import src.Type;
@@ -21,6 +18,7 @@ public class EditView extends GameView {
         super.paintComponent(g);
     }
 
+    //TODO circle -> ellipse
     public boolean clickInCenter(int pointX, int pointY, int[] tileCoords) {
         int circleX;
         int circleY;
@@ -31,8 +29,8 @@ public class EditView extends GameView {
             circleY = coords.get(tileCoords[1]).get(tileCoords[0])[0][1] + 30;
             circleSide = 43;
         } else {
-            circleX = tileCoords[0] * 120 + 27;
-            circleY = tileCoords[1] * 120 + 27;
+            circleX = tileCoords[0] * textureWidth + textureWidth/4;
+            circleY = tileCoords[1] * textureHeight + textureHeight/4;
             circleSide = 65;
         }
 
@@ -53,14 +51,15 @@ public class EditView extends GameView {
         if (tuiles.getType() == Type.HEX)
             sides = coords.get(tileCoords[1]).get(tileCoords[0]);
         else {
-            int squareX = tileCoords[0] * 120;
-            int squareY = tileCoords[1] * 120;
-            int side = 120;
+            int squareX = tileCoords[0] * textureWidth;
+            int squareY = tileCoords[1] * textureHeight;
+            int xside = textureWidth;
+            int yside = textureHeight;
             sides = new Integer[4][4];
-            sides[0] = new Integer[] { squareX, squareY, squareX + side, squareY };
-            sides[1] = new Integer[] { squareX + side, squareY, squareX + side, squareY + side };
-            sides[2] = new Integer[] { squareX + side, squareY + side, squareX, squareY + side };
-            sides[3] = new Integer[] { squareX, squareY + side, squareX, squareY };
+            sides[0] = new Integer[] { squareX, squareY, squareX + xside, squareY };
+            sides[1] = new Integer[] { squareX + xside, squareY, squareX + xside, squareY + yside };
+            sides[2] = new Integer[] { squareX + xside, squareY + yside, squareX, squareY + yside };
+            sides[3] = new Integer[] { squareX, squareY + yside, squareX, squareY };
 
         }
         // Initialize variables to hold the closest distance and side number
