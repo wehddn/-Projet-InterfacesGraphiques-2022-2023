@@ -9,10 +9,6 @@ import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
 
-//TODO
-//ajouter type
-//Prendre le type de 1 ligne et mettre dans tuile?
-//Ou stocker dans plateau?
 public class Convertion {
 
     public static TuilesList parseFile(Integer fileNumber) {

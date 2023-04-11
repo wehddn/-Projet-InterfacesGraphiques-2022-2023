@@ -2,13 +2,14 @@ package src;
 
 import src.View.*;
 
+import java.io.File;
+
 import src.Controller.GameController;
 import src.View.GameView;
 import src.View.View;
 
 public class Main {
 
-    // TO DO: demander pour les fenetres menu / plateau
     public static void main(String[] args) {
         // On crée un plateau et une vue, et on attribue tous les deux au contrôleur qui
         // va les gerer
@@ -17,6 +18,7 @@ public class Main {
         new Controller(plateau, panel);
 
         new View(panel);*/
+
         new View();
     }
 }

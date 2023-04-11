@@ -33,6 +33,10 @@ public class Menu extends JPanel{
         banque1.addActionListener(e->{
             View.switchPanel(1);
         });
+
+        banque2.addActionListener(e->{
+            View.switchPanel(2);
+        });
     }
     
 }
