@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,27 +20,41 @@ public class Banque extends JPanel {
 
     public Banque() {
         JLabel title = new JLabel("Banque 1");
-       
-
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         this.add(title,c);
-        c.insets = new Insets(30,0,0,0);  
+        c.insets = new Insets(30,0,10,0);  
 
-        JButton level1 = new JButton("Niveau 1");
-        c.gridx = 0;
-        this.add(level1, c);
-        c.insets = new Insets(10,100,10,100);  
-        JButton level2 = new JButton("Niveau 2");
-        c.gridx = 0;
-        this.add(level2, c);
-       
+        int i=0;
+        File gr = new File("levels/level" + i + ".nrg");
+        while(gr.exists()){
 
-        level1.addActionListener(e->{
-            View.switchPanel(3);
-        });
-        
+            JButton level = new JButton("Niveau "+i);
+            c.gridx = 0;
+            this.add(level, c);
+            c.insets = new Insets(10,100,10,100); 
+
+            int n=i;
+            level.addActionListener(e->{
+                View.switchPanel(3);
+            });
+            
+            i++;
+            gr = new File("levels/level" + i + ".nrg");
+        }
+
+        JButton menu = new JButton("retour au menu ");
+            c.gridx = 0;
+            this.add(menu, c);
+            c.insets = new Insets(10,100,10,100); 
+
+            int n=i;
+            menu.addActionListener(e->{
+                View.switchPanel(8);
+            });
+
+    
 
         this.setVisible(true);
         this.setSize(400, 300);
