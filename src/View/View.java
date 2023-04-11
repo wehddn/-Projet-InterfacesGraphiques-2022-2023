@@ -28,6 +28,11 @@ public class View {
                 frame.pack(); 
                 break;
             case 2:
+                EditBanque ebanque = new EditBanque();
+                frame.setContentPane(ebanque);
+                frame.pack(); 
+                break;
+            case 3:
                 //GameController
                 //game = new GameView(GameController.createPlateau(n));          //n = doc du niveau n = 2 pour l'instant
                 GameController gameController = new GameController(n);
