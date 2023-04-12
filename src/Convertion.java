@@ -128,15 +128,13 @@ public class Convertion {
 
     private static void addTextures(BufferedImage image, int textureWidth,
             int textureHeight, int startColumn, int endColumn, HashMap<String, BufferedImage> textures, Type type) {
-        int cellWidth = 120;
-        int cellHeight = 120;
         int counter = 0;
         for (int i = 0; i < 6; i++) {
             for (int j = startColumn; j < endColumn; j++) {
-                int x = j * cellWidth;
-                int y = i * cellHeight;
+                int x = j * 120;
+                int y = i * 120;
 
-                BufferedImage texture = new BufferedImage(cellWidth, cellWidth, BufferedImage.TYPE_INT_ARGB);
+                BufferedImage texture = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
 
                 for (int k = 0; k < textureHeight; k++) {
                     for (int l = 0; l < textureWidth; l++) {

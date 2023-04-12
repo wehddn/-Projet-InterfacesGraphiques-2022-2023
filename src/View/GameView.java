@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.awt.geom.AffineTransform;
 
 import src.Composant;
 
