@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.awt.geom.AffineTransform;
+
 
 import src.Composant;
 
@@ -337,7 +339,8 @@ public class GameView extends JPanel {
     }
 
     private boolean isPointInsideHexagon(Integer[][] hexagonCoords, int x, int y) {
-        // On tilise l'algorithme de point dans le polygone pour déterminer si le point est à l'intérieur du hexagone
+        // On tilise l'algorithme de point dans le polygone pour déterminer si le point
+        // est à l'intérieur du hexagone
         int i, j;
         boolean c = false;
         for (i = 0, j = 6 - 1; i < 6; j = i++) {
@@ -358,17 +361,23 @@ public class GameView extends JPanel {
     }
 
     public BufferedImage rotateImageByDegrees(BufferedImage image, double angle) {
-        angle = Math.toRadians(angle);
-        double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
-        int w = image.getWidth(), h = image.getHeight();
-        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
-        Graphics2D g = result.createGraphics();
-        g.translate((neww - w) / 2, (newh - h) / 2);
-        g.rotate(angle, w / 2, h / 2);
-        g.drawRenderedImage(image, null);
-        g.dispose();
-        return result;
+        double angleRadians = Math.toRadians(angle);
+        double sin = Math.abs(Math.sin(angleRadians));
+        double cos = Math.abs(Math.cos(angleRadians));
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int newWidth = (int) Math.round(width * cos + height * sin);
+        int newHeight = (int) Math.round(height * cos + width * sin);
+        BufferedImage rotated = new BufferedImage(newWidth, newHeight, image.getType());
+        Graphics2D g2d = rotated.createGraphics();
+        AffineTransform at = new AffineTransform();
+        at.translate((newWidth - width) / 2, (newHeight - height) / 2);
+        int cx = width / 2;
+        int cy = height / 2;
+        at.rotate(angleRadians, cx, cy);
+        g2d.setTransform(at);
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+        return rotated.getSubimage((newWidth - width) / 2, (newHeight - height) / 2, width, height);
     }
 }
