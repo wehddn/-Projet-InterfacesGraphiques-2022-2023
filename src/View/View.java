@@ -1,5 +1,7 @@
 package src.View;
 
+import java.io.File;
+
 import javax.swing.*;
 
 import src.TuilesList;
@@ -21,27 +23,43 @@ public class View {
     }
 
     public static void switchPanel(int n){
-        switch(n){
-            case 1:
+
+        int i=0;
+        File gr = new File("levels/level" + i + ".nrg");
+        while(gr.exists()){
+            i++; 
+            gr = new File("levels/level" + i + ".nrg");
+
+        }
+
+        
+            if(n==-3){
+                frame.getContentPane().add(menu);
+                frame.pack();
+            }
+
+            else if(n==-1){
                 Banque banque = new Banque();
                 frame.setContentPane(banque);
                 frame.pack(); 
-                break;
-            case 2:
+                
+            }
+
+            else if(n==-2){
                 EditBanque ebanque = new EditBanque();
                 frame.setContentPane(ebanque);
                 frame.pack(); 
-                break;
-            case 3:
-                //GameController
-                //game = new GameView(GameController.createPlateau(n));          //n = doc du niveau n = 2 pour l'instant
+                
+            }
+
+            else if(n>=0 && n<i){
                 GameController gameController = new GameController(n);
                 frame.setContentPane(gameController.getView());
                 frame.pack(); 
-                break;
-            default:
-                frame.getContentPane().add(menu);
-                frame.pack();
-        }
+               
+            }
+
+        
+
     }
 }

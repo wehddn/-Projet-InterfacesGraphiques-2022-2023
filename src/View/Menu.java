@@ -31,11 +31,11 @@ public class Menu extends JPanel{
         this.add(banque2, gbc);
 
         banque1.addActionListener(e->{
-            View.switchPanel(1);
+            View.switchPanel(-1);
         });
 
         banque2.addActionListener(e->{
-            View.switchPanel(2);
+            View.switchPanel(-2);
         });
     }
     
