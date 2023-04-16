@@ -49,8 +49,12 @@ public class GameView extends JPanel {
         tuilesHeight = tuiles.rowsNumber();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenHeight = screenSize.getHeight()-tuiles.getType().getHeight()*2;
-        double screenWidth = screenSize.getWidth()-120*2;
+        double screenHeight = screenSize.getHeight()-tuiles.getType().getHeight();
+        if(tuiles.getType() == Type.HEX)
+            screenHeight -= tuiles.getType().getHeight();
+        double screenWidth = screenSize.getWidth();
+        if(tuiles.getType() == Type.SQR)
+            screenWidth -= 120*2;
 
         if (screenHeight < tuilesHeight * tuiles.getType().getHeight())
             textureHeight = (int) screenHeight / tuilesHeight;

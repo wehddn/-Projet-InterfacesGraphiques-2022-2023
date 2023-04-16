@@ -33,8 +33,8 @@ public class EditView extends GameView {
         } else {
             rectX = tileCoords[0] * textureWidth + textureWidth/4;
             rectY = tileCoords[1] * textureHeight + textureHeight/4;
-            rectWidth = 65;
-            rectHeight = 65;
+            rectWidth = textureWidth/2;
+            rectHeight = textureHeight/2;
         }
 
         double ellipseX = rectX + rectWidth / 2;
