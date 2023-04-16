@@ -37,7 +37,7 @@ public class Banque extends JPanel {
 
             int n=i;
             level.addActionListener(e->{
-                View.switchPanel(n);
+                View.openGameLevel(n);
             });
             
             i++;
@@ -51,7 +51,7 @@ public class Banque extends JPanel {
 
             int n=i;
             menu.addActionListener(e->{
-                View.switchPanel(8);
+                View.switchPanel(0);
             });
 
     

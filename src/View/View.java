@@ -22,43 +22,26 @@ public class View {
     }
 
     public static void switchPanel(int n){
-
-        int i=0;
-        File gr = new File("levels/level" + i + ".nrg");
-        while(gr.exists()){
-            i++; 
-            gr = new File("levels/level" + i + ".nrg");
-
-        }
-
-        
-            if(n==-3){
-                frame.getContentPane().add(menu);
-                frame.pack();
-            }
-
-            else if(n==-1){
+        switch(n){
+            case 1:
                 Banque banque = new Banque();
                 frame.setContentPane(banque);
                 frame.pack(); 
-                
-            }
-
-            else if(n==-2){
+                break;
+            case 2:
                 EditBanque ebanque = new EditBanque();
                 frame.setContentPane(ebanque);
                 frame.pack(); 
-                
-            }
+                break;
+            default:
+                frame.setContentPane(menu);
+                frame.pack();
+        }
+    }
 
-            else if(n>=0 && n<i){
-                GameController gameController = new GameController(n);
-                frame.setContentPane(gameController.getView());
-                frame.pack(); 
-               
-            }
-
-        
-
+    public static void openGameLevel(int n) {
+        GameController gameController = new GameController(n);
+        frame.setContentPane(gameController.getView());
+        frame.pack();
     }
 }
