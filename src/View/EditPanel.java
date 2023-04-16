@@ -6,8 +6,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -47,8 +53,29 @@ public class EditPanel extends JPanel {
 
             JPanel panel = new JPanel(new GridBagLayout());
 
-            JButton add = new JButton("+");
-            JButton delete = new JButton("-");
+            JButton add;
+            JButton delete;
+
+            BufferedImage buttonIcon;
+            try {
+                buttonIcon = ImageIO.read(new File("data/plus.png"));
+                add = new JButton(new ImageIcon(buttonIcon));
+                add.setBorder(BorderFactory.createEmptyBorder());
+                add.setContentAreaFilled(false);
+            } catch (IOException e1) {
+                add = new JButton("+");
+                e1.printStackTrace();
+            }
+            
+            try {
+                buttonIcon = ImageIO.read(new File("data/minus.png"));
+                delete = new JButton(new ImageIcon(buttonIcon));
+                delete.setBorder(BorderFactory.createEmptyBorder());
+                delete.setContentAreaFilled(false);
+            } catch (IOException e1) {
+                delete = new JButton("-");
+                e1.printStackTrace();
+            }
 
             add.addActionListener(e -> {
                 EditController.modifyPlateau(side, 1);

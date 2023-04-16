@@ -13,9 +13,9 @@ public class View {
     static JFrame frame = new JFrame("Energy");
 
     public View() {
-        menu = new Menu();
+        EditController menu = new EditController(5);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(menu);
+        frame.getContentPane().add(menu.getView());
         frame.pack();
         frame.setVisible(true);
     }
