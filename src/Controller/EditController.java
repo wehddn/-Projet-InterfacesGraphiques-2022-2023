@@ -18,7 +18,7 @@ public class EditController extends MouseInputAdapter {
     EditPanel editPanel;
 
     public EditController(int n) {
-        plateau = new Plateau(n);
+        plateau = new Plateau(n, true);
         editPanel = new EditPanel(plateau.getTuiles());
         editView = editPanel.getView();
         editView.addMouseListener(this);

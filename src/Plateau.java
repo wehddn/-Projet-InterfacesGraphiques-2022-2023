@@ -7,9 +7,10 @@ import java.util.Random;
 public class Plateau {
     private TuilesList tuiles;
 
-    public Plateau(int n) {
+    public Plateau(int n, boolean editMode) {
         generateTuiles(n);
-        randomizeTuiles();
+        if(!editMode)
+            randomizeTuiles();
         settings();
     }
 

@@ -13,7 +13,7 @@ public class GameController extends MouseInputAdapter {
     private static GameView gameView;
 
     public GameController(int n) {
-        plateau = new Plateau(n);
+        plateau = new Plateau(n, false);
         gameView = new GameView(plateau.getTuiles());
         gameView.addMouseListener(this);
     }
