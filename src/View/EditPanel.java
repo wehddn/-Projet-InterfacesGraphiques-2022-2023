@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -50,8 +51,19 @@ public class EditPanel extends JPanel {
                 editView.updateFrame();
             });
 
-            panel.add(add, new GridBagConstraints());
-            panel.add(delete, new GridBagConstraints());
+            if(i%2 == 0){
+                panel.add(add, new GridBagConstraints());
+                panel.add(delete, new GridBagConstraints());
+            }
+            else{
+                JPanel verticalPanel = new JPanel();
+                verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
+                verticalPanel.add(add);
+                verticalPanel.add(delete);
+                panel.add(verticalPanel, new GridBagConstraints());
+            }
+
+
             panel.setBackground(Color.black);
             panels.add(panel);
         }
