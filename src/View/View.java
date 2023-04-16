@@ -4,8 +4,6 @@ import java.io.File;
 
 import javax.swing.*;
 
-import src.TuilesList;
-import src.Controller.EditController;
 import src.Controller.GameController;
 
 //Dimensions fixes
@@ -17,9 +15,8 @@ public class View {
 
     public View() {
         menu = new Menu();
-        EditController gc = new EditController(5);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(gc.getView());
+        frame.getContentPane().add(menu);
         frame.pack();
         frame.setVisible(true);
     }
@@ -31,6 +28,7 @@ public class View {
         while(gr.exists()){
             i++; 
             gr = new File("levels/level" + i + ".nrg");
+
         }
 
         
