@@ -1,9 +1,8 @@
 package src.View;
 
-import java.io.File;
+import javax.swing.JFrame;
 
-import javax.swing.*;
-
+import src.Controller.EditController;
 import src.Controller.GameController;
 
 //Dimensions fixes
@@ -42,6 +41,12 @@ public class View {
     public static void openGameLevel(int n) {
         GameController gameController = new GameController(n);
         frame.setContentPane(gameController.getView());
+        frame.pack();
+    }
+
+    public static void openEditLevel(int n) {
+        EditController editController = new EditController(n);
+        frame.setContentPane(editController.getView());
         frame.pack();
     }
 }
