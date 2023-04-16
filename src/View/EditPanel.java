@@ -14,21 +14,30 @@ import javax.swing.JPanel;
 import src.TuilesList;
 import src.Controller.EditController;
 
-
 public class EditPanel extends JPanel {
 
     EditView editView;
 
     public EditPanel(TuilesList tuilesList) {
-        this.setLayout(new BorderLayout());
+
+        this.setBackground(Color.black);
+
+        JPanel panelEdit = new JPanel();
+        panelEdit.setLayout(new BorderLayout());
         List<JPanel> panels = createPanels();
-        this.add(panels.get(0), BorderLayout.NORTH);
-        this.add(panels.get(1), BorderLayout.WEST);
-        this.add(panels.get(2), BorderLayout.SOUTH);
-        this.add(panels.get(3), BorderLayout.EAST);
+
+        InGameMenuPanel panelMenu = new InGameMenuPanel();
+
+        panelEdit.add(panels.get(0), BorderLayout.NORTH);
+        panelEdit.add(panels.get(1), BorderLayout.WEST);
+        panelEdit.add(panels.get(2), BorderLayout.SOUTH);
+        panelEdit.add(panels.get(3), BorderLayout.EAST);
 
         editView = new EditView(tuilesList);
-        this.add(editView);
+        panelEdit.add(editView);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(panelMenu);
+        this.add(panelEdit);
     }
 
     public List<JPanel> createPanels() {

@@ -5,15 +5,18 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
 
 import src.Plateau;
+import src.View.GamePanel;
 import src.View.GameView;
 
 public class GameController extends MouseInputAdapter {
 
     private static Plateau plateau;
     private static GameView gameView;
+    private GamePanel editPanel;
 
     public GameController(int n) {
         plateau = new Plateau(n, false);
+        editPanel = new GamePanel(plateau.getTuiles());
         gameView = new GameView(plateau.getTuiles());
         gameView.addMouseListener(this);
     }
@@ -27,7 +30,7 @@ public class GameController extends MouseInputAdapter {
         }
     }
 
-    public GameView getView() {
-        return gameView;
+    public GamePanel getView() {
+        return editPanel;
     }
 }
