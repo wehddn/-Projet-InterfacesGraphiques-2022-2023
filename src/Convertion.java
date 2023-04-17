@@ -3,6 +3,8 @@ package src;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -202,5 +204,16 @@ public class Convertion {
                     return null;
 
             }
+    }
+
+    public static void updateFile(int fileNumber, TuilesList tuiles) {
+        String text = tuiles.toString();
+        String filename = "levels/level" + fileNumber + ".nrg"; // Name of the output file
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

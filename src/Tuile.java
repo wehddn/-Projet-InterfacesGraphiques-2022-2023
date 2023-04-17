@@ -47,17 +47,12 @@ public class Tuile {
 
     @Override
     public String toString() {
-        String result = String.valueOf(composant) + " ";
+        String result = composant + " ";
         if (connexions.size() != 0) {
-            result += "- ";
             for (Connexion connexion : connexions) {
                 result += connexion.getValue() + " ";
             }
         }
-        if (power)
-            result += "ON";
-        else
-            result += "OF";
         return result;
     }
 

@@ -86,7 +86,9 @@ public class Plateau {
     }
 
     // On vérifie si toutes les lampes sont allumées
-    private boolean checkWin() {
+    public boolean checkWin() {
+        if(tuiles.getLampes().size() == 0)
+            return false;
         boolean result = true;
         for (ArrayList<Integer> tuileСoordinates : tuiles.getLampes()) {
             if (!tuiles.isPower(tuileСoordinates.get(0), tuileСoordinates.get(1)))

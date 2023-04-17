@@ -32,7 +32,7 @@ public class EditPanel extends JPanel {
         panelEdit.setLayout(new BorderLayout());
         List<JPanel> panels = createPanels();
 
-        InGameMenuPanel panelMenu = new InGameMenuPanel();
+        InEditMenuPanel panelMenu = new InEditMenuPanel();
 
         panelEdit.add(panels.get(0), BorderLayout.NORTH);
         panelEdit.add(panels.get(1), BorderLayout.WEST);

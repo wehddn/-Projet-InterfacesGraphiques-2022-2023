@@ -182,15 +182,28 @@ public class TuilesList implements Iterable<Tuile> {
                 }
                 break;
             case 2:
-                tuiles.remove(tuiles.size()-1);
+                tuiles.remove(tuiles.size() - 1);
                 break;
             case 3:
                 for (ArrayList<Tuile> line : tuiles) {
-                    line.remove(line.size()-1);
+                    line.remove(line.size() - 1);
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+        res += rowsNumber() + " " + columnsNumber() + " " + getType() + "\n";
+        for (ArrayList<Tuile> tuilesRow : tuiles) {
+            for (Tuile tuile : tuilesRow) {
+                res += tuile;
+            }
+            res += "\n";
+        }
+        return res;
     }
 }

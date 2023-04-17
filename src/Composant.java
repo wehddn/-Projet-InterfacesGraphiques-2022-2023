@@ -19,4 +19,19 @@ public enum Composant {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        switch (this) {
+            case SOURCE:
+                return "S";
+            case LAMPE:
+                return "L";
+            case WIFI:
+                return "W";
+            case EMPTY:
+                return ".";
+        }
+        return null;
+    }
 }

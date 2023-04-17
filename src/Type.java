@@ -39,4 +39,15 @@ public enum Type {
         return rotateAngle;
     }
 
+    @Override
+    public String toString() {
+        switch (this) {
+            case HEX:
+                return "H";
+            case SQR:
+                return "S";
+        }
+        return null;
+    }
+
 }
