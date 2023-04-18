@@ -136,14 +136,17 @@ public class GameView extends JPanel {
                         drawY += textureHeight / 2;
                 }
 
+                Graphics2D g2 = (Graphics2D)g;
+                g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
                 ArrayList<String> composant = textureComposantFromTuile(tuiles.get(i, j));
                 for (String textureName : composant) {
-                    g.drawImage(textures.get(textureName), drawX, drawY, textureWidth, textureHeight, null);
+                    g2.drawImage(textures.get(textureName), drawX, drawY, textureWidth, textureHeight, null);
                 }
 
                 ArrayList<Image> connexions = textureConnexionsFromTuile(tuiles.get(i, j));
                 for (Image connexion : connexions) {
-                    g.drawImage(connexion, drawX, drawY, textureWidth, textureHeight, null);
+                    g2.drawImage(connexion, drawX, drawY, textureWidth, textureHeight, null);
                 }
             }
         }
