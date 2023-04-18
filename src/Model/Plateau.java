@@ -285,4 +285,11 @@ public class Plateau {
                 tuiles.deleteSide(side);
         }
     }
+
+    public void switchGeometry() {
+        tuiles.switchType();
+        for (Tuile tuile : tuiles) {
+            tuile.clean();
+        }
+    }
 }

@@ -211,4 +211,16 @@ public class TuilesList implements Iterable<Tuile> {
         }
         return res;
     }
+
+    public void switchType() {
+        switch (type) {
+            case HEX:
+                type = Type.SQR;
+                break;
+            case SQR:
+                type = Type.HEX;
+            default:
+                break;
+        }
+    }
 }

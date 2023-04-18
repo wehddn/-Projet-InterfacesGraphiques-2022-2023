@@ -65,4 +65,12 @@ public class EditController extends MouseInputAdapter {
         return plateau.checkWin();
     }
 
+    public static void switchGeometry() {
+        plateau.switchGeometry();
+        editView.updateFrame();
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(editView);
+        frame.pack();
+        editView.setUpCooridnates();
+    }
+
 }

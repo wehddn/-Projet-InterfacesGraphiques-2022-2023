@@ -75,7 +75,7 @@ public class GameView extends JPanel {
 
     //On stocke les coordonnées des sommets de tous les hexagones
     //On les calcule par rapport à leurs dimensions
-    private void setUpCooridnates() {
+    public void setUpCooridnates() {
         coords = new ArrayList<>();
         for (int i = 0; i < tuilesHeight; i++) {
             ArrayList<Integer[][]> coordsRow = new ArrayList<>();

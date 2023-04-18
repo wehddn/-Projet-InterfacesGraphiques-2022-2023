@@ -84,4 +84,10 @@ public class Tuile {
         if(!connexions.remove(connexion))
             connexions.add(connexion);
     }
+
+    public void clean() {
+        composant = Composant.EMPTY;
+        connexions = new ArrayList<>();
+        power = false;
+    }
 }

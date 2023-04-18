@@ -13,9 +13,9 @@ public class InEditMenuPanel extends JPanel {
 
     public InEditMenuPanel() {
         this.setBackground(Color.black);
-        JButton button = new JButton("Back");
+        JButton back = new JButton("Back");
 
-        button.addActionListener(e -> {
+        back.addActionListener(e -> {
             if (EditController.checkWin()) {
                 int result = JOptionPane.showConfirmDialog(this,
                         "Le niveau est dans une position gagnante. \n" +
@@ -50,9 +50,26 @@ public class InEditMenuPanel extends JPanel {
             }
         });
 
+        JButton type = new JButton("Switch type");
+        type.addActionListener(e -> {
+            int result = JOptionPane.showConfirmDialog(this,
+                        "La modification de la géométrie effacera le plateau de jeu\n" +
+                                "Êtes-vous sûr de vouloir continuer?",
+                        "Confirmation",
+                        JOptionPane.YES_NO_OPTION);
+                switch (result) {
+                    case JOptionPane.YES_OPTION:
+                        EditController.switchGeometry();
+                        break;
+                    default:
+                        break;
+                }
+        });
+
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        this.add(button);
+        this.add(back);
+        this.add(type);
     }
 
 }

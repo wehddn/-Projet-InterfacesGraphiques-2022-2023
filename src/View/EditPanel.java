@@ -109,5 +109,9 @@ public class EditPanel extends JPanel {
     public EditView getView() {
         return editView;
     }
+
+    public void setView(TuilesList tuilesList){
+        editView = new EditView(tuilesList);
+    }
     
 }
