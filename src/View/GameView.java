@@ -47,7 +47,7 @@ public class GameView extends JPanel {
         tuilesHeight = tuiles.rowsNumber();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenHeight = screenSize.getHeight()-tuiles.getType().getHeight();
+        double screenHeight = screenSize.getHeight()-tuiles.getType().getHeight()*2;
         //if(tuiles.getType() == Type.HEX)
         //    screenHeight -= tuiles.getType().getHeight();
         double screenWidth = screenSize.getWidth();
