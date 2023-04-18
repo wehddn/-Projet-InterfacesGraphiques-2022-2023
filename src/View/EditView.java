@@ -94,6 +94,7 @@ public class EditView extends GameView {
 
     public void updateFrame() {
         setUpSizes();
+        setUpCooridnates();
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.revalidate();
         this.repaint();
