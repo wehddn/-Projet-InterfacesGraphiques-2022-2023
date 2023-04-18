@@ -47,12 +47,11 @@ public class GameView extends JPanel {
         tuilesHeight = tuiles.rowsNumber();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenHeight = screenSize.getHeight()-tuiles.getType().getHeight()*2;
-        //if(tuiles.getType() == Type.HEX)
-        //    screenHeight -= tuiles.getType().getHeight();
+        double screenHeight = screenSize.getHeight() - tuiles.getType().getHeight() * 2;
+
         double screenWidth = screenSize.getWidth();
-        if(tuiles.getType() == Type.SQR)
-            screenWidth -= 120*2;
+        if (tuiles.getType() == Type.SQR)
+            screenWidth -= 120 * 2;
 
         if (screenHeight < tuilesHeight * tuiles.getType().getHeight())
             textureHeight = (int) screenHeight / tuilesHeight;
@@ -73,8 +72,8 @@ public class GameView extends JPanel {
         }
     }
 
-    //On stocke les coordonnées des sommets de tous les hexagones
-    //On les calcule par rapport à leurs dimensions
+    // On stocke les coordonnées des sommets de tous les hexagones
+    // On les calcule par rapport à leurs dimensions
     public void setUpCooridnates() {
         coords = new ArrayList<>();
         for (int i = 0; i < tuilesHeight; i++) {
@@ -89,7 +88,8 @@ public class GameView extends JPanel {
                     coordsTuile[4][1] = (i + 1) * textureHeight;
                     coordsTuile[5][1] = i * textureHeight + textureHeight / 2;
                 } else {
-                    //Les hexagones dans les colonnes impaires doivent être décalés de la moitié de la hauteur de la texture
+                    // Les hexagones dans les colonnes impaires doivent être décalés de la moitié de
+                    // la hauteur de la texture
                     coordsTuile[0][1] = i * textureHeight + textureHeight / 2;
                     coordsTuile[1][1] = i * textureHeight + textureHeight / 2;
                     coordsTuile[2][1] = (i + 1) * textureHeight;
@@ -123,12 +123,13 @@ public class GameView extends JPanel {
 
         for (int i = 0; i < tuilesHeight; i++) {
             for (int j = 0; j < tuilesWidth; j++) {
-                
-                //Coordonnées de dessin de texture
+
+                // Coordonnées de dessin de texture
                 drawX = j * textureWidth;
                 drawY = i * textureHeight;
 
-                //Toutes les textures d'hexagones doivent être décalées horizontalement, ainsi que les textures dans les colonnes impaires verticalement
+                // Toutes les textures d'hexagones doivent être décalées horizontalement, ainsi
+                // que les textures dans les colonnes impaires verticalement
                 if (tuiles.getType() == Type.HEX) {
                     drawX -= j * (textureWidth / 4);
                     if (j % 2 == 1)
@@ -153,7 +154,7 @@ public class GameView extends JPanel {
 
         ArrayList<Integer> edges = tuile.getIntConnexions();
         Collections.sort(edges);
-        
+
         String type = tuiles.getType().toString();
         if (tuile.isPower()) {
             type += "1";
@@ -164,7 +165,7 @@ public class GameView extends JPanel {
         type += "C";
         Image image;
 
-        //Le type de texture dépend du nombre de connexions dans la tuile
+        // Le type de texture dépend du nombre de connexions dans la tuile
         switch (edges.size()) {
             case 0:
                 break;
@@ -183,9 +184,10 @@ public class GameView extends JPanel {
                     connexions.addAll(getTextureConnexionWithComposant(type, edges));
                 break;
             default:
-            // Nombre de connexions est supérieur à 2 :
-            // Si toutes les connexions qu'on connecte sont voisins, on exclut la dernière connexion entre les points non adjacents
-            int exclude = allConexionsNearby(edges);
+                // Nombre de connexions est supérieur à 2 :
+                // Si toutes les connexions qu'on connecte sont voisins, on exclut la dernière
+                // connexion entre les points non adjacents
+                int exclude = allConexionsNearby(edges);
                 // S'il y a un composant, on dessine des connexions courtes
                 if (tuile.getComposant() == Composant.EMPTY) {
                     for (int i = 0; i < edges.size(); i++) {
@@ -196,9 +198,10 @@ public class GameView extends JPanel {
                         else
                             j = i + 1;
 
-                        int diff = tuiles.getTypeValue()/2;
+                        int diff = tuiles.getTypeValue() / 2;
 
-                        // On ne dessine pas une connexion directe entre les points opposés, et une connexion à partir du point exclu
+                        // On ne dessine pas une connexion directe entre les points opposés, et une
+                        // connexion à partir du point exclu
                         if (Math.abs(edges.get(i) - edges.get(j)) != diff && i != exclude) {
                             if (edges.get(i) < edges.get(j)) {
                                 connexions.add(getTextureConnexion(type, edges.get(i), edges.get(j)));
@@ -230,17 +233,17 @@ public class GameView extends JPanel {
                 type += "3";
                 break;
             case 3:
-                if(tuiles.getType() == Type.SQR)
-                    type+="2";
+                if (tuiles.getType() == Type.SQR)
+                    type += "2";
                 else
-                    type+="4";
+                    type += "4";
                 break;
         }
 
         // On détermine combien de fois il faut tourner la texture
         int rotateTimes = 0;
 
-        if (diff > tuiles.getTypeValue()/2)
+        if (diff > tuiles.getTypeValue() / 2)
             rotateTimes = secondConnexion;
         else
             rotateTimes = firstConnexion;
@@ -250,19 +253,22 @@ public class GameView extends JPanel {
         return image;
     }
 
-    // On vérifie si toutes les connexions sont voisines et, si oui, renvoie la connexion pour laquelle il ne faut pas dessiner une texture
+    // On vérifie si toutes les connexions sont voisines et, si oui, renvoie la
+    // connexion pour laquelle il ne faut pas dessiner une texture
     private int allConexionsNearby(ArrayList<Integer> edges) {
         int j, currentConnexion, nextConnexion;
 
         int notNeighboorCount = 0;
         int notNeighboorIndex = -1;
 
-        // Si le nombre de connexions correspond au nombre de côtés, tous les points sont adjacents
+        // Si le nombre de connexions correspond au nombre de côtés, tous les points
+        // sont adjacents
         if (edges.size() == tuiles.getTypeValue())
             return -1;
 
         // On vérifie la différence entre deux connexions adjacentes
-        // Si tous les points sont adjacents, la différence entre le dernier et le premier ne sera pas égale à 1
+        // Si tous les points sont adjacents, la différence entre le dernier et le
+        // premier ne sera pas égale à 1
         for (int i = 0; i < edges.size(); i++) {
             if (i == edges.size() - 1)
                 j = 0;
@@ -270,13 +276,14 @@ public class GameView extends JPanel {
                 j = i + 1;
 
             currentConnexion = edges.get(i);
-            
-            // Pour calculer la différence entre la connexion 0 et tout autre, on peut utiliser le nombre de côtés au lieu de 0
+
+            // Pour calculer la différence entre la connexion 0 et tout autre, on peut
+            // utiliser le nombre de côtés au lieu de 0
             if (edges.get(j) == 0)
                 nextConnexion = tuiles.getTypeValue();
             else
                 nextConnexion = edges.get(j);
-            
+
             if (nextConnexion - currentConnexion != 1) {
                 notNeighboorCount++;
                 notNeighboorIndex = i;
