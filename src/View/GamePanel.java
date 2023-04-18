@@ -21,7 +21,7 @@ public class GamePanel extends JPanel {
 
         InGameMenuPanel panelMenu = new InGameMenuPanel();
 
-        gameView = new EditView(tuilesList);
+        gameView = new GameView(tuilesList);
         panelEdit.add(gameView);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(panelMenu);

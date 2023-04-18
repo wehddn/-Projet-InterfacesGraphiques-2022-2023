@@ -16,7 +16,7 @@ public class EditController extends MouseInputAdapter {
 
     private static Plateau plateau;
     private static EditView editView;
-    EditPanel editPanel;
+    private static EditPanel editPanel;
     private static int level;
 
     public EditController(int n) {

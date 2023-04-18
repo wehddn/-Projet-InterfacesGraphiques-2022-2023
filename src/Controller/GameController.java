@@ -12,13 +12,13 @@ public class GameController extends MouseInputAdapter {
 
     private static Plateau plateau;
     private static GameView gameView;
-    private GamePanel editPanel;
+    private GamePanel gamePanel;
 
     public GameController(int n) {
         plateau = new Plateau(n, false);
-        editPanel = new GamePanel(plateau.getTuiles());
-        gameView = new GameView(plateau.getTuiles());
-        gameView.addMouseListener(this);
+        gamePanel = new GamePanel(plateau.getTuiles());
+        gameView = gamePanel.getView();
+        gamePanel.addMouseListener(this);
     }
 
     @Override
@@ -31,6 +31,6 @@ public class GameController extends MouseInputAdapter {
     }
 
     public GamePanel getView() {
-        return editPanel;
+        return gamePanel;
     }
 }
