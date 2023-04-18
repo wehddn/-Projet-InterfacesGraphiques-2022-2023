@@ -1,4 +1,4 @@
-package src;
+package src.Model;
 
 public enum Composant {
     SOURCE,

@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-import src.Plateau;
+import src.Model.Plateau;
 import src.View.GamePanel;
 import src.View.GameView;
 

@@ -1,8 +1,11 @@
-package src;
+package src.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import src.Convertion;
+import src.Controller.TuilesList;
 
 public class Plateau {
     private TuilesList tuiles;

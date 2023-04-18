@@ -13,8 +13,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import src.TuilesList;
 import src.Controller.EditController;
+import src.Controller.TuilesList;
 
 public class GamePanel extends JPanel {
 

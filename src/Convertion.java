@@ -9,6 +9,12 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import src.Controller.TuilesList;
+import src.Model.Composant;
+import src.Model.Connexion;
+import src.Model.Tuile;
+import src.Model.Type;
+
 import java.awt.image.BufferedImage;
 
 public class Convertion {

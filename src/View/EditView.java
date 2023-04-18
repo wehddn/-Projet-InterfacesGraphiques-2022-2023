@@ -3,9 +3,9 @@ package src.View;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import src.Connexion;
-import src.TuilesList;
-import src.Type;
+import src.Controller.TuilesList;
+import src.Model.Connexion;
+import src.Model.Type;
 
 public class EditView extends GameView {
 

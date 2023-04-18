@@ -7,15 +7,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.awt.geom.AffineTransform;
 
-
-import src.Composant;
-
 import javax.swing.*;
 
 import src.Convertion;
-import src.Tuile;
-import src.TuilesList;
-import src.Type;
+import src.Controller.TuilesList;
+import src.Model.Composant;
+import src.Model.Tuile;
+import src.Model.Type;
 
 public class GameView extends JPanel {
 

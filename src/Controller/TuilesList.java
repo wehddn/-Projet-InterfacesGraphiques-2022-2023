@@ -1,8 +1,13 @@
-package src;
+package src.Controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import src.Model.Composant;
+import src.Model.Connexion;
+import src.Model.Tuile;
+import src.Model.Type;
 
 public class TuilesList implements Iterable<Tuile> {
     private ArrayList<ArrayList<Tuile>> tuiles;

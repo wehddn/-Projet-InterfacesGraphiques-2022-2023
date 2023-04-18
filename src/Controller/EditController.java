@@ -6,9 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
-import src.Connexion;
 import src.Convertion;
-import src.Plateau;
+import src.Model.Connexion;
+import src.Model.Plateau;
 import src.View.EditPanel;
 import src.View.EditView;
 
