@@ -18,7 +18,7 @@ public class InEditMenuPanel extends JPanel {
         button.addActionListener(e -> {
             if (EditController.checkWin()) {
                 int result = JOptionPane.showConfirmDialog(this,
-                        "Vous avez modifié le niveau et il est dans une position gagnante. \n" +
+                        "Le niveau est dans une position gagnante. \n" +
                                 "Vous aller quitter le niveau. Êtes-vous sûr de vouloir enregistrer les modifications?",
                         "Confirmation",
                         JOptionPane.YES_NO_CANCEL_OPTION);
@@ -35,7 +35,7 @@ public class InEditMenuPanel extends JPanel {
                 }
             } else {
                 int result = JOptionPane.showConfirmDialog(this,
-                        "Vous avez modifié le niveau, mais il n'est pas dans la position gagnante.\n" +
+                        "Le niveau n'est pas dans la position gagnante.\n" +
                                 "Si vous quittez, vous perdrez toutes les modifications.\n" +
                                 "Êtes-vous sûr de vouloir sortir?",
                         "Confirmation",

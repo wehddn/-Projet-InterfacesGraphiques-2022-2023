@@ -1,19 +1,11 @@
 package src.View;
 
-import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import src.Controller.EditController;
 import src.Controller.TuilesList;
 
 public class GamePanel extends JPanel {
