@@ -53,15 +53,34 @@ public class GameView extends JPanel {
         if (tuiles.getType() == Type.SQR)
             screenWidth -= 120 * 2;
 
-        if (screenHeight < tuilesHeight * tuiles.getType().getHeight())
-            textureHeight = (int) screenHeight / tuilesHeight;
-        else
-            textureHeight = tuiles.getType().getHeight();
+        int originalTextureWidth = 120;
+        int originalTextureHeight = tuiles.getType().getHeight();
 
-        if (screenWidth < tuilesWidth * 120)
-            textureWidth = (int) screenWidth / tuilesWidth;
-        else
-            textureWidth = 120;
+        float aspectRatio = (float) originalTextureWidth / (float) originalTextureHeight;
+
+        int newTextureHeight = originalTextureHeight;
+        int newTextureWidth = originalTextureWidth;
+
+        if (screenHeight < tuilesHeight * originalTextureHeight && screenWidth < tuilesWidth * originalTextureWidth) {
+            newTextureHeight = (int) screenHeight / tuilesHeight;
+            newTextureWidth = (int) screenWidth / tuilesWidth;
+
+            if ((float) newTextureWidth / (float) originalTextureWidth < (float) newTextureHeight
+                    / (float) originalTextureHeight) {
+                newTextureHeight = (int) (newTextureWidth / aspectRatio);
+            } else {
+                newTextureWidth = (int) (newTextureHeight * aspectRatio);
+            }
+        } else if (screenHeight < tuilesHeight * originalTextureHeight) {
+            newTextureHeight = (int) screenHeight / tuilesHeight;
+            newTextureWidth = (int) (newTextureHeight * aspectRatio);
+        } else if (screenWidth < tuilesWidth * originalTextureWidth) {
+            newTextureWidth = (int) screenWidth / tuilesWidth;
+            newTextureHeight = (int) (newTextureWidth / aspectRatio);
+        }
+
+        textureHeight = newTextureHeight;
+        textureWidth = newTextureWidth;
 
         panelWidth = tuilesWidth * textureWidth;
         panelHeight = tuilesHeight * textureHeight;
