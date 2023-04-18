@@ -18,6 +18,7 @@ public class View {
         frame.getContentPane().add(menu);
         frame.pack();
         frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     public static void switchPanel(int n){
