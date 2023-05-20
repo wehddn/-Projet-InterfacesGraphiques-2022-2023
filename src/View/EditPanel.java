@@ -66,7 +66,7 @@ public class EditPanel extends JPanel {
                 add = new JButton("+");
                 e1.printStackTrace();
             }
-            
+
             try {
                 buttonIcon = ImageIO.read(new File("data/minus.png"));
                 delete = new JButton(new ImageIcon(buttonIcon));
@@ -87,18 +87,16 @@ public class EditPanel extends JPanel {
                 editView.updateFrame();
             });
 
-            if(i%2 == 0){
+            if (i % 2 == 0) {
                 panel.add(add, new GridBagConstraints());
                 panel.add(delete, new GridBagConstraints());
-            }
-            else{
+            } else {
                 JPanel verticalPanel = new JPanel();
                 verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
                 verticalPanel.add(add);
                 verticalPanel.add(delete);
                 panel.add(verticalPanel, new GridBagConstraints());
             }
-
 
             panel.setBackground(Color.black);
             panels.add(panel);
@@ -110,8 +108,8 @@ public class EditPanel extends JPanel {
         return editView;
     }
 
-    public void setView(TuilesList tuilesList){
+    public void setView(TuilesList tuilesList) {
         editView = new EditView(tuilesList);
     }
-    
+
 }

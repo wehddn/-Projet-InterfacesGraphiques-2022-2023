@@ -13,8 +13,8 @@ import javax.swing.SwingConstants;
 
 //setPrefered... et pack le frame de View
 
-public class Menu extends JPanel{
-    public Menu(){
+public class Menu extends JPanel {
+    public Menu() {
         JLabel title = new JLabel("Energy");
         title.setHorizontalAlignment(SwingConstants.CENTER); // center the label
         this.setPreferredSize(new Dimension(400, 300));
@@ -31,13 +31,13 @@ public class Menu extends JPanel{
         gbc.gridy++;
         this.add(banque2, gbc);
 
-        banque1.addActionListener(e->{
+        banque1.addActionListener(e -> {
             View.switchPanel(1);
         });
 
-        banque2.addActionListener(e->{
+        banque2.addActionListener(e -> {
             View.switchPanel(2);
         });
     }
-    
+
 }

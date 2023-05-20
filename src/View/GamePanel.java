@@ -35,17 +35,16 @@ public class GamePanel extends JPanel {
 
     public void showEndDialog() {
         int result = JOptionPane.showConfirmDialog(this,
-                        "Vous avez gagné!",
-                        "Confirmation",
-                        JOptionPane.CLOSED_OPTION);
-                switch (result) {
-                    case JOptionPane.YES_OPTION:
-                        View.switchPanel(0);
-                        break;
-                    default:
-                        break;
-                }
+                "Vous avez gagné!",
+                "Confirmation",
+                JOptionPane.CLOSED_OPTION);
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                View.switchPanel(0);
+                break;
+            default:
+                break;
+        }
     }
-    
-}
 
+}

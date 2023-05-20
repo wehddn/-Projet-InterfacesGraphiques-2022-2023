@@ -155,7 +155,7 @@ public class GameView extends JPanel {
                         drawY += textureHeight / 2;
                 }
 
-                Graphics2D g2 = (Graphics2D)g;
+                Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
                 ArrayList<String> composant = textureComposantFromTuile(tuiles.get(i, j));

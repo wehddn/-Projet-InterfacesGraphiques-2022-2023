@@ -18,7 +18,7 @@ public class EditView extends GameView {
         super.paintComponent(g);
     }
 
-    //TODO circle -> ellipse
+    // TODO circle -> ellipse
     public boolean clickInCenter(int pointX, int pointY, int[] tileCoords) {
         int rectX;
         int rectY;
@@ -26,15 +26,15 @@ public class EditView extends GameView {
         int rectHeight;
 
         if (tuiles.getType() == Type.HEX) {
-            rectX = coords.get(tileCoords[1]).get(tileCoords[0])[0][0] + textureWidth/4;
-            rectY = coords.get(tileCoords[1]).get(tileCoords[0])[0][1] + textureHeight/4;
-            rectWidth = textureWidth/2;
-            rectHeight = textureHeight/2;
+            rectX = coords.get(tileCoords[1]).get(tileCoords[0])[0][0] + textureWidth / 4;
+            rectY = coords.get(tileCoords[1]).get(tileCoords[0])[0][1] + textureHeight / 4;
+            rectWidth = textureWidth / 2;
+            rectHeight = textureHeight / 2;
         } else {
-            rectX = tileCoords[0] * textureWidth + textureWidth/4;
-            rectY = tileCoords[1] * textureHeight + textureHeight/4;
-            rectWidth = textureWidth/2;
-            rectHeight = textureHeight/2;
+            rectX = tileCoords[0] * textureWidth + textureWidth / 4;
+            rectY = tileCoords[1] * textureHeight + textureHeight / 4;
+            rectWidth = textureWidth / 2;
+            rectHeight = textureHeight / 2;
         }
 
         double ellipseX = rectX + rectWidth / 2;

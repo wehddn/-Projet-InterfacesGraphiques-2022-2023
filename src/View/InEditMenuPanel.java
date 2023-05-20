@@ -53,17 +53,17 @@ public class InEditMenuPanel extends JPanel {
         JButton type = new JButton("Switch type");
         type.addActionListener(e -> {
             int result = JOptionPane.showConfirmDialog(this,
-                        "La modification de la géométrie effacera le plateau de jeu\n" +
-                                "Êtes-vous sûr de vouloir continuer?",
-                        "Confirmation",
-                        JOptionPane.YES_NO_OPTION);
-                switch (result) {
-                    case JOptionPane.YES_OPTION:
-                        EditController.switchGeometry();
-                        break;
-                    default:
-                        break;
-                }
+                    "La modification de la géométrie effacera le plateau de jeu\n" +
+                            "Êtes-vous sûr de vouloir continuer?",
+                    "Confirmation",
+                    JOptionPane.YES_NO_OPTION);
+            switch (result) {
+                case JOptionPane.YES_OPTION:
+                    EditController.switchGeometry();
+                    break;
+                default:
+                    break;
+            }
         });
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -71,5 +71,4 @@ public class InEditMenuPanel extends JPanel {
         this.add(back);
         this.add(type);
     }
-
 }

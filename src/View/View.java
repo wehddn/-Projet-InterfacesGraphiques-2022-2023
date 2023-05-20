@@ -21,17 +21,17 @@ public class View {
         frame.setResizable(false);
     }
 
-    public static void switchPanel(int n){
-        switch(n){
+    public static void switchPanel(int n) {
+        switch (n) {
             case 1:
                 Banque banque = new Banque();
                 frame.setContentPane(banque);
-                frame.pack(); 
+                frame.pack();
                 break;
             case 2:
                 EditBanque ebanque = new EditBanque();
                 frame.setContentPane(ebanque);
-                frame.pack(); 
+                frame.pack();
                 break;
             default:
                 frame.setContentPane(menu);

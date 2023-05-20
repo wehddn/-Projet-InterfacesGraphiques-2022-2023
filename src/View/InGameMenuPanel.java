@@ -17,8 +17,8 @@ public class InGameMenuPanel extends JPanel {
         });
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
-                
+
         this.add(button);
     }
-    
+
 }
