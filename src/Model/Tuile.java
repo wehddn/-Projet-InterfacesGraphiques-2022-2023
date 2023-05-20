@@ -80,9 +80,19 @@ public class Tuile {
         composant = composant.next();
     }
 
-    public void toggleConnexion(Connexion connexion) {
-        if(!connexions.remove(connexion))
+    public boolean toggleConnexion(Connexion connexion) {
+        boolean removed = connexions.remove(connexion);
+        if(!removed)
             connexions.add(connexion);
+        return removed;
+    }
+
+    public void toggleConnexion(Connexion connexion, boolean on) {
+        if (on) {
+            if (!connexions.contains(connexion))
+                connexions.add(connexion);
+        } else
+            connexions.remove(connexion);
     }
 
     public void clean() {

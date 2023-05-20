@@ -135,8 +135,12 @@ public class TuilesList implements Iterable<Tuile> {
         tuiles.get(j).get(i).nextComposant();
     }
 
-    public void toggleConnexion(int i, int j, Connexion connexion) {
-        tuiles.get(j).get(i).toggleConnexion(connexion);
+    public boolean toggleConnexion(int i, int j, Connexion connexion) {
+        return tuiles.get(j).get(i).toggleConnexion(connexion);
+    }
+
+    public void toggleConnexion(Integer i, Integer j, Connexion connexion, boolean on) {
+        tuiles.get(j).get(i).toggleConnexion(connexion, on);
     }
 
     public void addSide(int side) {

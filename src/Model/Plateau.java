@@ -116,7 +116,7 @@ public class Plateau {
         ArrayList<Connexion> connexions = tuiles.getConnexions(i, j);
         ArrayList<Integer> neighbor;
         for (Connexion connexion : connexions) {
-            neighbor = getNeighbor(i, j, connexion.getValue());
+            neighbor = getValidNeighbor(i, j, connexion.getValue());
             if (neighbor.size() != 0)
                 neighbors.add(neighbor);
         }
@@ -130,11 +130,50 @@ public class Plateau {
     // adjacente existe et s'il y a une connexion correspondante.
     // Par exemple, pour une tuile qui a une connexion 0, il faut vérifier si la
     // tuile existe sur le dessus et qu'elle a une connexion 2
-    private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
+    private ArrayList<Integer> getValidNeighbor(int i, int j, Integer connexion) {
         ArrayList<Integer> neighbor = new ArrayList<>();
+        
+        ArrayList<Integer> neighborIJ = getNeighborCoords(i, j, connexion);
+        int neighborI = neighborIJ.get(0);
+        int neighborJ = neighborIJ.get(1);
+
+        boolean isValid = neighborI >= 0 && neighborI < tuiles.rowsNumber() && neighborJ >= 0 && neighborJ < tuiles.columnsNumber();
+
+        Connexion neighborConnexion = getNeighborConnexion(connexion);
+
+        if (isValid) {
+            if (tuiles.getConnexions(neighborI, neighborJ).contains(neighborConnexion))
+            neighbor = new ArrayList<>(List.of(neighborI, neighborJ));
+        }
+
+        return neighbor;
+    }
+
+    private Connexion getNeighborConnexion(Integer connexion) {
         Connexion neighborConnexion = Connexion
                 .intToEnum((connexion + tuiles.getTypeValue() / 2) % tuiles.getTypeValue());
+        return neighborConnexion;
+    }
 
+    private ArrayList<Integer> getNeighbor(int i, int j, Integer connexion) {
+        ArrayList<Integer> neighbor = new ArrayList<>();
+        
+        ArrayList<Integer> neighborIJ = getNeighborCoords(i, j, connexion);
+        int neighborI = neighborIJ.get(0);
+        int neighborJ = neighborIJ.get(1);
+
+        System.out.println(neighborI + " " + neighborJ);
+
+        boolean isValid = neighborI >= 0 && neighborI < tuiles.rowsNumber() && neighborJ >= 0 && neighborJ < tuiles.columnsNumber();
+
+        if (isValid) {
+            neighbor = new ArrayList<>(List.of(neighborI, neighborJ));
+        }
+
+        return neighbor;
+    }
+
+    private ArrayList<Integer> getNeighborCoords(int i, int j, Integer connexion){
         // Dans HEX tuile il y a 6 côtés, donc il faut faire correspondre SQR at HEX
         // tuiles pour que le swith fonctionne correctement
         // 0, 1, 2, 3 de SQR = 0, 1, 3, 5 de HEX
@@ -170,7 +209,7 @@ public class Plateau {
                     neighborJ = j - 1;
                     break;
                 default:
-                    return neighbor;
+                    return null;
             }
         else
             switch (connexion) {
@@ -199,25 +238,9 @@ public class Plateau {
                     neighborJ = j - 1;
                     break;
                 default:
-                    return neighbor;
+                    return null;
             }
-
-        if (isValid(neighborI, neighborJ)) {
-            neighbor = getNeighborIfValid(neighborI, neighborJ, neighbor, neighborConnexion);
-        }
-
-        return neighbor;
-    }
-
-    private boolean isValid(int i, int j) {
-        return i >= 0 && i < tuiles.rowsNumber() && j >= 0 && j < tuiles.columnsNumber();
-    }
-
-    private ArrayList<Integer> getNeighborIfValid(int i, int j, ArrayList<Integer> neighbor,
-            Connexion neighborConnexion) {
-        if (tuiles.getConnexions(i, j).contains(neighborConnexion))
-            neighbor = new ArrayList<>(List.of(i, j));
-        return neighbor;
+        return new ArrayList<>(List.of(neighborI, neighborJ));
     }
 
     @Override
@@ -262,14 +285,24 @@ public class Plateau {
     public void toggleConnexion(int[] coords, Connexion connexion) {
         int i = coords[0];
         int j = coords[1];
-        tuiles.toggleConnexion(i, j, connexion);
 
-        for (Tuile tuile : tuiles) {
-            tuile.setPower(false);
+        ArrayList<Integer> neighborCoords = getNeighbor(j, i, connexion.getValue());
+        if(neighborCoords.size() != 0){
+            boolean removed = tuiles.toggleConnexion(i, j, connexion);
+
+            Connexion neighborConnexion = getNeighborConnexion(connexion.getValue());
+            if(removed)
+                tuiles.toggleConnexion(neighborCoords.get(1), neighborCoords.get(0), neighborConnexion, false);
+            else 
+                tuiles.toggleConnexion(neighborCoords.get(1), neighborCoords.get(0), neighborConnexion, true);
+
+            for (Tuile tuile : tuiles) {
+                tuile.setPower(false);
+            }
+            
+            tuiles.setVariables();
+            settings();
         }
-        
-        tuiles.setVariables();
-        settings();
     }
 
     public void modifyData(int side, int action) {
