@@ -18,7 +18,7 @@ public class GameController extends MouseInputAdapter {
         plateau = new Plateau(n, false);
         gamePanel = new GamePanel(plateau.getTuiles());
         gameView = gamePanel.getView();
-        gamePanel.addMouseListener(this);
+        gameView.addMouseListener(this);
     }
 
     @Override
