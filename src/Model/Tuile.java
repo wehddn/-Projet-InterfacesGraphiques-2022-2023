@@ -82,7 +82,7 @@ public class Tuile {
 
     public boolean toggleConnexion(Connexion connexion) {
         boolean removed = connexions.remove(connexion);
-        if(!removed)
+        if (!removed)
             connexions.add(connexion);
         return removed;
     }
