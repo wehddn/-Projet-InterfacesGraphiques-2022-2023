@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import src.Controller.TuilesList;
@@ -30,6 +31,20 @@ public class GamePanel extends JPanel {
 
     public GameView getView() {
         return gameView;
+    }
+
+    public void showEndDialog() {
+        int result = JOptionPane.showConfirmDialog(this,
+                        "Vous avez gagné!",
+                        "Confirmation",
+                        JOptionPane.CLOSED_OPTION);
+                switch (result) {
+                    case JOptionPane.YES_OPTION:
+                        View.switchPanel(0);
+                        break;
+                    default:
+                        break;
+                }
     }
     
 }

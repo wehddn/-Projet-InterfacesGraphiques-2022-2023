@@ -75,10 +75,6 @@ public class Plateau {
         for (ArrayList<Integer> source : tuiles.getSources()) {
             turnOn(source.get(0), source.get(1));
         }
-
-        // On vérifie si toutes les lampes sont allumées
-        if (checkWin())
-            System.out.println("YOU WIN");
     }
 
     // Obtenir la liste des bornes sans borne spécifié.

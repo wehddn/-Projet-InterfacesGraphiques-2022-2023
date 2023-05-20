@@ -28,6 +28,9 @@ public class GameController extends MouseInputAdapter {
             plateau.turn(coords[1], coords[0]);
             gameView.setTuiles(plateau.getTuiles());
         }
+        if(plateau.checkWin())
+            gamePanel.showEndDialog();
+
     }
 
     public GamePanel getView() {
