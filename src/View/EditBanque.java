@@ -4,11 +4,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
+
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.Dimension;
 
 public class EditBanque extends JPanel {
     public EditBanque() {
@@ -22,12 +25,13 @@ public class EditBanque extends JPanel {
         int i = 1;
         File gr = new File("levels/level" + i + ".nrg");
         while (gr.exists()) {
-            JButton level = new JButton("Niveau " + i);
-            JButton edit = new JButton("Edit " + i);
+            JButton level = new MyJButton("Niveau " + i);
+            JButton edit = new MyJButton("Edit " + i);
             c.gridx = 0;
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
             panel.add(level);
+            panel.add(Box.createRigidArea(new Dimension(20, 0)));
             panel.add(edit);
             this.add(panel, c);
             c.insets = new Insets(10, 100, 10, 100);
@@ -45,7 +49,7 @@ public class EditBanque extends JPanel {
             gr = new File("levels/level" + i + ".nrg");
         }
 
-        JButton menu = new JButton("retour au menu ");
+        JButton menu = new MyJButton("retour au menu ");
         c.gridx = 0;
         this.add(menu, c);
         c.insets = new Insets(10, 100, 10, 100);

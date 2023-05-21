@@ -23,7 +23,7 @@ public class Banque extends JPanel {
         File gr = new File("levels/level" + i + ".nrg");
         while (gr.exists()) {
 
-            JButton level = new JButton("Niveau " + i);
+            JButton level = new MyJButton("Niveau " + i);
             c.gridx = 0;
             this.add(level, c);
             c.insets = new Insets(10, 100, 10, 100);
@@ -37,7 +37,7 @@ public class Banque extends JPanel {
             gr = new File("levels/level" + i + ".nrg");
         }
 
-        JButton menu = new JButton("retour au menu ");
+        JButton menu = new MyJButton("retour au menu ");
         c.gridx = 0;
         this.add(menu, c);
         c.insets = new Insets(10, 100, 10, 100);

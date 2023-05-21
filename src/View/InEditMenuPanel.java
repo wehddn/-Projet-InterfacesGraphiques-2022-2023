@@ -1,8 +1,9 @@
 package src.View;
 
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,8 +13,7 @@ import src.Controller.EditController;
 public class InEditMenuPanel extends JPanel {
 
     public InEditMenuPanel() {
-        this.setBackground(Color.black);
-        JButton back = new JButton("Back");
+        JButton back = new MyJButton("Back");
 
         back.addActionListener(e -> {
             if (EditController.checkWin()) {
@@ -50,7 +50,7 @@ public class InEditMenuPanel extends JPanel {
             }
         });
 
-        JButton type = new JButton("Switch type");
+        JButton type = new MyJButton("Switch type");
         type.addActionListener(e -> {
             int result = JOptionPane.showConfirmDialog(this,
                     "La modification de la géométrie effacera le plateau de jeu\n" +
@@ -69,6 +69,7 @@ public class InEditMenuPanel extends JPanel {
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         this.add(back);
+        this.add(Box.createRigidArea(new Dimension(20, 0)));
         this.add(type);
     }
 }

@@ -15,8 +15,8 @@ public class Menu extends JPanel {
         this.setPreferredSize(new Dimension(400, 300));
 
         this.setLayout(new GridBagLayout());
-        JButton banque1 = new JButton("Banque 1");
-        JButton banque2 = new JButton("Banque 2");
+        JButton banque1 = new MyJButton("Banque 1");
+        JButton banque2 = new MyJButton("Banque 2");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

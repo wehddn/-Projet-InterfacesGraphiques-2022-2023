@@ -1,7 +1,6 @@
 package src.View;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
@@ -14,8 +13,6 @@ public class GamePanel extends JPanel {
     GameView gameView;
 
     public GamePanel(TuilesList tuilesList) {
-
-        this.setBackground(Color.black);
 
         JPanel panelEdit = new JPanel();
         panelEdit.setLayout(new BorderLayout());

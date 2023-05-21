@@ -1,9 +1,13 @@
 package src.View;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
 import src.Controller.EditController;
 import src.Controller.GameController;
+import javax.swing.UIManager;
 
 //Dimensions fixes
 
@@ -13,6 +17,19 @@ public class View {
     static JFrame frame = new JFrame("Energy");
 
     public View() {
+        
+        UIManager.put("OptionPane.background", Color.BLACK);
+        UIManager.put("Panel.background", Color.BLACK);
+
+        UIManager.put("Button.background", Color.BLACK);
+        UIManager.put("Button.border", BorderFactory.createEmptyBorder());
+        UIManager.put("Button.foreground", Color.WHITE);
+        UIManager.put("Button.select", Color.BLACK);
+
+        UIManager.put("Label.foreground", Color.WHITE);
+        
+        UIManager.put("OptionPane.messageForeground", Color.WHITE);
+
         menu = new Menu();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(menu);

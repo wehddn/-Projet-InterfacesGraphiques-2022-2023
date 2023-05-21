@@ -34,8 +34,6 @@ public class GameView extends JPanel {
         setUpSizes();
 
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
-        this.setBackground(Color.BLACK);
-
         textures = Convertion.parseTextures();
 
         if (tuiles.getType() == Type.HEX)

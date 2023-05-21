@@ -1,7 +1,6 @@
 package src.View;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -25,8 +24,6 @@ public class EditPanel extends JPanel {
     EditView editView;
 
     public EditPanel(TuilesList tuilesList) {
-
-        this.setBackground(Color.black);
 
         JPanel panelEdit = new JPanel();
         panelEdit.setLayout(new BorderLayout());
@@ -63,7 +60,7 @@ public class EditPanel extends JPanel {
                 add.setBorder(BorderFactory.createEmptyBorder());
                 add.setContentAreaFilled(false);
             } catch (IOException e1) {
-                add = new JButton("+");
+                add = new MyJButton("+");
                 e1.printStackTrace();
             }
 
@@ -73,7 +70,7 @@ public class EditPanel extends JPanel {
                 delete.setBorder(BorderFactory.createEmptyBorder());
                 delete.setContentAreaFilled(false);
             } catch (IOException e1) {
-                delete = new JButton("-");
+                delete = new MyJButton("-");
                 e1.printStackTrace();
             }
 
@@ -98,7 +95,6 @@ public class EditPanel extends JPanel {
                 panel.add(verticalPanel, new GridBagConstraints());
             }
 
-            panel.setBackground(Color.black);
             panels.add(panel);
         }
         return panels;
