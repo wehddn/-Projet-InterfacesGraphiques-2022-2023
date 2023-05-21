@@ -1,9 +1,7 @@
 package src.View;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import src.Controller.TuilesList;
 import src.Model.Connexion;
@@ -37,7 +35,7 @@ public class EditView extends GameView {
 
         double circleCenterX = circleX + circleSide / 2;
         double circleCenterY = circleY + circleSide / 2;
-        
+
         double distance = Math.sqrt(Math.pow(pointX - circleCenterX, 2) + Math.pow(pointY - circleCenterY, 2));
         return distance < (circleSide / 2);
     }
