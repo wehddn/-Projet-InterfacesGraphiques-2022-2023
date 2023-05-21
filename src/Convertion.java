@@ -87,7 +87,7 @@ public class Convertion {
             case ".":
                 return Composant.EMPTY;
             default:
-                return null; // TODO catch
+                return null;
         }
     }
 
