@@ -19,7 +19,7 @@ public class Banque extends JPanel {
         this.add(title, c);
         c.insets = new Insets(30, 0, 10, 0);
 
-        int i = 0;
+        int i = 1;
         File gr = new File("levels/level" + i + ".nrg");
         while (gr.exists()) {
 
