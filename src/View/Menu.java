@@ -7,18 +7,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 //setPrefered... et pack le frame de View
 
 public class Menu extends JPanel {
     public Menu() {
-        JLabel title = new JLabel("Energy");
-        title.setHorizontalAlignment(SwingConstants.CENTER); // center the label
         this.setPreferredSize(new Dimension(400, 300));
-        this.add(title, BorderLayout.NORTH);
 
         this.setLayout(new GridBagLayout());
         JButton banque1 = new JButton("Banque 1");
