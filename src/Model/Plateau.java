@@ -309,13 +309,13 @@ public class Plateau {
         if (action == 1) {
             tuiles.addSide(side);
         } else {
-            if (((side == 0 || side == 2) && getHeight() > 1) || ((side == 1 || side == 3) && getWith() > 1)){
+            if (((side == 0 || side == 2) && getHeight() > 1) || ((side == 1 || side == 3) && getWith() > 1)) {
                 tuiles.deleteSide(side);
                 for (int i = 0; i < tuiles.rowsNumber(); i++) {
                     for (int j = 0; j < tuiles.columnsNumber(); j++) {
                         ArrayList<Connexion> emptyConnexions = new ArrayList<>();
                         for (Connexion connexion : tuiles.get(i, j).getConnexions()) {
-                            if(getNeighbor(i, j, connexion.getValue()).size() == 0)
+                            if (getNeighbor(i, j, connexion.getValue()).size() == 0)
                                 emptyConnexions.add(connexion);
                         }
                         for (Connexion connexion : emptyConnexions) {
@@ -323,11 +323,11 @@ public class Plateau {
                         }
                     }
                 }
-                
+
                 for (Tuile tuile : tuiles) {
                     tuile.setPower(false);
                 }
-    
+
                 tuiles.setVariables();
                 settings();
             }

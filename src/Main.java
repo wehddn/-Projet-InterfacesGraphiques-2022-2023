@@ -1,6 +1,5 @@
 package src;
 
-
 import src.View.View;
 
 public class Main {
