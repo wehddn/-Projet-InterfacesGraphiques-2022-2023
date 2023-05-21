@@ -1,7 +1,9 @@
 package src.View;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import src.Controller.TuilesList;
 import src.Model.Connexion;
@@ -18,32 +20,26 @@ public class EditView extends GameView {
         super.paintComponent(g);
     }
 
-    // TODO circle -> ellipse
     public boolean clickInCenter(int pointX, int pointY, int[] tileCoords) {
-        int rectX;
-        int rectY;
-        int rectWidth;
-        int rectHeight;
+        int circleX;
+        int circleY;
+        int circleSide;
 
         if (tuiles.getType() == Type.HEX) {
-            rectX = coords.get(tileCoords[1]).get(tileCoords[0])[0][0] + textureWidth / 4;
-            rectY = coords.get(tileCoords[1]).get(tileCoords[0])[0][1] + textureHeight / 4;
-            rectWidth = textureWidth / 2;
-            rectHeight = textureHeight / 2;
+            circleX = coords.get(tileCoords[1]).get(tileCoords[0])[0][0] + textureWidth / 30;
+            circleY = coords.get(tileCoords[1]).get(tileCoords[0])[0][1] + textureHeight / 4;
+            circleSide = textureHeight / 2;
         } else {
-            rectX = tileCoords[0] * textureWidth + textureWidth / 4;
-            rectY = tileCoords[1] * textureHeight + textureHeight / 4;
-            rectWidth = textureWidth / 2;
-            rectHeight = textureHeight / 2;
+            circleX = tileCoords[0] * textureWidth + textureWidth / 4;
+            circleY = tileCoords[1] * textureHeight + textureHeight / 4;
+            circleSide = textureHeight / 2;
         }
 
-        double ellipseX = rectX + rectWidth / 2;
-        double ellipseY = rectY + rectHeight / 2;
-        double axisX = rectWidth / 2;
-        double axisY = rectHeight / 2;
-        double dx = (pointX - ellipseX) / axisX;
-        double dy = (pointY - ellipseY) / axisY;
-        return dx * dx + dy * dy < 1;
+        double circleCenterX = circleX + circleSide / 2;
+        double circleCenterY = circleY + circleSide / 2;
+        
+        double distance = Math.sqrt(Math.pow(pointX - circleCenterX, 2) + Math.pow(pointY - circleCenterY, 2));
+        return distance < (circleSide / 2);
     }
 
     public Connexion getNearestConnexion(int pointX, int pointY, int[] tileCoords) {
