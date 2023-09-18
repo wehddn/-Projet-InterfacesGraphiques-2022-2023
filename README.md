@@ -1,9 +1,5 @@
-# Projet-InterfacesGraphiques-2022-2023
+# M1 - 2022/2023 - Interfaces Graphiques - Projet
 
-Ce projet a été réalisé pour le cours d'interfaces graphiques de M1 Informatique 2022-2023 de l'Université Paris Cité.
-
-Jeu vidéo "Energy".
-
-Description du projet dans le fichier "energy.pdf".
-
-Version java : 16.0.1.
+## Description
+Le but de ce projet est d'écrire une application en Java en utilisant la bibliothèque Swing et en adoptant l'architecture MVC. Cette application permettra de jouer au jeu vidéo ["Energy"](https://poki.com/en/g/energy).
+Une description complète du projet, y compris les règles du jeux, est disponible dans [le fichier correspondant](energy.pdf).
